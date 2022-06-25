@@ -99,4 +99,16 @@ public class userCommon {
     public ResponseResult logout() {
         return loginService.logout();
     }
+
+
+
+    /**
+     * 测试用
+     */
+    @RequestMapping(value = "/select-user")
+    public ResponseResult select(@RequestParam("id") Long id) {
+        User user = userMapper.selectById(id);
+        return new ResponseResult(200, "获取", user);
+
+    }
 }

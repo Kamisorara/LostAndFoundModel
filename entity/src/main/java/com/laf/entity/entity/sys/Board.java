@@ -1,5 +1,7 @@
 package com.laf.entity.entity.sys;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName(value= "sys_board")
 public class Board {
     //公告板对应id
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     //公告板信息
     private String message;

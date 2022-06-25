@@ -2,7 +2,8 @@ package com.laf.service.service.Oss.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.mall.service.service.Oss.OssUploadService;
+
+import com.laf.service.service.Oss.OssUploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,6 +1,9 @@
 package com.laf.entity.entity.laf;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +21,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName(value= "laf_notice")
 public class Notice {
     //启示对应id
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     //启示发布者对应id
     private Long  createId;

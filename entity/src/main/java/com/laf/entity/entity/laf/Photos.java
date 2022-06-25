@@ -1,5 +1,7 @@
 package com.laf.entity.entity.laf;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +19,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName(value= "laf_photos")
 public class Photos {
     //启示对应图片id
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     //启示对应图片url
     private String lafPhotourl;
     //图片对应的启示id
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long lafId;
 
 }

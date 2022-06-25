@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName(value= "sys_roleMenu")
 public class RoleMenu {
     //角色id
+
     private Long roleId;
     //权限id
     private Long menuId;
