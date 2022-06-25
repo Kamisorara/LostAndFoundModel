@@ -103,7 +103,7 @@ public class userCommon {
 
 
     /**
-     * 测试用
+     * 测试用(之后删除)
      */
     @RequestMapping(value = "/select-user")
     public ResponseResult select(@RequestParam("id") Long id) {
