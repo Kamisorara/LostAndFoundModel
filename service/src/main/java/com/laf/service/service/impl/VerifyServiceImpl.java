@@ -29,15 +29,16 @@ public class VerifyServiceImpl implements VerifyService {
     @Override
     public void sendVerifyCode(String mail) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setSubject("【wyf黑心网站】您的验证密码");
+        message.setSubject("【LostAndFound】您的验证密码");
         Random random = new Random();
         int code = random.nextInt(89999) + 10000;
         template.opsForValue().set("verify:code:" + mail, code + "", 3, TimeUnit.MINUTES);
-        message.setText("您的注册验证码为: " + code + ",三分钟内有效!");
+        message.setText("您的注册验证码为: " + code + "\n三分钟内有效!\n请不要回复！");
         message.setTo(mail);
         message.setFrom(from);
         sender.send(message);
     }
+
 
     @Override
     public boolean doVerify(String mail, String code) {

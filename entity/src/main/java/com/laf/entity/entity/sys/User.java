@@ -2,6 +2,8 @@ package com.laf.entity.entity.sys;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
@@ -37,6 +39,7 @@ public class User {
     //用户启用状态(0启用，1禁用)
     private String status;
     //账号创建时间
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //密码
     private String password;

@@ -1,8 +1,10 @@
 package com.laf.web.controller.sys;
 
 import com.laf.dao.mapper.UserMapper;
+import com.laf.dao.mapper.UserRoleMapper;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.User;
+import com.laf.entity.entity.sys.UserRole;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.VerifyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class userCommon {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Autowired
     private VerifyService verifyService;
@@ -63,6 +68,10 @@ public class userCommon {
                 user.setPassword(encode);
                 userMapper.insert(user);
                 Long userIdInDataBase = userMapper.selectUserIdByUserName(username);
+                UserRole userRole = new UserRole();
+                userRole.setUserId(userIdInDataBase);
+                userRole.setRoleId(1L);//默认注册用户默认附上普通用户角色
+                userRoleMapper.insert(userRole);
                 map.put("Info", email + "用户" + "注册成功！");
                 return new ResponseResult(200, "注册成功!", map);
             } else {
@@ -99,7 +108,6 @@ public class userCommon {
     public ResponseResult logout() {
         return loginService.logout();
     }
-
 
 
     /**
