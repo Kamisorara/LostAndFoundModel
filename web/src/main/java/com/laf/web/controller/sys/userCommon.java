@@ -8,6 +8,7 @@ import com.laf.entity.entity.sys.UserRole;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.VerifyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * 用户账号相关(开放匿名接口)
+ * 权限要求：null
+ */
 
 @RestController
 @RequestMapping("/sys/user-common")
@@ -100,14 +106,6 @@ public class userCommon {
         }
     }
 
-
-    /**
-     * 退出
-     */
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ResponseResult logout() {
-        return loginService.logout();
-    }
 
 
     /**

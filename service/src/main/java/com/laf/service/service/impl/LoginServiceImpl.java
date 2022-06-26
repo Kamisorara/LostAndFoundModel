@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -111,5 +109,27 @@ public class LoginServiceImpl implements LoginService {
         Long userid = loginUser.getUser().getId();
         redisCache.deleteObject("login:" + userid);
         return new ResponseResult(200, "退出成功");
+    }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public ResponseResult updatePassword(Long id, String oldPass, String newPass) {
+        String userOldPass = userMapper.getUserOldPass(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        boolean matches = encoder.matches(oldPass, userOldPass);
+        if (matches) {
+            BCryptPasswordEncoder newPassEncoder = new BCryptPasswordEncoder();
+            String newPassEncode = newPassEncoder.encode(newPass);
+            Integer update = userMapper.updateUserPassword(id, newPassEncode);
+            if (update > 0) {
+                return new ResponseResult(200, "更新密码成功！");
+            } else {
+                return new ResponseResult(400, "更新密码失败！");
+            }
+        } else {
+            return new ResponseResult(400, "修改密码失败！请检查密码是否输入正确！");
+        }
     }
 }
