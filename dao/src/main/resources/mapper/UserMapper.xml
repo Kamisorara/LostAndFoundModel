@@ -8,6 +8,19 @@
         WHERE su.id = #{userId};
     </update>
 
+    <!--    根据用户id更新用户详情-->
+    <update id="updateUserInfoById">
+        UPDATE sys_user su
+        SET su.user_name    = #{userName},
+            su.phone_number = #{phoneNumber}
+        WHERE su.id = #{userId};
+    </update>
+    <!--    根据用户id更新用户头像-->
+    <update id="updateUserAvatarById">
+
+
+    </update>
+
     <!--    根据用户名查找用户id （用户注册时查找新增用户id用）-->
     <select id="selectUserIdByUserName" resultType="java.lang.Long">
         SELECT su.id

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
+
 /**
  * (Avatar)表实体类
  *
@@ -16,7 +18,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value= "sys_avatar")
+@TableName(value = "sys_avatar")
+@Accessors(chain = true)
 public class Avatar {
     //用户头像唯一id
     @JsonSerialize(using = ToStringSerializer.class)
@@ -24,7 +27,7 @@ public class Avatar {
     //用户头像url
     private String avatarUrl;
     //用户头像启用状态（0启用,1禁用）
-    private String status;
+    private Integer status;
     //用户头像对应用户id
     @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;

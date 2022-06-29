@@ -21,4 +21,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户id更新密码
     Integer updateUserPassword(@Param("userId") Long userId, @Param("newPassword") String newPassword);
+
+    //根据用户id更新用户详情
+    Integer updateUserInfoById(@Param("userId") Long userId, @Param("userName") String userName, @Param("phoneNumber") String phoneNumber);
+
+
 }
