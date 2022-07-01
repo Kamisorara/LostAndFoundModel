@@ -15,11 +15,6 @@
             su.phone_number = #{phoneNumber}
         WHERE su.id = #{userId};
     </update>
-    <!--    根据用户id更新用户头像-->
-    <update id="updateUserAvatarById">
-
-
-    </update>
 
     <!--    根据用户名查找用户id （用户注册时查找新增用户id用）-->
     <select id="selectUserIdByUserName" resultType="java.lang.Long">
@@ -38,5 +33,11 @@
         SELECT su.`password`
         FROM `sys_user` su
         WHERE su.id = #{userId};
+    </select>
+    <!--    根据用户id获取用户详情-->
+    <select id="getUserInfoByToken" resultType="com.laf.entity.entity.tokenResp.UserResp">
+        SELECT *
+        FROM `sys_user` su LEFT JOIN sys_avatar sa ON su.id = sa.user_id
+        WHERE su.id = #{id};
     </select>
 </mapper>

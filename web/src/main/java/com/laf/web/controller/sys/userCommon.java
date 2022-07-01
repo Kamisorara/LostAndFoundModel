@@ -1,12 +1,15 @@
 package com.laf.web.controller.sys;
 
+import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.UserRoleMapper;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.sys.Rank;
 import com.laf.entity.entity.sys.User;
 import com.laf.entity.entity.sys.UserRole;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.VerifyService;
+import com.mysql.cj.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +42,9 @@ public class userCommon {
 
     @Autowired
     private VerifyService verifyService;
+
+    @Autowired
+    private RankMapper rankMapper;
 
     /**
      * 登录接口
@@ -78,6 +84,10 @@ public class userCommon {
                 userRole.setUserId(userIdInDataBase);
                 userRole.setRoleId(1L);//默认注册用户默认附上普通用户角色
                 userRoleMapper.insert(userRole);
+                //在注册成功后在rank表中添加此用户
+                Rank rank = new Rank();
+                rank.setUserId(userIdInDataBase).setHelpTimes(0);
+                rankMapper.insert(rank);
                 map.put("Info", email + "用户" + "注册成功！");
                 return new ResponseResult(200, "注册成功!", map);
             } else {
@@ -105,7 +115,6 @@ public class userCommon {
             return new ResponseResult(400, "邮件发送失败！");
         }
     }
-
 
 
     /**

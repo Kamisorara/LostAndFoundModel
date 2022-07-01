@@ -82,6 +82,5 @@ public class userAccount {
         avatarMapper.updateUserHeadStatus(userId);
         int succeed = avatarMapper.insert(avatarInsert);
         return new ResponseResult(200, "头像修改成功", avatarUrl);
-
     }
 }

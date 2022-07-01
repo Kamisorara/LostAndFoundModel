@@ -1,7 +1,9 @@
 package com.laf.service.service.impl;
 
+import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.tokenResp.UserResp;
 import com.laf.service.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    AvatarMapper avatarMapper;
+
+    //更新用户信息
     @Override
     public ResponseResult updateUserInfo(Long userId, String userName, String phoneNumber) {
         Integer ifSucceed = userMapper.updateUserInfoById(userId, userName, phoneNumber);
@@ -19,5 +25,20 @@ public class UserInfoServiceImpl implements UserInfoService {
         } else {
             return new ResponseResult(400, "更新失败，请重试!");
         }
+    }
+
+
+    //获取用户详情
+    @Override
+    public UserResp getUserInfo(Long userId) {
+        UserResp userInfo = userMapper.getUserInfoByToken(userId);
+        return userInfo;
+    }
+
+    //获取用户头像
+    @Override
+    public String getUserAvatar(Long userId) {
+        String userAvatarUrl = avatarMapper.getUserAvatarById(userId);
+        return userAvatarUrl;
     }
 }
