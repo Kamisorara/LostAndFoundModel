@@ -1,9 +1,9 @@
 package com.laf.service.service;
 
-import com.laf.dao.mapper.BoardMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.Board;
-import com.laf.entity.entity.sys.Rank;
 import com.laf.entity.entity.tokenResp.UserResp;
 
 import java.util.List;
@@ -24,4 +24,7 @@ public interface LafIndexService {
 
     //首页获取公告信息
     List<Board> getIndexBoardList();
+
+    //根据启示关键字搜索，分页获取
+    IPage<NoticeSearchResp> searchNoticeByKeyWords(String KeyWords, int pageNum, int pageSize);
 }

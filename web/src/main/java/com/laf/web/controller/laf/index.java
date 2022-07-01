@@ -1,7 +1,9 @@
 package com.laf.web.controller.laf;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.Board;
 import com.laf.entity.entity.tokenResp.UserResp;
@@ -9,6 +11,7 @@ import com.laf.service.service.LafIndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -64,4 +67,21 @@ public class index {
         List<NoticeIndexResp> indexSimpleUrgencyLostList = lafIndexService.getIndexSimpleUrgencyLostList();
         return new ResponseResult(200, "首页获取紧急寻物启事成功", indexSimpleUrgencyLostList);
     }
+
+    /**
+     * 分页获取根据KeyWords搜索到的内容
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ResponseResult getSearchResp(@RequestParam("keyWords") String keyWords,
+                                        @RequestParam("pageNum") int pageNum,
+                                        @RequestParam("pageSize") int pageSize) {
+
+        IPage<NoticeSearchResp> noticeSearchRespIPage =
+                lafIndexService.searchNoticeByKeyWords(keyWords, pageNum, pageSize);
+
+        return new ResponseResult(200, "搜索分页获取成功", noticeSearchRespIPage);
+
+    }
+
+
 }

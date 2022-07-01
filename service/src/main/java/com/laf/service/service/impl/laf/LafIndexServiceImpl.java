@@ -1,9 +1,14 @@
 package com.laf.service.service.impl.laf;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.BoardMapper;
 import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.Board;
 import com.laf.entity.entity.tokenResp.UserResp;
 import com.laf.service.service.LafIndexService;
@@ -31,8 +36,7 @@ public class LafIndexServiceImpl implements LafIndexService {
      */
     @Override
     public List<UserResp> getTop3UserList() {
-        List<UserResp> top3User = rankMapper.getTop3User();
-        return top3User;
+        return rankMapper.getTop3User();
     }
 
     /**
@@ -42,8 +46,7 @@ public class LafIndexServiceImpl implements LafIndexService {
      */
     @Override
     public List<NoticeIndexResp> getIndexSimpleLostList() {
-        List<NoticeIndexResp> simpleLostInfo = noticeMapper.getSimpleLostInfo();
-        return simpleLostInfo;
+        return noticeMapper.getSimpleLostInfo();
     }
 
 
@@ -54,8 +57,7 @@ public class LafIndexServiceImpl implements LafIndexService {
      */
     @Override
     public List<NoticeIndexResp> getIndexSimpleFoundList() {
-        List<NoticeIndexResp> simpleFoundList = noticeMapper.getSimpleFoundList();
-        return simpleFoundList;
+        return noticeMapper.getSimpleFoundList();
     }
 
     /**
@@ -65,8 +67,7 @@ public class LafIndexServiceImpl implements LafIndexService {
      */
     @Override
     public List<NoticeIndexResp> getIndexSimpleUrgencyLostList() {
-        List<NoticeIndexResp> simpleUrgencyLostList = noticeMapper.getSimpleUrgencyLostList();
-        return simpleUrgencyLostList;
+        return noticeMapper.getSimpleUrgencyLostList();
     }
 
     /**
@@ -78,6 +79,24 @@ public class LafIndexServiceImpl implements LafIndexService {
     public List<Board> getIndexBoardList() {
         List<Board> indexBoardList = boardMapper.getIndexBoardList();
         return indexBoardList;
+    }
+
+    /**
+     * 根据启示关键字搜索，分页获取
+     *
+     * @param KeyWords
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public IPage<NoticeSearchResp> searchNoticeByKeyWords(String KeyWords, int pageNum, int pageSize) {
+        Page<NoticeSearchResp> page = new Page<>();
+        //设置每页大小
+        page.setSize(pageSize);
+        //设置当前页码
+        page.setCurrent(pageNum);
+        return noticeMapper.getNoticeByKeyWords(KeyWords, page);
     }
 
 

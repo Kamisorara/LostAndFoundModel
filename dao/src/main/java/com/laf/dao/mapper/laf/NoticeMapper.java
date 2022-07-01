@@ -1,8 +1,11 @@
 package com.laf.dao.mapper.laf;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,5 +21,8 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //随机获取4条紧急寻物启事信息
     List<NoticeIndexResp> getSimpleUrgencyLostList();
+
+    //根据启示关键字搜索对应启示并分类获取
+    IPage<NoticeSearchResp> getNoticeByKeyWords(String keyWords, Page<NoticeSearchResp> page);
 
 }
