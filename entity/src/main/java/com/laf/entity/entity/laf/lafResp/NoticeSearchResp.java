@@ -18,6 +18,8 @@ public class NoticeSearchResp {
 
     private Long userId;
 
+    private String userName;
+
     private String lafPhotoUrl;
 
     //启示类型(0寻物启事，1拾物启示)

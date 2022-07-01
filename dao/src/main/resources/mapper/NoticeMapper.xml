@@ -23,7 +23,7 @@
         SELECT ln.id,
                su.id as 'user_id',
                lp.laf_photoUrl,
-               ln.type
+               ln.type,
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
                  LEFT JOIN sys_user su ON ln.` create_id` = su.id
@@ -39,7 +39,8 @@
         SELECT ln.id,
                su.id as 'user_id',
                lp.laf_photoUrl,
-               ln.type
+               ln.type,
+               su.user_name
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
                  LEFT JOIN sys_user su ON ln.` create_id` = su.id
@@ -56,13 +57,55 @@
                su.id as 'user_id',
                lp.laf_photoUrl,
                ln.type,
-               sa.avatar_url
+               sa.avatar_url,
+               su.user_name
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.` create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
             AND sa.`status` = 0
         WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
+    </select>
+    <!--    分页获取所有寻物启事列表-->
+    <select id="getAllLostNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
+        SELECT ln.id,
+               su.id AS 'user_id',
+               lp.laf_photoUrl,
+               ln.type,
+               sa.avatar_url,
+               su.user_name
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+            AND sa.`status` = 0
+
+        WHERE ln.type = 0
+
+    </select>
+    <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息和所有图片)-->
+    <select id="getNoticeDetail" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
+        SELECT ln.id,
+               su.id AS 'user_id',
+               lp.laf_photoUrl,
+               ln.type,
+               sa.avatar_url,
+               su.user_name
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+            AND sa.`status` = 0
+        WHERE ln.type = 0
+          AND ln.id = #{noticeId};
+    </select>
+    <!--    获取该启示所有图片-->
+    <select id="getAllNoticePhoto" resultType="java.lang.String">
+        SELECT lp.laf_photoUrl
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+        WHERE ln.id = #{noticeId};
+
     </select>
 
 
