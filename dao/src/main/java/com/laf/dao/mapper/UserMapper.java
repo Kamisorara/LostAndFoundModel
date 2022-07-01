@@ -3,6 +3,7 @@ package com.laf.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.laf.entity.entity.sys.User;
+import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户id获取用户详情
     UserResp getUserInfoByToken(Long id);
+
+    //根据用户id获取用户更加详细信息包括包括用户帮助次数，用户个人背景图片等
+    UserDetailInfoResp getUserDetailInfo(Long id);
 }

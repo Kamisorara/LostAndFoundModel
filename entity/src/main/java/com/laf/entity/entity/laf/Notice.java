@@ -2,6 +2,8 @@ package com.laf.entity.entity.laf;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
@@ -36,6 +38,7 @@ public class Notice {
     //帮助者的id
     private Long helperUserid;
     //启示创建时间
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //启示类型(0寻物启事，1拾物启示)
     private String type;

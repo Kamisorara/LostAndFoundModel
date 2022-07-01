@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laf.dao.mapper.BoardMapper">
+
+    <!--首页获取公告信息-->
+    <select id="getIndexBoardList" resultType="com.laf.entity.entity.sys.Board">
+        SELECT *
+        FROM `sys_board` sb
+        WHERE sb.`status` = 0
+        LIMIT 4;
+    </select>
+</mapper>

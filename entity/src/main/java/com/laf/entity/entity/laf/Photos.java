@@ -22,7 +22,7 @@ public class Photos {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     //启示对应图片url
-    private String lafPhotourl;
+    private String lafPhotoUrl;
     //图片对应的启示id
     @JsonSerialize(using = ToStringSerializer.class)
     private Long lafId;

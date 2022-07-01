@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laf.dao.mapper.laf.NoticeMapper">
+
+    <!--获取4条普通寻物启事信息(包括发布者id,发布者昵称,寻物启事id,相关图片)-->
+    <select id="getSimpleLostInfo" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
+        SELECT ln.id,
+               su.id as 'user_id',
+               lp.laf_photoUrl
+        FROM `laf_notice` ln
+                 LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
+                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+        WHERE ln.done = 1
+          AND ln.`status` = 0
+          AND ln.type = 0
+        ORDER BY rand()
+        LIMIT 4;
+    </select>
+    <!--获取4条普通拾物启示信息-->
+    <select id="getSimpleFoundList" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
+        SELECT ln.id,
+               su.id as 'user_id',
+               lp.laf_photoUrl
+        FROM `laf_notice` ln
+                 LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
+                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+        WHERE ln.done = 1
+          AND ln.`status` = 0
+          AND ln.type = 1
+        ORDER BY rand()
+        LIMIT 4;
+
+    </select>
+    <!--    随机获取4条紧急寻物启事信息-->
+    <select id="getSimpleUrgencyLostList" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
+        SELECT ln.id,
+               su.id as 'user_id',
+               lp.laf_photoUrl
+        FROM `laf_notice` ln
+                 LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
+                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+        WHERE ln.done = 1
+          AND ln.`status` = 0
+          AND ln.type = 0
+          AND urgency = 0
+        ORDER BY rand()
+        LIMIT 4;
+    </select>
+</mapper>

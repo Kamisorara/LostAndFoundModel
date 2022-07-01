@@ -2,6 +2,8 @@ package com.laf.web;
 
 import com.laf.dao.mapper.MenuMapper;
 import com.laf.dao.mapper.UserMapper;
+import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
 import com.laf.entity.entity.sys.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ class WebApplicationTests {
     @Autowired
     MenuMapper menuMapper;
 
+    @Autowired
+    NoticeMapper noticeMapper;
+
     @Test
     void contextLoads() {
         User user = new User();
@@ -33,5 +38,11 @@ class WebApplicationTests {
     void testUserMenu() {
         List<String> list = menuMapper.selectPermsByUserId(1540533503228669954L);
         System.out.println(list);
+    }
+
+    @Test
+    void getSimpleList() {
+        List<NoticeIndexResp> simpleLostInfo = noticeMapper.getSimpleLostInfo();
+        System.out.println(simpleLostInfo);
     }
 }

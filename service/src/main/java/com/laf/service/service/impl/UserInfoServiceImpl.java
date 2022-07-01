@@ -3,6 +3,7 @@ package com.laf.service.service.impl;
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 import com.laf.service.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     public String getUserAvatar(Long userId) {
         String userAvatarUrl = avatarMapper.getUserAvatarById(userId);
         return userAvatarUrl;
+    }
+
+    //根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等
+    @Override
+    public UserDetailInfoResp getUserDetailInfo(Long userId) {
+        UserDetailInfoResp userDetailInfo = userMapper.getUserDetailInfo(userId);
+        return userDetailInfo;
     }
 }
