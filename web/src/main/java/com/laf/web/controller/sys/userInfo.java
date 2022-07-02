@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 用户信息相关接口
+ */
 @RestController
 @PreAuthorize("@ex.hasAuthority('sys:common:user')")
 @RequestMapping("/sys/user-info")

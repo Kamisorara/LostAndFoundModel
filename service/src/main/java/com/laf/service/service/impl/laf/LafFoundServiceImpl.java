@@ -4,27 +4,26 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
-import com.laf.service.service.LafLostService;
+import com.laf.service.service.LafFoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LafLostServiceImpl implements LafLostService {
-
+public class LafFoundServiceImpl implements LafFoundService {
     @Autowired
     private NoticeMapper noticeMapper;
 
     /**
-     * 分页获取所有寻物启事列表
+     * 分页分页获取所有拾物启事列表
      *
      * @param pageNum
      * @param pageSize
      * @return
      */
     @Override
-    public IPage<NoticeSearchResp> getAllLostNotice(int pageNum, int pageSize) {
+    public IPage<NoticeSearchResp> getAllFoundNotice(int pageNum, int pageSize) {
         Page<NoticeSearchResp> page = new Page<>();
         //设置每页大小
         page.setSize(pageSize);
@@ -54,6 +53,4 @@ public class LafLostServiceImpl implements LafLostService {
     public List<String> getNoticeAllPhotos(Long noticeId) {
         return noticeMapper.getAllNoticePhoto(noticeId);
     }
-
-
 }

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 寻物启事相关接口
+ */
 @RestController
 @RequestMapping("/laf/lost")
 @PreAuthorize("@ex.hasAuthority('sys:common:user')")

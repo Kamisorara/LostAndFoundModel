@@ -33,4 +33,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //获取该启示所有图片
     List<String> getAllNoticePhoto(Long noticeId);
+
+
 }

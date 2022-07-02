@@ -96,8 +96,7 @@
                  LEFT JOIN sys_user su ON su.id = ln.` create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
             AND sa.`status` = 0
-        WHERE ln.type = 0
-          AND ln.id = #{noticeId};
+        WHERE ln.id = #{noticeId};
     </select>
     <!--    获取该启示所有图片-->
     <select id="getAllNoticePhoto" resultType="java.lang.String">

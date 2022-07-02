@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 主页相关接口
+ */
 @RestController
 @RequestMapping("/laf/index")
 public class index {
