@@ -34,5 +34,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     //获取该启示所有图片
     List<String> getAllNoticePhoto(Long noticeId);
 
-
+    //根据用户id 获取该用户帮助的启示
+    List<NoticeSearchResp> getUserHelpedNoticeByUserId(Long userId);
 }

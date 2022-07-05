@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laf.dao.mapper.MessageMapper">
+    <!--    根据用户id 获取用户对应留言板(留言板信息包括对应用户昵称，头像，留言信息)-->
+    <select id="getUserLeaveMessageById" resultType="com.laf.entity.entity.resp.messageResp.MessageResp">
+        SELECT sm.id,
+               su.user_name,
+               sa.avatar_url,
+               sm.message,
+               sa.user_id
+        FROM sys_message sm
+                 LEFT JOIN sys_user su ON sm.leave_userId = su.id
+                 LEFT JOIN sys_avatar sa ON sa.user_id = sm.leave_userId
+        WHERE sm.to_userId = #{userId};
+    </select>
+</mapper>

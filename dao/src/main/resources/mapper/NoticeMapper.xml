@@ -106,6 +106,22 @@
         WHERE ln.id = #{noticeId};
 
     </select>
+    <!--    根据用户id 获取该用户帮助的启示-->
+    <select id="getUserHelpedNoticeByUserId" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
+        SELECT ln.id,
+               su.id AS 'user_id',
+               lp.laf_photoUrl,
+               ln.type,
+               sa.avatar_url,
+               su.user_name
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+            AND sa.`status` = 0
+        WHERE ln.helper_userId = #{userId}
+          And ln.done = 0;
+    </select>
 
 
 </mapper>

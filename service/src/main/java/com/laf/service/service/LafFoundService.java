@@ -15,4 +15,5 @@ public interface LafFoundService {
     //获取该启示所有图片
     List<String> getNoticeAllPhotos(Long noticeId);
 
+
 }
