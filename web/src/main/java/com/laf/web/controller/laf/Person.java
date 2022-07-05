@@ -1,10 +1,12 @@
 package com.laf.web.controller.laf;
 
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.MessageService;
+import com.laf.service.service.PersonService;
 import com.laf.service.service.UserInfoService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,8 @@ public class Person {
     @Autowired
     MessageService messageService;
 
-
+    @Autowired
+    PersonService personService;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等
@@ -59,4 +62,13 @@ public class Person {
 
     }
 
+    /**
+     * 根据用户id获取用户帮助过的启示列表
+     */
+    @RequestMapping(value = "/get-all-completed", method = RequestMethod.GET)
+    public ResponseResult getUserHelpedNoticeList(@RequestParam("id") Long id) {
+        List<NoticeSearchResp> userHelpedNotice =
+                personService.getUserHelpedNotice(id);
+        return new ResponseResult(200, "获取用户帮助列表成功", userHelpedNotice);
+    }
 }
