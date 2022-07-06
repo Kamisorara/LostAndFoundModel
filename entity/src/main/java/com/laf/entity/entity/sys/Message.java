@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
+
 /**
  * (Message)表实体类
  *
@@ -16,7 +18,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value= "sys_message")
+@Accessors(chain = true)
+@TableName(value = "sys_message")
 public class Message {
     //用户留言板对应id
     @JsonSerialize(using = ToStringSerializer.class)

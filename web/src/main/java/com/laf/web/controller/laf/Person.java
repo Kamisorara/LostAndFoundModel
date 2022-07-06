@@ -38,15 +38,15 @@ public class Person {
     PersonService personService;
 
     /**
-     * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等
+     * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
      */
     @RequestMapping(value = "/get-person-detail", method = RequestMethod.GET)
     public ResponseResult getUserDetailInfo(HttpServletRequest request) throws Exception {
-        //获取token
+        //获取token的id
         String token = request.getHeader("token");
         Claims claims = JwtUtil.parseJWT(token);
         String id = claims.get("sub").toString();
-        long id2 = Long.parseLong(id);
+        Long id2 = Long.parseLong(id);
         UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(id2);
         return new ResponseResult(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
@@ -59,7 +59,6 @@ public class Person {
         List<MessageResp> userLeaveMessage =
                 messageService.getUserLeaveMessage(id);
         return new ResponseResult(200, "获取用户留言信息成功", userLeaveMessage);
-
     }
 
     /**
@@ -70,5 +69,26 @@ public class Person {
         List<NoticeSearchResp> userHelpedNotice =
                 personService.getUserHelpedNotice(id);
         return new ResponseResult(200, "获取用户帮助列表成功", userHelpedNotice);
+    }
+
+
+    /**
+     * 根据用户id 给用户留言
+     */
+    @RequestMapping(value = "/leave-message", method = RequestMethod.POST)
+    public ResponseResult leaveMessageToOther(HttpServletRequest request,
+                                              @RequestParam("toUserId") Long toUserId,
+                                              @RequestParam("message") String message) throws Exception {
+        //获取token的id
+        String token = request.getHeader("token");
+        Claims claims = JwtUtil.parseJWT(token);
+        String id = claims.get("sub").toString();
+        Long id2 = Long.parseLong(id);
+        Integer success = messageService.insertMessage(id2, toUserId, message);
+        if (success > 0) {
+            return new ResponseResult(200, "留言成功");
+        } else {
+            return new ResponseResult(400, "留言失败，请检查输入");
+        }
     }
 }
