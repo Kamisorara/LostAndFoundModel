@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * 搜索启示回复类
  */
@@ -28,5 +30,5 @@ public class NoticeSearchResp {
     //用户头像url
     private String avatarUrl;
 
-
+    private List<String> lafPhotoUrls;
 }

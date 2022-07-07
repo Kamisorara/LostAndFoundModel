@@ -1,12 +1,10 @@
 package com.laf.service.service.impl.laf;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.BoardMapper;
 import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
-import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.Board;
@@ -79,6 +77,33 @@ public class LafIndexServiceImpl implements LafIndexService {
     public List<Board> getIndexBoardList() {
         List<Board> indexBoardList = boardMapper.getIndexBoardList();
         return indexBoardList;
+    }
+
+    /**
+     * 分页获取最近发布启示
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+
+    @Override
+    public IPage<NoticeSearchResp> getRecentNotice(int pageNum, int pageSize) {
+        Page<NoticeSearchResp> page = new Page<>();
+        //设置每页大小
+        page.setSize(pageSize);
+        //设置当前页码
+        page.setCurrent(pageNum);
+        IPage<NoticeSearchResp> recentNotice = noticeMapper.getRecentNotice(page);
+        List<NoticeSearchResp> records = recentNotice.getRecords();
+        for (NoticeSearchResp notice :
+                records) {
+            Long id = notice.getId();
+            List<String> allNoticePhotoLimit4 = noticeMapper.getAllNoticePhotoLimit4(id);
+            notice.setLafPhotoUrls(allNoticePhotoLimit4);
+        }
+        return recentNotice;
+
     }
 
     /**

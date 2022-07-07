@@ -71,6 +71,18 @@ public class index {
         return new ResponseResult(200, "首页获取紧急寻物启事成功", indexSimpleUrgencyLostList);
     }
 
+
+    /**
+     * 分页获取最近发布的启示
+     */
+    @RequestMapping(value = "/get-recent-notice", method = RequestMethod.GET)
+    public ResponseResult getRecentNotice(@RequestParam("pageNum") int pageNum,
+                                          @RequestParam("pageSize") int pageSize) {
+        IPage<NoticeSearchResp> recentNotice = lafIndexService.getRecentNotice(pageNum, pageSize);
+        return new ResponseResult(200, "分页获取最近发布启示成功", recentNotice);
+    }
+
+
     /**
      * 分页获取根据KeyWords搜索到的内容
      */

@@ -34,6 +34,12 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     //获取该启示所有图片
     List<String> getAllNoticePhoto(Long noticeId);
 
+    //获取该启示最多四张图片
+    List<String> getAllNoticePhotoLimit4(Long noticeId);
+
     //根据用户id 获取该用户帮助的启示
     List<NoticeSearchResp> getUserHelpedNoticeByUserId(Long userId);
+
+    //首页分页获取最近发布启示
+    IPage<NoticeSearchResp> getRecentNotice(Page<NoticeSearchResp> page);
 }
