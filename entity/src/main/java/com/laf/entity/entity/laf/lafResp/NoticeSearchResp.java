@@ -20,6 +20,8 @@ public class NoticeSearchResp {
 
     private Long userId;
 
+    private String message;
+
     private String userName;
 
     private String lafPhotoUrl;
