@@ -29,7 +29,7 @@ public class LafFoundServiceImpl implements LafFoundService {
         page.setSize(pageSize);
         //设置当前页码
         page.setCurrent(pageNum);
-        return noticeMapper.getAllLostNotice(page);
+        return noticeMapper.getAllFoundNotice(page);
     }
 
     /**

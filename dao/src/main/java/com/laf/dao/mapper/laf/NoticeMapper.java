@@ -28,6 +28,9 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     //分页获取所有寻物启事列表
     IPage<NoticeSearchResp> getAllLostNotice(Page<NoticeSearchResp> page);
 
+    //分页获取所有拾物启事列表
+    IPage<NoticeSearchResp> getAllFoundNotice(Page<NoticeSearchResp> page);
+
     //根据启示id 获取启示详情(包括用户基本信息，启示基本信息和所有图片)
     NoticeSearchResp getNoticeDetail(Long noticeId);
 

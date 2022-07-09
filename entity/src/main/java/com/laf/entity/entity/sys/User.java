@@ -44,5 +44,7 @@ public class User {
     //密码
     private String password;
 
+    //是否为管理员0(是)1(不是)
+    private String admin;
 }
 

@@ -43,11 +43,11 @@
     </select>
     <!--    根据用户id获取用户更加详细信息包括包括用户帮助次数，用户个人背景图片等-->
     <select id="getUserDetailInfo" resultType="com.laf.entity.entity.tokenResp.UserDetailInfoResp">
-        SELECT su.user_name,
-               su.id,
-               sa.avatar_url,
-               sp.photo_url,
-               sr.help_times
+        SELECT DISTINCT su.user_name,
+                        su.id,
+                        sa.avatar_url,
+                        sp.photo_url,
+                        sr.help_times
         FROM `sys_user` su
                  LEFT JOIN sys_photos sp ON su.id = sp.user_id
             AND sp.`status` = 0
