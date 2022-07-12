@@ -5,6 +5,7 @@ import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
 import com.laf.entity.entity.sys.User;
+import com.laf.service.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ class WebApplicationTests {
 
     @Autowired
     NoticeMapper noticeMapper;
+
 
     @Test
     void contextLoads() {
@@ -44,5 +46,11 @@ class WebApplicationTests {
     void getSimpleList() {
         List<NoticeIndexResp> simpleLostInfo = noticeMapper.getSimpleLostInfo();
         System.out.println(simpleLostInfo);
+    }
+
+    @Test
+    void getCreatedUserId() {
+        Long noticeCreatedUserId = noticeMapper.getNoticeCreatedUserId(1L);
+        System.out.println(noticeCreatedUserId);
     }
 }

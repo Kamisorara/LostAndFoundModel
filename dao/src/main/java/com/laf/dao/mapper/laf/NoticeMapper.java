@@ -7,6 +7,7 @@ import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -45,4 +46,7 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //首页分页获取最近发布启示
     IPage<NoticeSearchResp> getRecentNotice(Page<NoticeSearchResp> page);
+
+    //根据启示id获取创建者id
+    Long getNoticeCreatedUserId(@Param("noticeId") Long noticeId);
 }

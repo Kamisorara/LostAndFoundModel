@@ -11,4 +11,7 @@ public interface PersonService {
     //根据该用户id 获取该用户帮助的启示
     List<NoticeSearchResp> getUserHelpedNotice(Long userId);
 
+    //根据启示id 和用户id 查找创建者id如果创建者id 等于当前用户id 则说明当前启示是该用户创建
+    Boolean JudgeCreatedUser(Long noticeId, Long userId);
+
 }

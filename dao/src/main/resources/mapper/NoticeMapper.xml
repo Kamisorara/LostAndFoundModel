@@ -165,6 +165,12 @@
         WHERE ln.type = 1
 
     </select>
+    <!--    根据启示id获取创建者id-->
+    <select id="getNoticeCreatedUserId" resultType="java.lang.Long">
+        SELECT ln.` create_id`
+        FROM laf_notice ln
+        WHERE ln.id = #{noticeId};
+    </select>
 
 
 </mapper>

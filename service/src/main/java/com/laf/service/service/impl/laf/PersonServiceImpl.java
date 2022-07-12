@@ -24,4 +24,18 @@ public class PersonServiceImpl implements PersonService {
     public List<NoticeSearchResp> getUserHelpedNotice(Long userId) {
         return noticeMapper.getUserHelpedNoticeByUserId(userId);
     }
+
+    /**
+     * 根据启示id 和用户id 查找创建者id如果创建者id 等于当前用户id 则说明当前启示是该用户创建
+     *
+     * @param noticeId
+     * @param userId
+     * @return
+     */
+    @Override
+    public Boolean JudgeCreatedUser(Long noticeId, Long userId) {
+        Long noticeCreatedUserId = noticeMapper.getNoticeCreatedUserId(noticeId);
+        return noticeCreatedUserId.equals(userId);
+
+    }
 }

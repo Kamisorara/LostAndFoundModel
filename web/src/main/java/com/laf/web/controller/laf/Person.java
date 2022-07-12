@@ -91,4 +91,25 @@ public class Person {
             return new ResponseResult(400, "留言失败，请检查输入");
         }
     }
+
+
+    /**
+     * 填写用户id 将用户启示更新为已完成状态
+     */
+    @RequestMapping(value = "/helped-people", method = RequestMethod.POST)
+    public ResponseResult helpedPeople(HttpServletRequest request,
+                                       @RequestParam("id") Long id,
+                                       @RequestParam("userId") Long userId) throws Exception {
+        //获取token的id
+        String token = request.getHeader("token");
+        Claims claims = JwtUtil.parseJWT(token);
+        String personId = claims.get("sub").toString();
+        Long id2 = Long.parseLong(personId);
+        Boolean isPerson = personService.JudgeCreatedUser(id, id2);
+        if (isPerson) {
+            return new ResponseResult(200, "是本人");
+        } else {
+            return new ResponseResult(400, "不是本人");
+        }
+    }
 }
