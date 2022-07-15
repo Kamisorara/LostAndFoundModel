@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.laf.dao.mapper.laf.NoticeMapper">
+    <!--    更新启示状态为（已帮助）-->
+    <update id="updateNoticeDone">
+        UPDATE laf_notice ln
+        SET ln.done          = 1,
+            ln.helper_userId = #{userId}
+        WHERE ln.id = #{noticeId};
+    </update>
 
     <!--获取4条普通寻物启事信息(包括发布者id,发布者昵称,寻物启事id,相关图片)-->
     <select id="getSimpleLostInfo" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">

@@ -49,4 +49,7 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //根据启示id获取创建者id
     Long getNoticeCreatedUserId(@Param("noticeId") Long noticeId);
+
+    //更新启示状态为（已帮助）
+    Integer updateNoticeDone(@Param("noticeId") Long noticeId, @Param("userId") Long userId);
 }

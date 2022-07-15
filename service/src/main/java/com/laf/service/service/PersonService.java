@@ -14,4 +14,6 @@ public interface PersonService {
     //根据启示id 和用户id 查找创建者id如果创建者id 等于当前用户id 则说明当前启示是该用户创建
     Boolean JudgeCreatedUser(Long noticeId, Long userId);
 
+    //根据启示id和帮助的用户用户id 设置启示为已完成状态
+    Boolean updateNoticeDoneStatus(Long noticeId, Long userId);
 }

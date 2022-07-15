@@ -38,4 +38,17 @@ public class PersonServiceImpl implements PersonService {
         return noticeCreatedUserId.equals(userId);
 
     }
+
+    /**
+     * 根据启示id和帮助的用户用户id 设置启示为已完成状态
+     *
+     * @param noticeId
+     * @param userId
+     * @return
+     */
+    @Override
+    public Boolean updateNoticeDoneStatus(Long noticeId, Long userId) {
+        Integer success = noticeMapper.updateNoticeDone(noticeId, userId);
+        return success > 0;
+    }
 }

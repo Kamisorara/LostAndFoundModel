@@ -107,9 +107,14 @@ public class Person {
         Long id2 = Long.parseLong(personId);
         Boolean isPerson = personService.JudgeCreatedUser(id, id2);
         if (isPerson) {
-            return new ResponseResult(200, "是本人");
+            Boolean updateSucceed = personService.updateNoticeDoneStatus(id, userId);
+            if (updateSucceed) {
+                return new ResponseResult(200, "更改启示Done状态成功");
+            } else {
+                return new ResponseResult(400, "更新启示状态失败");
+            }
         } else {
-            return new ResponseResult(400, "不是本人");
+            return new ResponseResult(400, "不是本人启示");
         }
     }
 }
