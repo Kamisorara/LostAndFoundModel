@@ -3,6 +3,7 @@ package com.laf.web.controller.laf;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
+import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.MessageService;
@@ -117,4 +118,14 @@ public class Person {
             return new ResponseResult(400, "不是本人启示");
         }
     }
+
+    /**
+     * 当用户输入失去焦点时自动提交并检索
+     */
+    @RequestMapping(value = "/select-username-avatar", method = RequestMethod.POST)
+    public ResponseResult selectUserNameAndAvatar(@RequestParam("id") Long id) {
+        userResp userResp = personService.getUserResp(id);
+        return new ResponseResult(200, "获取用户名和头像成功", userResp);
+    }
+
 }

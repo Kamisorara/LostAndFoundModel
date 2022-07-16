@@ -56,4 +56,14 @@
             AND sa.`status` = 0
         WHERE su.id = #{id};
     </select>
+    <!--    根据用户id 获取用户昵称，头像-->
+    <select id="getUserNameAndAvatarByUserId" resultType="com.laf.entity.entity.resp.userResp">
+        SELECT su.id,
+               su.user_name,
+               sa.avatar_url
+        FROM sys_user su
+                 LEFT JOIN sys_avatar sa ON su.id = sa.user_id
+        WHERE su.id = #{userId}
+          AND sa.`status` = 0;
+    </select>
 </mapper>

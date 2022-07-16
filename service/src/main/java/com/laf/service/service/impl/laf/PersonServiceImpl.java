@@ -1,7 +1,9 @@
 package com.laf.service.service.impl.laf;
 
+import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
+import com.laf.entity.entity.resp.userResp;
 import com.laf.service.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,10 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService {
 
     @Autowired
-    NoticeMapper noticeMapper;
+    private NoticeMapper noticeMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 根据用户id 获取用户帮助的启示列表
@@ -50,5 +55,16 @@ public class PersonServiceImpl implements PersonService {
     public Boolean updateNoticeDoneStatus(Long noticeId, Long userId) {
         Integer success = noticeMapper.updateNoticeDone(noticeId, userId);
         return success > 0;
+    }
+
+    /**
+     * 根据用户id 获取用户名和头像url
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public userResp getUserResp(Long userId) {
+        return userMapper.getUserNameAndAvatarByUserId(userId);
     }
 }

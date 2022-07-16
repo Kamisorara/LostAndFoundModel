@@ -1,6 +1,7 @@
 package com.laf.service.service;
 
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
+import com.laf.entity.entity.resp.userResp;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface PersonService {
 
     //根据启示id和帮助的用户用户id 设置启示为已完成状态
     Boolean updateNoticeDoneStatus(Long noticeId, Long userId);
+
+    //根据用户id 获取用户名和头像url
+    userResp getUserResp(Long userId);
 }
