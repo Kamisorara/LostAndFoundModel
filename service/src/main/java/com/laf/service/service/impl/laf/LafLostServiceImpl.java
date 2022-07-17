@@ -3,7 +3,9 @@ package com.laf.service.service.impl.laf;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
+import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.service.service.LafLostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,4 +58,19 @@ public class LafLostServiceImpl implements LafLostService {
     }
 
 
+    /**
+     * 创建寻物启事
+     *
+     * @param notice
+     * @return
+     */
+    @Override
+    public ResponseResult createLostNotice(Notice notice) {
+        int insert = noticeMapper.insert(notice);
+        if (insert > 0) {
+            return new ResponseResult(200, "创建寻物启事成功");
+        } else {
+            return new ResponseResult(400, "创建寻物启事失败，请重试");
+        }
+    }
 }
