@@ -18,5 +18,5 @@ public interface LafFoundService {
     List<String> getNoticeAllPhotos(Long noticeId);
 
     //创建拾物启示
-    ResponseResult createFoundNotice(Notice notice);
+    ResponseResult createFoundNotice(Notice notice, Long userId);
 }

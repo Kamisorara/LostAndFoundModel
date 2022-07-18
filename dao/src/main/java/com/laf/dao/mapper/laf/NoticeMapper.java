@@ -52,4 +52,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //更新启示状态为（已帮助）
     Integer updateNoticeDone(@Param("noticeId") Long noticeId, @Param("userId") Long userId);
+
+
 }

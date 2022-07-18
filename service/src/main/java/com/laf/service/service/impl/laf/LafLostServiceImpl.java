@@ -65,7 +65,14 @@ public class LafLostServiceImpl implements LafLostService {
      * @return
      */
     @Override
-    public ResponseResult createLostNotice(Notice notice) {
+    public ResponseResult createLostNotice(Notice notice, Long userId) {
+        String urgency = notice.getUrgency();
+        notice.setCreateId(userId);
+        if (urgency.equals("紧急")) {
+            notice.setUrgency("0");
+        } else {
+            notice.setUrgency("1");
+        }
         int insert = noticeMapper.insert(notice);
         if (insert > 0) {
             return new ResponseResult(200, "创建寻物启事成功");

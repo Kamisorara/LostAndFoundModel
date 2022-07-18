@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
+
 /**
  * (Notice)表实体类
  *
@@ -20,13 +22,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value= "laf_notice")
+@Accessors(chain = true)
+@TableName(value = "laf_notice")
 public class Notice {
     //启示对应id
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     //启示发布者对应id
-    private Long  createId;
+    private Long createId;
     //启示简介
     private String message;
     //启示浏览次数

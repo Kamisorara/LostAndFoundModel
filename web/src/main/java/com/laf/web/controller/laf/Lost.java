@@ -1,13 +1,17 @@
 package com.laf.web.controller.laf;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.LafLostService;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +55,18 @@ public class Lost {
         result.add(noticeAllPhotos);
         return new ResponseResult(200, "获取启示详情成功", result);
 
+    }
+
+    /**
+     * 创建寻物启事
+     */
+    @RequestMapping(value = "/create-lost-notice", method = RequestMethod.POST)
+    public ResponseResult createLostNotice(Notice notice, HttpServletRequest request) throws Exception {
+        //获取token
+        String token = request.getHeader("token");
+        Claims claims = JwtUtil.parseJWT(token);
+        String id = claims.get("sub").toString();
+        long id2 = Long.parseLong(id);
+        return lafLostService.createLostNotice(notice, id2);
     }
 }
