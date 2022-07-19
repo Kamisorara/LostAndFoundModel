@@ -18,7 +18,7 @@
 
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
-                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+                 LEFT JOIN sys_user su ON ln.`create_id` = su.id
         WHERE ln.done = 1
           AND ln.`status` = 0
           AND ln.type = 0
@@ -33,7 +33,7 @@
                ln.type
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
-                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+                 LEFT JOIN sys_user su ON ln.`create_id` = su.id
         WHERE ln.done = 1
           AND ln.`status` = 0
           AND ln.type = 1
@@ -49,7 +49,7 @@
                su.user_name
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
-                 LEFT JOIN sys_user su ON ln.` create_id` = su.id
+                 LEFT JOIN sys_user su ON ln.`create_id` = su.id
         WHERE ln.done = 1
           AND ln.`status` = 0
           AND ln.type = 0
@@ -68,8 +68,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
         WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
     </select>
@@ -84,8 +84,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
         WHERE ln.type = 0
@@ -102,8 +102,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
         WHERE ln.id = #{noticeId};
     </select>
@@ -125,8 +125,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
         WHERE ln.helper_userId = #{userId}
           And ln.done = 0;
@@ -142,8 +142,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
     </select>
     <!--    获取该启示最多四张图片-->
@@ -165,8 +165,8 @@
                ln.message
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-                 LEFT JOIN sys_user su ON su.id = ln.` create_id`
-                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.` create_id`
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
         WHERE ln.type = 1
@@ -174,7 +174,7 @@
     </select>
     <!--    根据启示id获取创建者id-->
     <select id="getNoticeCreatedUserId" resultType="java.lang.Long">
-        SELECT ln.` create_id`
+        SELECT ln.`create_id`
         FROM laf_notice ln
         WHERE ln.id = #{noticeId};
     </select>
