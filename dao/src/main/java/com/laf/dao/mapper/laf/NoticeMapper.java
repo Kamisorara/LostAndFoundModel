@@ -53,5 +53,9 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     //更新启示状态为（已帮助）
     Integer updateNoticeDone(@Param("noticeId") Long noticeId, @Param("userId") Long userId);
 
+    //根据用户id查询用户发布的启示个数（包括寻物和拾物）
+    Integer countUserPostNotice(Long userId);
 
+    //根据用户id查询用户帮助的启示的个数
+    Integer countUserHelpedNotice(Long userId);
 }

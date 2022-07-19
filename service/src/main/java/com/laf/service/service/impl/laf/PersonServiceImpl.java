@@ -8,6 +8,7 @@ import com.laf.service.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,5 +67,22 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public userResp getUserResp(Long userId) {
         return userMapper.getUserNameAndAvatarByUserId(userId);
+    }
+
+    /**
+     * 根据用户id 查询用户发布的启示的个数和帮助他人的启示的个数
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Integer> countUserNotice(Long userId) {
+        List<Integer> result = new ArrayList<>();
+        Integer userPostNoticeNum = noticeMapper.countUserPostNotice(userId);
+        Integer userHelpedNoticeNum = noticeMapper.countUserHelpedNotice(userId);
+        result.add(userPostNoticeNum);
+        result.add(0);
+        result.add(userHelpedNoticeNum);
+        return result;
     }
 }

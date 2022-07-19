@@ -178,6 +178,18 @@
         FROM laf_notice ln
         WHERE ln.id = #{noticeId};
     </select>
+    <!--    根据用户id查询用户发布的启示个数（包括寻物和拾物）-->
+    <select id="countUserPostNotice" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `laf_notice`
+        WHERE create_id = #{userId};
+    </select>
+    <!--    根据用户id查询用户帮助的启示的个数-->
+    <select id="countUserHelpedNotice" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `laf_notice`
+        WHERE helper_userId = #{userId};
+    </select>
 
 
 </mapper>

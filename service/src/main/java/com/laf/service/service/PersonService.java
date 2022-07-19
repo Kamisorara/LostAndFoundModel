@@ -20,4 +20,7 @@ public interface PersonService {
 
     //根据用户id 获取用户名和头像url
     userResp getUserResp(Long userId);
+
+    //根据用户id 查询用户发布的启示的个数和帮助他人的启示的个数
+    List<Integer> countUserNotice(Long userId);
 }

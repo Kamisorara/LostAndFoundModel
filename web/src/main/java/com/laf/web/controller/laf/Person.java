@@ -128,4 +128,18 @@ public class Person {
         return new ResponseResult(200, "获取用户名和头像成功", userResp);
     }
 
+    /**
+     * 根据用户token中的用户id 获取徽标值
+     */
+        @RequestMapping(value = "/get-userNotice-badge", method = RequestMethod.GET)
+    public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
+        //获取token的id
+        String token = request.getHeader("token");
+        Claims claims = JwtUtil.parseJWT(token);
+        String personId = claims.get("sub").toString();
+        Long id2 = Long.parseLong(personId);
+        List<Integer> result = personService.countUserNotice(id2);
+        return new ResponseResult(200, "获取用户徽标值成功", result);
+    }
+
 }
