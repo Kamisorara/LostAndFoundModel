@@ -67,7 +67,7 @@ public class LafLostServiceImpl implements LafLostService {
     @Override
     public ResponseResult createLostNotice(Notice notice, Long userId) {
         String urgency = notice.getUrgency();
-        notice.setCreateId(userId);
+        notice.setCreateId(userId).setView(0);
         if (urgency.equals("紧急")) {
             notice.setUrgency("0");
         } else {

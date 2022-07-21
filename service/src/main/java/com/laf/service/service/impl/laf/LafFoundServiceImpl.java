@@ -64,7 +64,7 @@ public class LafFoundServiceImpl implements LafFoundService {
      */
     @Override
     public ResponseResult createFoundNotice(Notice notice, Long userId) {
-        notice.setType("1");
+        notice.setType("1").setView(0);
         notice.setCreateId(userId);
         int insert = noticeMapper.insert(notice);
         if (insert > 0) {
