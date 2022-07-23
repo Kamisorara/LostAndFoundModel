@@ -47,7 +47,7 @@ public class Lost {
      * 根据启示id获取启示详情
      */
     @RequestMapping(value = "/get-foundpost-detail", method = RequestMethod.GET)
-    public ResponseResult getFoundNoticeDetail(@RequestParam("id") Long id) {
+    public ResponseResult getLostNoticeDetail(@RequestParam("id") Long id) {
         NoticeSearchResp noticeDetailInfo = lafLostService.getNoticeDetailInfo(id);
         List<String> noticeAllPhotos = lafLostService.getNoticeAllPhotos(id);
         List<Object> result = new ArrayList<>();

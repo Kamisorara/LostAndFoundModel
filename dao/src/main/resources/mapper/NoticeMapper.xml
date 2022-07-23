@@ -94,7 +94,7 @@
         WHERE ln.type = 0
 
     </select>
-    <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息和所有图片)-->
+    <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息)-->
     <select id="getNoticeDetail" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
                su.id AS 'user_id',
@@ -108,7 +108,8 @@
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
-        WHERE ln.id = #{noticeId};
+        WHERE ln.id = #{noticeId}
+        LIMIT 1;
     </select>
     <!--    获取该启示所有图片-->
     <select id="getAllNoticePhoto" resultType="java.lang.String">
@@ -116,7 +117,7 @@
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
         WHERE ln.id = #{noticeId}
-          And ln.'status' = 0;
+          And lp.`status` = 0;
     </select>
     <!--    根据用户id 获取该用户帮助的启示-->
     <select id="getUserHelpedNoticeByUserId" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">

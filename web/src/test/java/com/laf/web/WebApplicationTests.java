@@ -5,6 +5,7 @@ import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.dao.mapper.laf.lafPhotosMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.User;
 import com.laf.service.service.PersonService;
 import org.junit.jupiter.api.Test;
@@ -53,8 +54,8 @@ class WebApplicationTests {
 
     @Test
     void getCreatedUserId() {
-        Long noticeCreatedUserId = noticeMapper.getNoticeCreatedUserId(1L);
-        System.out.println(noticeCreatedUserId);
+        NoticeSearchResp noticeDetail = noticeMapper.getNoticeDetail(3L);
+        System.out.println(noticeDetail.toString());
     }
 
     @Test
