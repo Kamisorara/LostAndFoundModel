@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laf.dao.mapper.laf.lafPhotosMapper">
+    <!--    查询是否已经拥有首页图-->
+    <select id="countIndexDisplayPhoto" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM laf_photos lp
+        WHERE lp.laf_id = #{noticeId}
+          AND lp.index_display = 0;
+    </select>
+</mapper>

@@ -3,6 +3,7 @@ package com.laf.web;
 import com.laf.dao.mapper.MenuMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.dao.mapper.laf.lafPhotosMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeIndexResp;
 import com.laf.entity.entity.sys.User;
 import com.laf.service.service.PersonService;
@@ -17,14 +18,16 @@ import java.util.List;
 @SpringBootTest
 class WebApplicationTests {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    MenuMapper menuMapper;
+    private MenuMapper menuMapper;
 
     @Autowired
-    NoticeMapper noticeMapper;
+    private NoticeMapper noticeMapper;
 
+    @Autowired
+    private lafPhotosMapper lafPhotosMapper;
 
     @Test
     void contextLoads() {
@@ -52,5 +55,11 @@ class WebApplicationTests {
     void getCreatedUserId() {
         Long noticeCreatedUserId = noticeMapper.getNoticeCreatedUserId(1L);
         System.out.println(noticeCreatedUserId);
+    }
+
+    @Test
+    void indexDisplay() {
+        Integer integer = lafPhotosMapper.countIndexDisplayPhoto(3L);
+        System.out.println(integer);
     }
 }

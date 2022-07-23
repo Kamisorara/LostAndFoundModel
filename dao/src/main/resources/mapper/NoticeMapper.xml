@@ -22,6 +22,7 @@
         WHERE ln.done = 1
           AND ln.`status` = 0
           AND ln.type = 0
+          AND lp.index_display = 0
         ORDER BY rand()
         LIMIT 4;
     </select>
@@ -37,6 +38,7 @@
         WHERE ln.done = 1
           AND ln.`status` = 0
           AND ln.type = 1
+          AND lp.index_display = 0
         ORDER BY rand()
         LIMIT 4;
     </select>
@@ -54,6 +56,7 @@
           AND ln.`status` = 0
           AND ln.type = 0
           AND urgency = 0
+          AND lp.index_display = 0
         ORDER BY rand()
         LIMIT 4;
     </select>
@@ -112,7 +115,8 @@
         SELECT lp.laf_photoUrl
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-        WHERE ln.id = #{noticeId};
+        WHERE ln.id = #{noticeId}
+          And ln.'status' = 0;
     </select>
     <!--    根据用户id 获取该用户帮助的启示-->
     <select id="getUserHelpedNoticeByUserId" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">

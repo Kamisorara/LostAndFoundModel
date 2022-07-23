@@ -1,5 +1,7 @@
 package com.laf.web.controller.laf;
 
+import com.laf.dao.mapper.laf.lafPhotosMapper;
+import com.laf.entity.entity.laf.lafPhotos;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
@@ -7,8 +9,10 @@ import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.MessageService;
+import com.laf.service.service.Oss.OssUploadService;
 import com.laf.service.service.PersonService;
 import com.laf.service.service.UserInfoService;
+import com.laf.service.service.lafPhotosService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,6 +33,8 @@ import java.util.List;
 @PreAuthorize("@ex.hasAuthority('sys:common:user')")
 public class Person {
 
+    @Autowired
+    private lafPhotosMapper lafPhotosMapper;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -37,6 +44,12 @@ public class Person {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private OssUploadService ossUploadService;
+
+    @Autowired
+    private lafPhotosService lafPhotosService;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
@@ -131,7 +144,7 @@ public class Person {
     /**
      * 根据用户token中的用户id 获取徽标值
      */
-        @RequestMapping(value = "/get-userNotice-badge", method = RequestMethod.GET)
+    @RequestMapping(value = "/get-userNotice-badge", method = RequestMethod.GET)
     public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
         //获取token的id
         String token = request.getHeader("token");
@@ -140,6 +153,27 @@ public class Person {
         Long id2 = Long.parseLong(personId);
         List<Integer> result = personService.countUserNotice(id2);
         return new ResponseResult(200, "获取用户徽标值成功", result);
+    }
+
+    /**
+     * 测试文件上传接口
+     */
+    //上传文件(开放权限)
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile,
+                                     HttpServletRequest servletRequest,
+                                     @RequestParam("id") Long id) {
+
+        String url = ossUploadService.uploadFile(multipartFile);
+        lafPhotos lafPhotos = new lafPhotos();
+        Boolean judge = lafPhotosService.judgeIndexDisplay(id);
+        if (judge) {
+            lafPhotos.setLafPhotoUrl(url).setLafId(id);
+        } else {
+            lafPhotos.setLafPhotoUrl(url).setLafId(id).setIndexDisplay("0");
+        }
+        lafPhotosMapper.insert(lafPhotos);
+        return new ResponseResult(200, "文件上传成功", url);
     }
 
 }
