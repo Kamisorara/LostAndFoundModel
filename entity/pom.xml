@@ -92,6 +92,13 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
+
+        <!--        fastDfs-client依赖-->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.27.2</version>
+        </dependency>
     </dependencies>
     <!--    dao、service、entity这三个模块的pom.xml文件中不需要build 内容，直接干掉-->
 

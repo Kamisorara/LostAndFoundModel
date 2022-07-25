@@ -7,6 +7,7 @@ import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
+import com.laf.entity.utils.FastDFSWrapper;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.MessageService;
 import com.laf.service.service.Oss.OssUploadService;
@@ -23,7 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 用户个人界面相关接口
@@ -50,6 +54,9 @@ public class Person {
 
     @Autowired
     private lafPhotosService lafPhotosService;
+
+    @Autowired
+    private FastDFSWrapper fastDFSWrapper;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
@@ -174,6 +181,24 @@ public class Person {
         }
         lafPhotosMapper.insert(lafPhotos);
         return new ResponseResult(200, "文件上传成功", url);
+    }
+
+    /**
+     * fastDfs upload文件测试
+     */
+    @RequestMapping(value = "/fastdfs-upload", method = RequestMethod.POST)
+    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        //getByte
+        byte[] fileBytes = multipartFile.getBytes();
+        //获取扩展名
+        String originName = multipartFile.getOriginalFilename();
+        //获取文件后缀
+        String suffix = originName.substring(originName.lastIndexOf("."));
+        //获取大小
+        long size = multipartFile.getSize();
+        String urlTail = fastDFSWrapper.uploadFile(fileBytes, size, suffix);
+        String resultUrl = "http://192.168.31.250:8080/" + urlTail;
+        return new ResponseResult(200, resultUrl);
     }
 
 }
