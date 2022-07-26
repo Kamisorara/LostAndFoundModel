@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
-import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.LafLostService;
-import io.jsonwebtoken.Claims;
+import com.laf.service.service.utilService.tokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -24,7 +26,10 @@ import java.util.List;
 public class Lost {
 
     @Autowired
-    LafLostService lafLostService;
+    private LafLostService lafLostService;
+
+    @Autowired
+    private tokenService tokenService;
 
     /**
      * 分页获取所有寻物启事
@@ -62,11 +67,7 @@ public class Lost {
      */
     @RequestMapping(value = "/create-lost-notice", method = RequestMethod.POST)
     public ResponseResult createLostNotice(Notice notice, HttpServletRequest request) throws Exception {
-        //获取token
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String id = claims.get("sub").toString();
-        long id2 = Long.parseLong(id);
-        return lafLostService.createLostNotice(notice, id2);
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        return lafLostService.createLostNotice(notice, userIdFromToken);
     }
 }

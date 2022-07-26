@@ -3,9 +3,8 @@ package com.laf.web.controller.sys;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
-import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.UserInfoService;
-import io.jsonwebtoken.Claims;
+import com.laf.service.service.utilService.tokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +25,16 @@ public class userInfo {
     @Autowired
     UserInfoService userInfoService;
 
+    @Autowired
+    private tokenService tokenService;
+
     /**
      * 根据token获取用户登录状态
      */
     @RequestMapping(value = "/get-status-login", method = RequestMethod.GET)
     public ResponseResult getUserInfo(HttpServletRequest request) throws Exception {
-        //获取token
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String id = claims.get("sub").toString();
-        long id2 = Long.parseLong(id);
-        UserResp userInfo = userInfoService.getUserInfo(id2);
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        UserResp userInfo = userInfoService.getUserInfo(userIdFromToken);
         return new ResponseResult(200, "用户已经登录", userInfo);
 
     }

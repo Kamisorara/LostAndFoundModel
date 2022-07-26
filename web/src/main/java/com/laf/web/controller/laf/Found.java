@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
-import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.LafFoundService;
-import io.jsonwebtoken.Claims;
+import com.laf.service.service.utilService.tokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +26,9 @@ import java.util.List;
 public class Found {
     @Autowired
     private LafFoundService lafFoundService;
+
+    @Autowired
+    private tokenService tokenService;
 
     /**
      * 分页获取所有拾物启示列表
@@ -58,12 +60,8 @@ public class Found {
      */
     @RequestMapping(value = "/create-found-notice", method = RequestMethod.POST)
     public ResponseResult createLostNotice(Notice notice, HttpServletRequest request) throws Exception {
-        //获取token
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String id = claims.get("sub").toString();
-        long id2 = Long.parseLong(id);
-        return lafFoundService.createFoundNotice(notice, id2);
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        return lafFoundService.createFoundNotice(notice, userIdFromToken);
     }
 
 }

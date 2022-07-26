@@ -7,8 +7,6 @@ import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
-import com.laf.entity.utils.FastDFSWrapper;
-import com.laf.entity.utils.JwtUtil;
 import com.laf.service.service.MessageService;
 import com.laf.service.service.Oss.OssUploadService;
 import com.laf.service.service.PersonService;
@@ -16,7 +14,6 @@ import com.laf.service.service.UserInfoService;
 import com.laf.service.service.impl.fastdfs.fastDfsService;
 import com.laf.service.service.lafPhotosService;
 import com.laf.service.service.utilService.tokenService;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 用户个人界面相关接口
