@@ -33,4 +33,7 @@ public class NoticeSearchResp {
     private String avatarUrl;
 
     private List<String> lafPhotoUrls;
+
+    //启示浏览次数
+    private Integer view;
 }

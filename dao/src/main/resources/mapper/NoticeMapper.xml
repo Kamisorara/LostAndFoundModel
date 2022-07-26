@@ -61,7 +61,8 @@
                ln.type,
                sa.avatar_url,
                su.user_name,
-               ln.message
+               ln.message,
+               ln.view
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -94,7 +95,8 @@
                ln.type,
                sa.avatar_url,
                su.user_name,
-               ln.message
+               ln.message,
+               ln.view
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -117,7 +119,8 @@
                ln.type,
                sa.avatar_url,
                su.user_name,
-               ln.message
+               ln.message,
+               ln.view
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -133,7 +136,8 @@
                ln.type,
                sa.avatar_url,
                su.user_name,
-               ln.message
+               ln.message,
+               ln.view
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -154,7 +158,8 @@
                ln.type,
                sa.avatar_url,
                su.user_name,
-               ln.message
+               ln.message,
+               ln.view
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
