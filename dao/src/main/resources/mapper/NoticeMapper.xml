@@ -74,7 +74,7 @@
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
-        WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
+        WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%') AND lp.index_display = 0
     </select>
     <!--    分页获取所有寻物启事列表-->
     <select id="getAllLostNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
@@ -91,8 +91,7 @@
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
-        WHERE ln.type = 0
-
+        WHERE ln.type = 0 AND lp.index_display = 0
     </select>
     <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息)-->
     <select id="getNoticeDetail" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
@@ -174,7 +173,7 @@
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
-        WHERE ln.type = 1
+        WHERE ln.type = 1 AND lp.index_display = 0
 
     </select>
     <!--    根据启示id获取创建者id-->

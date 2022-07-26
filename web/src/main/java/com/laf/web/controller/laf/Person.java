@@ -13,6 +13,7 @@ import com.laf.service.service.MessageService;
 import com.laf.service.service.Oss.OssUploadService;
 import com.laf.service.service.PersonService;
 import com.laf.service.service.UserInfoService;
+import com.laf.service.service.impl.fastdfs.fastDfsService;
 import com.laf.service.service.lafPhotosService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,9 @@ public class Person {
 
     @Autowired
     private FastDFSWrapper fastDFSWrapper;
+
+    @Autowired
+    private fastDfsService fastDfsService;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
@@ -187,18 +191,19 @@ public class Person {
      * fastDfs upload文件测试
      */
     @RequestMapping(value = "/fastdfs-upload", method = RequestMethod.POST)
-    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        //getByte
-        byte[] fileBytes = multipartFile.getBytes();
-        //获取扩展名
-        String originName = multipartFile.getOriginalFilename();
-        //获取文件后缀
-        String suffix = originName.substring(originName.lastIndexOf("."));
-        //获取大小
-        long size = multipartFile.getSize();
-        String urlTail = fastDFSWrapper.uploadFile(fileBytes, size, suffix);
-        String resultUrl = "http://192.168.31.250:8080/" + urlTail;
-        return new ResponseResult(200, resultUrl);
+    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile,
+                                            HttpServletRequest servletRequest,
+                                            @RequestParam("id") Long id) throws IOException {
+        String resultUrl = fastDfsService.uploadImg(multipartFile);
+        lafPhotos lafPhotos = new lafPhotos();
+        Boolean judge = lafPhotosService.judgeIndexDisplay(id);
+        if (judge) {
+            lafPhotos.setLafPhotoUrl(resultUrl).setLafId(id);
+        } else {
+            lafPhotos.setLafPhotoUrl(resultUrl).setLafId(id).setIndexDisplay("0");
+        }
+        lafPhotosMapper.insert(lafPhotos);
+        return new ResponseResult(200, "文件上传成功", resultUrl);
     }
 
 }

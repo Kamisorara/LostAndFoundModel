@@ -31,7 +31,7 @@ public class FastDFSWrapper {
 
     /**
      * 文件上传
-     * 最后返回fastDFS中的文件名称;group1/M00/01/04/CgMKrVvS0geAQ0pzAACAAJxmBeM793.doc
+     * 最后返回fastDFS中的文件名称; group1/M00/01/04/CgMKrVvS0geAQ0pzAACAAJxmBeM793.doc
      *
      * @param bytes     文件字节
      * @param fileSize  文件大小
