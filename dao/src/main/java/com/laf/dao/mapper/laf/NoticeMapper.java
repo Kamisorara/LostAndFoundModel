@@ -58,4 +58,17 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //根据用户id查询用户帮助的启示的个数
     Integer countUserHelpedNotice(Long userId);
+
+    //根据用户id 查询用户 待处理（未上传图片）启示个数
+    Integer countUserHaveImgNotice(Long userId);
+
+    //查询用户总启示个数
+    Integer countUserTotalNoticeNum(Long userId);
+
+    //查询对应启示是否有图片
+    Integer countNoticeImg(Long noticeId);
+
+    //获取用户发布启示列表
+    List<Long> countUserPostNoticeList(Long userId);
+
 }

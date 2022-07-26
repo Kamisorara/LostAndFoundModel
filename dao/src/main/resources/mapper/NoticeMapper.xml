@@ -12,8 +12,7 @@
     <!--获取4条普通寻物启事信息(包括发布者id,发布者昵称,寻物启事id,相关图片)-->
     <select id="getSimpleLostInfo" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
         SELECT ln.id,
-               su.id as 'user_id',
-               lp.laf_photoUrl,
+               su.id as 'user_id', lp.laf_photoUrl,
                ln.type
 
         FROM `laf_notice` ln
@@ -23,14 +22,12 @@
           AND ln.`status` = 0
           AND ln.type = 0
           AND lp.index_display = 0
-        ORDER BY rand()
-        LIMIT 4;
+        ORDER BY rand() LIMIT 4;
     </select>
     <!--获取4条普通拾物启示信息-->
     <select id="getSimpleFoundList" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
         SELECT ln.id,
-               su.id as 'user_id',
-               lp.laf_photoUrl,
+               su.id as 'user_id', lp.laf_photoUrl,
                ln.type
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
@@ -39,14 +36,12 @@
           AND ln.`status` = 0
           AND ln.type = 1
           AND lp.index_display = 0
-        ORDER BY rand()
-        LIMIT 4;
+        ORDER BY rand() LIMIT 4;
     </select>
     <!--    随机获取4条紧急寻物启事信息-->
     <select id="getSimpleUrgencyLostList" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
         SELECT ln.id,
-               su.id as 'user_id',
-               lp.laf_photoUrl,
+               su.id as 'user_id', lp.laf_photoUrl,
                ln.type,
                su.user_name
         FROM `laf_notice` ln
@@ -57,14 +52,12 @@
           AND ln.type = 0
           AND urgency = 0
           AND lp.index_display = 0
-        ORDER BY rand()
-        LIMIT 4;
+        ORDER BY rand() LIMIT 4;
     </select>
     <!--    根据启示关键字搜索对应启示并分类获取-->
     <select id="getNoticeByKeyWords" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id as 'user_id',
-               lp.laf_photoUrl,
+               su.id as 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -74,13 +67,13 @@
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
-        WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%') AND lp.index_display = 0
+        WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
+          AND lp.index_display = 0
     </select>
     <!--    分页获取所有寻物启事列表-->
     <select id="getAllLostNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id AS 'user_id',
-               lp.laf_photoUrl,
+               su.id AS 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -91,13 +84,13 @@
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
-        WHERE ln.type = 0 AND lp.index_display = 0
+        WHERE ln.type = 0
+          AND lp.index_display = 0
     </select>
     <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息)-->
     <select id="getNoticeDetail" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id AS 'user_id',
-               lp.laf_photoUrl,
+               su.id AS 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -107,8 +100,7 @@
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
-        WHERE ln.id = #{noticeId}
-        LIMIT 1;
+        WHERE ln.id = #{noticeId} LIMIT 1;
     </select>
     <!--    获取该启示所有图片-->
     <select id="getAllNoticePhoto" resultType="java.lang.String">
@@ -121,8 +113,7 @@
     <!--    根据用户id 获取该用户帮助的启示-->
     <select id="getUserHelpedNoticeByUserId" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id AS 'user_id',
-               lp.laf_photoUrl,
+               su.id AS 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -138,8 +129,7 @@
     <!--    首页分页获取最近发布启示-->
     <select id="getRecentNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id AS 'user_id',
-               lp.laf_photoUrl,
+               su.id AS 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -155,14 +145,12 @@
         SELECT lp.laf_photoUrl
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
-        WHERE ln.id = #{noticeId}
-        LIMIT 4;
+        WHERE ln.id = #{noticeId} LIMIT 4;
     </select>
     <!--    分页获取所有拾物启事列表-->
     <select id="getAllFoundNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
         SELECT ln.id,
-               su.id AS 'user_id',
-               lp.laf_photoUrl,
+               su.id AS 'user_id', lp.laf_photoUrl,
                ln.type,
                sa.avatar_url,
                su.user_name,
@@ -173,7 +161,8 @@
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
 
-        WHERE ln.type = 1 AND lp.index_display = 0
+        WHERE ln.type = 1
+          AND lp.index_display = 0
 
     </select>
     <!--    根据启示id获取创建者id-->
@@ -193,6 +182,34 @@
         SELECT COUNT(*)
         FROM `laf_notice`
         WHERE helper_userId = #{userId};
+    </select>
+    <!--    根据用户id 查询用户有图片启示个数-->
+    <select id="countUserHaveImgNotice" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `laf_notice` ln
+                 LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
+        WHERE ln.create_id = #{userId}
+          AND lp.index_display = 0;
+    </select>
+    <!--    查询用户总启示个数-->
+    <select id="countUserTotalNoticeNum" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `laf_notice` ln
+        WHERE ln.create_id = 1540533503228669954;
+    </select>
+    <!--    查询对应启示是否有图片-->
+    <select id="countNoticeImg" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `laf_notice` ln
+                 LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
+        WHERE ln.id = #{noticeId}
+          AND ln.id = lp.laf_id;;
+    </select>
+    <!--    获取用户发布启示列表-->
+    <select id="countUserPostNoticeList" resultType="java.lang.Long">
+        SELECT ln.id
+        FROM `laf_notice` ln
+        WHERE ln.create_id = #{userId};
     </select>
 
 

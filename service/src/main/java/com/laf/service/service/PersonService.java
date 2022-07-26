@@ -24,6 +24,7 @@ public interface PersonService {
     //根据用户id 查询用户发布的启示的个数和帮助他人的启示的个数
     List<Integer> countUserNotice(Long userId);
 
-
+    //获取用户待处理列表
+    List<NoticeSearchResp> getUserWaitingNoticeList(Long userId);
 
 }

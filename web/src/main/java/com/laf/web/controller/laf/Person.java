@@ -15,6 +15,7 @@ import com.laf.service.service.PersonService;
 import com.laf.service.service.UserInfoService;
 import com.laf.service.service.impl.fastdfs.fastDfsService;
 import com.laf.service.service.lafPhotosService;
+import com.laf.service.service.utilService.tokenService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,7 +58,7 @@ public class Person {
     private lafPhotosService lafPhotosService;
 
     @Autowired
-    private FastDFSWrapper fastDFSWrapper;
+    private tokenService tokenService;
 
     @Autowired
     private fastDfsService fastDfsService;
@@ -67,12 +68,8 @@ public class Person {
      */
     @RequestMapping(value = "/get-person-detail", method = RequestMethod.GET)
     public ResponseResult getUserDetailInfo(HttpServletRequest request) throws Exception {
-        //获取token的id
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String id = claims.get("sub").toString();
-        Long id2 = Long.parseLong(id);
-        UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(id2);
+        Long userId = tokenService.getUserIdFromToken(request);
+        UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(userId);
         return new ResponseResult(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
 
@@ -104,12 +101,8 @@ public class Person {
     public ResponseResult leaveMessageToOther(HttpServletRequest request,
                                               @RequestParam("toUserId") Long toUserId,
                                               @RequestParam("message") String message) throws Exception {
-        //获取token的id
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String id = claims.get("sub").toString();
-        Long id2 = Long.parseLong(id);
-        Integer success = messageService.insertMessage(id2, toUserId, message);
+        Long userId = tokenService.getUserIdFromToken(request);
+        Integer success = messageService.insertMessage(userId, toUserId, message);
         if (success > 0) {
             return new ResponseResult(200, "留言成功");
         } else {
@@ -125,12 +118,8 @@ public class Person {
     public ResponseResult helpedPeople(HttpServletRequest request,
                                        @RequestParam("id") Long id,
                                        @RequestParam("userId") Long userId) throws Exception {
-        //获取token的id
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String personId = claims.get("sub").toString();
-        Long id2 = Long.parseLong(personId);
-        Boolean isPerson = personService.JudgeCreatedUser(id, id2);
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        Boolean isPerson = personService.JudgeCreatedUser(id, userIdFromToken);
         if (isPerson) {
             Boolean updateSucceed = personService.updateNoticeDoneStatus(id, userId);
             if (updateSucceed) {
@@ -157,12 +146,8 @@ public class Person {
      */
     @RequestMapping(value = "/get-userNotice-badge", method = RequestMethod.GET)
     public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
-        //获取token的id
-        String token = request.getHeader("token");
-        Claims claims = JwtUtil.parseJWT(token);
-        String personId = claims.get("sub").toString();
-        Long id2 = Long.parseLong(personId);
-        List<Integer> result = personService.countUserNotice(id2);
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        List<Integer> result = personService.countUserNotice(userIdFromToken);
         return new ResponseResult(200, "获取用户徽标值成功", result);
     }
 
@@ -204,6 +189,16 @@ public class Person {
         }
         lafPhotosMapper.insert(lafPhotos);
         return new ResponseResult(200, "文件上传成功", resultUrl);
+    }
+
+    /**
+     * 获取用户待处理列表
+     */
+    @RequestMapping(value = "/user-waiting", method = RequestMethod.GET)
+    public ResponseResult getUserWaitingNoticeLists(HttpServletRequest request) throws Exception {
+        Long userIdFromToken = tokenService.getUserIdFromToken(request);
+        List<NoticeSearchResp> userWaitingNoticeList = personService.getUserWaitingNoticeList(userIdFromToken);
+        return new ResponseResult(200, "获取用户待处理列表成功", userWaitingNoticeList);
     }
 
 }
