@@ -3,6 +3,7 @@ package com.laf.service.service.impl;
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 import com.laf.service.service.UserInfoService;
@@ -48,5 +49,21 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserDetailInfoResp getUserDetailInfo(Long userId) {
         UserDetailInfoResp userDetailInfo = userMapper.getUserDetailInfo(userId);
         return userDetailInfo;
+    }
+
+    /**
+     * 根据用户名userName 查找用户
+     *
+     * @param userName
+     * @return
+     */
+    @Override
+    public ResponseResult getUserByUserName(String userName) {
+        try {
+            userResp userInfo = userMapper.searchUserByUserName(userName);
+            return new ResponseResult(200, "搜索用户" + userInfo.getUserName() + "成功", userInfo);
+        } catch (NullPointerException exception) {
+            return new ResponseResult(400, "未查到到该用户");
+        }
     }
 }

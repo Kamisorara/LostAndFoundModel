@@ -73,8 +73,7 @@ public class Person {
      */
     @RequestMapping(value = "/get-person-board", method = RequestMethod.GET)
     public ResponseResult getPersonBoard(@RequestParam("id") Long id) {
-        List<MessageResp> userLeaveMessage =
-                messageService.getUserLeaveMessage(id);
+        List<MessageResp> userLeaveMessage = messageService.getUserLeaveMessage(id);
         return new ResponseResult(200, "获取用户留言信息成功", userLeaveMessage);
     }
 
@@ -83,8 +82,7 @@ public class Person {
      */
     @RequestMapping(value = "/get-all-completed", method = RequestMethod.GET)
     public ResponseResult getUserHelpedNoticeList(@RequestParam("id") Long id) {
-        List<NoticeSearchResp> userHelpedNotice =
-                personService.getUserHelpedNotice(id);
+        List<NoticeSearchResp> userHelpedNotice = personService.getUserHelpedNotice(id);
         return new ResponseResult(200, "获取用户帮助列表成功", userHelpedNotice);
     }
 
@@ -93,9 +91,7 @@ public class Person {
      * 根据用户id 给用户留言
      */
     @RequestMapping(value = "/leave-message", method = RequestMethod.POST)
-    public ResponseResult leaveMessageToOther(HttpServletRequest request,
-                                              @RequestParam("toUserId") Long toUserId,
-                                              @RequestParam("message") String message) throws Exception {
+    public ResponseResult leaveMessageToOther(HttpServletRequest request, @RequestParam("toUserId") Long toUserId, @RequestParam("message") String message) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
         Integer success = messageService.insertMessage(userId, toUserId, message);
         if (success > 0) {
@@ -110,9 +106,7 @@ public class Person {
      * 填写用户id 将用户启示更新为已完成状态
      */
     @RequestMapping(value = "/helped-people", method = RequestMethod.POST)
-    public ResponseResult helpedPeople(HttpServletRequest request,
-                                       @RequestParam("id") Long id,
-                                       @RequestParam("userId") Long userId) throws Exception {
+    public ResponseResult helpedPeople(HttpServletRequest request, @RequestParam("id") Long id, @RequestParam("userId") Long userId) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         Boolean isPerson = personService.JudgeCreatedUser(id, userIdFromToken);
         if (isPerson) {
@@ -151,9 +145,7 @@ public class Person {
      */
     //上传文件(开放权限)
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile,
-                                     HttpServletRequest servletRequest,
-                                     @RequestParam("id") Long id) {
+    public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) {
 
         String url = ossUploadService.uploadFile(multipartFile);
         lafPhotos lafPhotos = new lafPhotos();
@@ -171,9 +163,7 @@ public class Person {
      * fastDfs upload文件测试
      */
     @RequestMapping(value = "/fastdfs-upload", method = RequestMethod.POST)
-    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile,
-                                            HttpServletRequest servletRequest,
-                                            @RequestParam("id") Long id) throws IOException {
+    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) throws IOException {
         String resultUrl = fastDfsService.uploadImg(multipartFile);
         lafPhotos lafPhotos = new lafPhotos();
         Boolean judge = lafPhotosService.judgeIndexDisplay(id);

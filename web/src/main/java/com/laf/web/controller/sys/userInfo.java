@@ -57,4 +57,12 @@ public class userInfo {
         return new ResponseResult(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
 
+    /**
+     * 根据用户名搜索用户
+     */
+    @RequestMapping(value = "/search-user", method = RequestMethod.POST)
+    public ResponseResult getUserByUserName(@RequestParam("userName") String userName) {
+        return userInfoService.getUserByUserName(userName);
+    }
+
 }

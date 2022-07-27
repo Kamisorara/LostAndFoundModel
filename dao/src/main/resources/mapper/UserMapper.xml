@@ -66,4 +66,14 @@
         WHERE su.id = #{userId}
           AND sa.`status` = 0;
     </select>
+    <!--    根据用户名userName 查询该用户-->
+    <select id="searchUserByUserName" resultType="com.laf.entity.entity.resp.userResp">
+        SELECT su.id,
+               sa.avatar_url,
+               su.user_name
+        FROM `sys_user` su
+                 LEFT JOIN sys_avatar sa ON su.id = sa.user_id
+            AND sa.`status` = 0
+        WHERE su.user_name = #{userName};
+    </select>
 </mapper>

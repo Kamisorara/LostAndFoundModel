@@ -36,4 +36,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户id 获取用户昵称，头像
     userResp getUserNameAndAvatarByUserId(Long userId);
+
+    //根据用户名userName 查询哦用户
+    userResp searchUserByUserName(String userName);
 }

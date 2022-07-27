@@ -208,13 +208,13 @@
         FROM `laf_notice` ln
         WHERE ln.create_id = 1540533503228669954;
     </select>
-    <!--    查询对应启示是否有图片-->
+    <!--    查询对应启示是否有图片并且该启示是未完成状态-->
     <select id="countNoticeImg" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
         WHERE ln.id = #{noticeId}
-          AND ln.id = lp.laf_id;;
+          AND ln.id = lp.laf_id;
     </select>
     <!--    获取用户发布启示列表-->
     <select id="countUserPostNoticeList" resultType="java.lang.Long">
