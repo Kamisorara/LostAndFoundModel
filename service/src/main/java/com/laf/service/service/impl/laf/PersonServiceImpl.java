@@ -80,7 +80,14 @@ public class PersonServiceImpl implements PersonService {
         List<Integer> result = new ArrayList<>();
         Integer userPostNoticeNum = noticeMapper.countUserPostNotice(userId);
         Integer userHelpedNoticeNum = noticeMapper.countUserHelpedNotice(userId);
-        Integer waiting = noticeMapper.countUserTotalNoticeNum(userId) - noticeMapper.countUserHaveImgNotice(userId);
+        Integer waiting = 0;
+        List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
+        for (Long noticeId : noticeIdLists) {
+            Integer num = noticeMapper.countNoticeImg(noticeId);
+            if (num == 0) {
+                waiting++;
+            }
+        }
         result.add(userPostNoticeNum);
         result.add(waiting);
         result.add(userHelpedNoticeNum);

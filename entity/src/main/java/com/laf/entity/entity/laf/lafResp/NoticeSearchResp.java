@@ -36,4 +36,7 @@ public class NoticeSearchResp {
 
     //启示浏览次数
     private Integer view;
+
+    //启示是否已完成(0完成，1未完成)
+    private String done;
 }
