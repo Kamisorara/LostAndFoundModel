@@ -151,9 +151,12 @@ public class Person {
         lafPhotos lafPhotos = new lafPhotos();
         Boolean judge = lafPhotosService.judgeIndexDisplay(id);
         if (judge) {
-            lafPhotos.setLafPhotoUrl(url).setLafId(id);
+            lafPhotos.setLafPhotoUrl(url);
+            lafPhotos.setLafId(id);
         } else {
-            lafPhotos.setLafPhotoUrl(url).setLafId(id).setIndexDisplay("0");
+            lafPhotos.setLafPhotoUrl(url);
+            lafPhotos.setLafId(id);
+            lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
         return new ResponseResult(200, "文件上传成功", url);
@@ -168,9 +171,12 @@ public class Person {
         lafPhotos lafPhotos = new lafPhotos();
         Boolean judge = lafPhotosService.judgeIndexDisplay(id);
         if (judge) {
-            lafPhotos.setLafPhotoUrl(resultUrl).setLafId(id);
+            lafPhotos.setLafPhotoUrl(resultUrl);
+            lafPhotos.setLafId(id);
         } else {
-            lafPhotos.setLafPhotoUrl(resultUrl).setLafId(id).setIndexDisplay("0");
+            lafPhotos.setLafPhotoUrl(resultUrl);
+            lafPhotos.setLafId(id);
+            lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
         return new ResponseResult(200, "文件上传成功", resultUrl);

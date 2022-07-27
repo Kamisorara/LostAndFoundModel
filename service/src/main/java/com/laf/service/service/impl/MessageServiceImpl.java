@@ -36,7 +36,9 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Integer insertMessage(Long userId, Long otherId, String message) {
         Message messages = new Message();
-        messages.setLeaveUserid(userId).setToUserid(otherId).setMessage(message);
+        messages.setLeaveUserid(userId);
+        messages.setToUserid(otherId);
+        messages.setMessage(message);
         return messageMapper.insert(messages);
     }
 }

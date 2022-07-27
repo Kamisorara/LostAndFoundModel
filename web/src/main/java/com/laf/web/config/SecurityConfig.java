@@ -49,7 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //对于登录接口允许匿名访问
-                .antMatchers("/sys/user-common/**","/laf/index/**").permitAll()
+                .antMatchers("/sys/user-common/**",
+                        "/laf/index/**",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/webjars/**"
+                ).permitAll()
                 //除了上面的接口都要进行权限认证
                 .anyRequest().authenticated();
         //把token校验过滤器添加到过滤器链中 （添加过滤器）

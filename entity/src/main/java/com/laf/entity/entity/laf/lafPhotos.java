@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 @TableName(value = "laf_photos")
 public class lafPhotos {
     //启示对应图片id

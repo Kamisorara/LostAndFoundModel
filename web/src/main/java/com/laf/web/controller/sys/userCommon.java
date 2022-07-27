@@ -84,7 +84,8 @@ public class userCommon {
                 userRoleMapper.insert(userRole);
                 //在注册成功后在rank表中添加此用户
                 Rank rank = new Rank();
-                rank.setUserId(userIdInDataBase).setHelpTimes(0);
+                rank.setUserId(userIdInDataBase);
+                rank.setHelpTimes(0);
                 rankMapper.insert(rank);
                 map.put("Info", email + "用户" + "注册成功！");
                 return new ResponseResult(200, "注册成功!", map);

@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 public class UserResp {
 
     private Long id;

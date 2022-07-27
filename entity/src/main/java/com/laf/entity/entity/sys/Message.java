@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 @TableName(value = "sys_message")
 public class Message {
     //用户留言板对应id

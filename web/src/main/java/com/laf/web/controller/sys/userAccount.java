@@ -78,9 +78,11 @@ public class userAccount {
         String avatarUrl = ossUploadService.uploadFile(multipartFile);
         String id = servletRequest.getHeader("userId");
         long userId = Long.parseLong(id);
-        Avatar avatarInsert = avatar.setUserId(userId).setStatus(0).setAvatarUrl(avatarUrl);
+        avatar.setUserId(userId);
+        avatar.setStatus(0);
+        avatar.setAvatarUrl(avatarUrl);
         avatarMapper.updateUserHeadStatus(userId);
-        int succeed = avatarMapper.insert(avatarInsert);
+        int succeed = avatarMapper.insert(avatar);
         return new ResponseResult(200, "头像修改成功", avatarUrl);
     }
 }

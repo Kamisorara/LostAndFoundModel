@@ -8,7 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.Import;
 import org.springframework.jmx.support.RegistrationPolicy;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
+@EnableOpenApi
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "com.laf.entity",

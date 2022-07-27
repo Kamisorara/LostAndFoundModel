@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 @TableName(value = "sys_user")
 public class User {
     //用户id

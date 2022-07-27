@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   #配置数据源
   datasource:
     url: jdbc:mysql://192.168.31.250:3306/LostAndFound?characterEncoding=utf-8&serverTimezone=UTC
@@ -42,5 +45,5 @@ fdfs:
     height: 150
   tracker-list:
     # 可写多个tracker-server地址
-    - 192.168.31.250:22122
+    - :22122
 

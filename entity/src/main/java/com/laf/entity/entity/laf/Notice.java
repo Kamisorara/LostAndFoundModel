@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 @TableName(value = "laf_notice")
 public class Notice {
     //启示对应id

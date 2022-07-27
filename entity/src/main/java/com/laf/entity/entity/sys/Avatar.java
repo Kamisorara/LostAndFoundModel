@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "sys_avatar")
-@Accessors(chain = true)
+
 public class Avatar {
     //用户头像唯一id
     @JsonSerialize(using = ToStringSerializer.class)

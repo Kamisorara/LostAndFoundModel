@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 public class UserDetailInfoResp {
     private Long id;
 

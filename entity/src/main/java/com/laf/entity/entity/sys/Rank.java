@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+
 @TableName(value= "sys_rank")
 public class Rank {
     //用户排行榜对应id
