@@ -7,6 +7,8 @@ import com.laf.entity.entity.sys.Avatar;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.Oss.OssUploadService;
 import com.laf.service.service.UserInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * 用户账号相关接口
  * 权限要求:sys:common:user
  */
+@Api(tags = "userAccount用户账号相关接口", description = "需要sys:common:user权限")
 @RestController
 @RequestMapping("/sys/user-account")
 @PreAuthorize("@ex.hasAuthority('sys:common:user')")
@@ -39,6 +42,7 @@ public class userAccount {
     /**
      * 退出
      */
+    @ApiOperation("退出")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseResult logout() {
         return loginService.logout();
@@ -48,6 +52,7 @@ public class userAccount {
     /**
      * 更新密码
      */
+    @ApiOperation("更新密码")
     @RequestMapping(value = "/update-password", method = RequestMethod.POST)
     public ResponseResult updatePassword(@RequestParam("id") Long id,
                                          @RequestParam("oldPassword") String oldPassword,
@@ -59,6 +64,7 @@ public class userAccount {
     /**
      * 修改个人信息
      */
+    @ApiOperation("修改个人信息")
     @RequestMapping(value = "/update-userInfo", method = RequestMethod.POST)
     public ResponseResult updateUserInfo(@RequestParam("id") Long userId,
                                          @RequestParam("userName") String userName,
@@ -71,6 +77,7 @@ public class userAccount {
     /**
      * 修改个人头像
      */
+    @ApiOperation("修改个人头像")
     @RequestMapping(value = "/update-user-avatar", method = RequestMethod.POST)
     public ResponseResult updateUserAvatar(@RequestParam("file") MultipartFile multipartFile,
                                            HttpServletRequest servletRequest) {

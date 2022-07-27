@@ -26,6 +26,8 @@
         <module>service</module>
         <module>web</module>
     </modules>
+
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,7 +41,7 @@
         </dependency>
     </dependencies>
 
-     <build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

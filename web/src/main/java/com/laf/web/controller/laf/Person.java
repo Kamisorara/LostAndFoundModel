@@ -14,6 +14,7 @@ import com.laf.service.service.UserInfoService;
 import com.laf.service.service.impl.fastdfs.fastDfsService;
 import com.laf.service.service.lafPhotosService;
 import com.laf.service.service.utilService.tokenService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import java.util.List;
 /**
  * 用户个人界面相关接口
  */
+@Api(tags = "Person用户个人界面相关接口", description = "需要sys:common:user")
 @RestController
 @RequestMapping("/laf/person")
 @PreAuthorize("@ex.hasAuthority('sys:common:user')")

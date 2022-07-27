@@ -9,6 +9,8 @@ import com.laf.entity.entity.sys.User;
 import com.laf.entity.entity.sys.UserRole;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.VerifyService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,7 @@ import java.util.Map;
  * 用户账号相关(开放匿名接口)
  * 权限要求：null
  */
-
+@Api(tags = "用户账号相关", description = "(开放匿名接口)")
 @RestController
 @RequestMapping("/sys/user-common")
 public class userCommon {
@@ -47,6 +49,7 @@ public class userCommon {
     /**
      * 登录接口
      */
+    @ApiOperation("登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseResult login(HttpServletRequest request) {
         String username = request.getParameter("username");
@@ -61,6 +64,7 @@ public class userCommon {
     /**
      * 注册接口
      */
+    @ApiOperation("注册接口")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseResult register(@RequestParam("username") String username,
                                    @RequestParam("password") String password,
@@ -104,6 +108,7 @@ public class userCommon {
      * @param email
      * @return
      */
+    @ApiOperation("发送验证码")
     @RequestMapping(value = "/verify-code", method = RequestMethod.POST)
     public ResponseResult verifyCode(@RequestParam("email") String email) {
         Map<String, Object> map = new HashMap<>();
