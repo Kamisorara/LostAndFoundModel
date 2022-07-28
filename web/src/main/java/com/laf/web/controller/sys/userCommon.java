@@ -64,11 +64,18 @@ public class userCommon {
     public ResponseResult login(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = new User();
-        user.setUserName(username);
-        user.setPassword(password);
-        //登录操作
-        return loginService.login(user);
+        String uuid = request.getParameter("uuid");
+        String verifyCode = request.getParameter("verifyCode");
+        String trueCode = redisCache.getCacheObject(uuid);
+        if (!trueCode.equals(verifyCode)) {
+            return new ResponseResult(400, "登录失败验证码错误！");
+        } else {
+            User user = new User();
+            user.setUserName(username);
+            user.setPassword(password);
+            //登录操作
+            return loginService.login(user);
+        }
     }
 
     /**
