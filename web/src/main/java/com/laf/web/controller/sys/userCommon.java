@@ -3,24 +3,28 @@ package com.laf.web.controller.sys;
 import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.UserRoleMapper;
+import com.laf.entity.entity.logincode.LoginProperties;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.Rank;
 import com.laf.entity.entity.sys.User;
 import com.laf.entity.entity.sys.UserRole;
+import com.laf.entity.enums.LoginCodeEnum;
+import com.laf.entity.utils.RedisCache;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.VerifyService;
+import com.wf.captcha.base.Captcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户账号相关(开放匿名接口)
@@ -45,6 +49,12 @@ public class userCommon {
 
     @Autowired
     private RankMapper rankMapper;
+
+    @Resource
+    private LoginProperties loginProperties;
+
+    @Resource
+    private RedisCache redisCache;
 
     /**
      * 登录接口
@@ -119,6 +129,32 @@ public class userCommon {
         }
     }
 
+    /**
+     * 登录验证码
+     *
+     * @return
+     */
+    // fhadmin.cn
+    @ApiOperation(value = "获取验证码", notes = "获取验证码")
+    @GetMapping("/loginVerifyCode")
+    public Object getCode() {
+
+        Captcha captcha = loginProperties.getCaptcha();
+        String uuid = "code-key-" + UUID.randomUUID();
+        //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
+        String captchaValue = captcha.text();
+        if (captcha.getCharType() - 1 == LoginCodeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
+            captchaValue = captchaValue.split("\\.")[0];
+        }
+        // 保存
+        redisCache.setCacheObject(uuid, captchaValue, Math.toIntExact(loginProperties.getLoginCode().getExpiration()), TimeUnit.MINUTES);
+        // 验证码信息
+        Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
+            put("img", captcha.toBase64());
+            put("uuid", uuid);
+        }};
+        return imgResult;
+    }
 
     /**
      * 测试用(之后删除)
