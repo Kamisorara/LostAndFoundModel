@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -100,14 +101,18 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<NoticeSearchResp> getUserWaitingNoticeList(Long userId) {
         List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
-        List<NoticeSearchResp> result = new ArrayList<>();
-        for (Long noticeId : noticeIdLists) {
-            Integer num = noticeMapper.countNoticeImg(noticeId);
-            if (num == 0) {
-                NoticeSearchResp noticeDetail = noticeMapper.getNoticeDetail(noticeId);
-                result.add(noticeDetail);
-            }
-        }
+        List<NoticeSearchResp> result = noticeIdLists.stream()
+                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) != 0)
+                .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
+                .collect(Collectors.toList());
+//        List<NoticeSearchResp> result = new ArrayList<>();
+//        for (Long noticeId : noticeIdLists) {
+//            Integer num = noticeMapper.countNoticeImg(noticeId);
+//            if (num == 0) {
+//                NoticeSearchResp noticeDetail = noticeMapper.getNoticeDetail(noticeId);
+//                result.add(noticeDetail);
+//            }
+//        }
         return result;
     }
 }

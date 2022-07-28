@@ -111,7 +111,6 @@ public class userCommon {
     @ApiOperation("发送验证码")
     @RequestMapping(value = "/verify-code", method = RequestMethod.POST)
     public ResponseResult verifyCode(@RequestParam("email") String email) {
-        Map<String, Object> map = new HashMap<>();
         try {
             verifyService.sendVerifyCode(email);
             return new ResponseResult(200, "邮件发送成功");
@@ -124,7 +123,8 @@ public class userCommon {
     /**
      * 测试用(之后删除)
      */
-    @RequestMapping(value = "/select-user")
+    @ApiOperation("测试接口（可忽略）")
+    @RequestMapping(value = "/select-user", method = RequestMethod.GET)
     public ResponseResult select(@RequestParam("id") Long id) {
         User user = userMapper.selectById(id);
         return new ResponseResult(200, "获取", user);
