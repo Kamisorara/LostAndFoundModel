@@ -35,7 +35,8 @@ class WebApplicationTests {
         User user = new User();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode("123123");
-        user.setUserName("Kamisora").setPassword(encode);
+        user.setUserName("Kamisora");
+        user.setPassword(encode);
         int insert = userMapper.insert(user);
         System.out.println(insert);
     }

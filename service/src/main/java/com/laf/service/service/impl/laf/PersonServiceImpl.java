@@ -101,10 +101,15 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<NoticeSearchResp> getUserWaitingNoticeList(Long userId) {
         List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
-        List<NoticeSearchResp> result = noticeIdLists.stream()
-                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) != 0)
+
+
+        List<NoticeSearchResp> result = noticeIdLists
+                .stream()
+                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
                 .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
                 .collect(Collectors.toList());
+
+
 //        List<NoticeSearchResp> result = new ArrayList<>();
 //        for (Long noticeId : noticeIdLists) {
 //            Integer num = noticeMapper.countNoticeImg(noticeId);

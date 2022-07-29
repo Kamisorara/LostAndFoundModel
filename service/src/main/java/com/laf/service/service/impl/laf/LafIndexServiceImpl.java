@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LafIndexServiceImpl implements LafIndexService {
@@ -96,12 +97,17 @@ public class LafIndexServiceImpl implements LafIndexService {
         page.setCurrent(pageNum);
         IPage<NoticeSearchResp> recentNotice = noticeMapper.getRecentNotice(page);
         List<NoticeSearchResp> records = recentNotice.getRecords();
-        for (NoticeSearchResp notice :
-                records) {
-            Long id = notice.getId();
-            List<String> allNoticePhotoLimit4 = noticeMapper.getAllNoticePhotoLimit4(id);
+        for (NoticeSearchResp notice : records) {
+            List<String> allNoticePhotoLimit4 = noticeMapper.getAllNoticePhotoLimit4(notice.getId());
             notice.setLafPhotoUrls(allNoticePhotoLimit4);
         }
+//以下代码有Bug 暂不启用
+//        recentNotice.getRecords()
+//                .stream()
+//                .map(notice -> noticeMapper.getAllNoticePhotoLimit4(notice.getId()))
+//                .collect(Collectors.toList());
+
+
         return recentNotice;
 
     }

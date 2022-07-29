@@ -1,10 +1,14 @@
 package com.laf.service.service.impl;
 
 
+import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
+import com.laf.dao.mapper.UserRoleMapper;
 import com.laf.entity.entity.LoginUser;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.sys.Rank;
 import com.laf.entity.entity.sys.User;
+import com.laf.entity.entity.sys.UserRole;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.entity.utils.RedisCache;
 import com.laf.service.service.LoginService;
@@ -16,9 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,12 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RankMapper rankMapper;
 
     /**
      * 登录
@@ -71,15 +78,20 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-     * 注册接口
+     * 注册
+     *
+     * @param username       用户名
+     * @param password       密码
+     * @param passwordRepeat 重复密码
+     * @param email          邮箱地址
+     * @param verify         邮箱验证码
      */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseResult register(@RequestParam("username") String username,
-                                   @RequestParam("password") String password,
-                                   @RequestParam("password2") String passwordRepeat,
-                                   @RequestParam("email") String email,
-                                   @RequestParam("verify") String verify) {
-        Map<String, Object> map = new HashMap<>();
+    @Override
+    public ResponseResult register(String username,
+                                   String password,
+                                   String passwordRepeat,
+                                   String email,
+                                   String verify) {
         try {
             if (verifyService.doVerify(email, verify) && password.equals(passwordRepeat)) {
                 User user = new User();
@@ -89,15 +101,25 @@ public class LoginServiceImpl implements LoginService {
                 String encode = encoder.encode(password);
                 user.setPassword(encode);
                 userMapper.insert(user);
-                map.put("Info", email + "用户" + "注册成功！");
-                return new ResponseResult(200, "注册成功!", map);
+                Long userIdInDataBase = userMapper.selectUserIdByUserName(username);
+                UserRole userRole = new UserRole();
+                userRole.setUserId(userIdInDataBase);
+                userRole.setRoleId(1L);//默认注册用户默认附上普通用户角色
+                userRoleMapper.insert(userRole);
+                //在注册成功后在rank表中添加此用户
+                Rank rank = new Rank();
+                rank.setUserId(userIdInDataBase);
+                rank.setHelpTimes(0);
+                rankMapper.insert(rank);
+                return new ResponseResult(200, "用户:" + email + "注册成功!");
             } else {
                 return new ResponseResult(400, "注册失败，请检查邮箱验证码或是密码是是否输入正确");
             }
         } catch (Exception e) {
-            return new ResponseResult(400, "发生未知错误!");
+            return new ResponseResult(401, "发生未知错误!");
         }
     }
+
 
     /**
      * 退出
