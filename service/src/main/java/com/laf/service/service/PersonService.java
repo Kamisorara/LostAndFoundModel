@@ -27,4 +27,7 @@ public interface PersonService {
     //获取用户待处理列表
     List<NoticeSearchResp> getUserWaitingNoticeList(Long userId);
 
+    //根据用户id 删除用户本人发布启示(逻辑删除)
+    Boolean deleteUserPersonalNotice(Long userId, Long noticeId);
+
 }

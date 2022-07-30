@@ -15,6 +15,7 @@ import com.laf.service.service.impl.fastdfs.fastDfsService;
 import com.laf.service.service.lafPhotosService;
 import com.laf.service.service.utilService.tokenService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,7 @@ public class Person {
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
      */
+    @ApiOperation("根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）")
     @RequestMapping(value = "/get-person-detail", method = RequestMethod.GET)
     public ResponseResult getUserDetailInfo(HttpServletRequest request) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
@@ -73,6 +75,7 @@ public class Person {
     /**
      * 根据用户id 获取用户对用留言板
      */
+    @ApiOperation("根据用户id 获取用户对用留言板")
     @RequestMapping(value = "/get-person-board", method = RequestMethod.GET)
     public ResponseResult getPersonBoard(@RequestParam("id") Long id) {
         List<MessageResp> userLeaveMessage = messageService.getUserLeaveMessage(id);
@@ -82,6 +85,7 @@ public class Person {
     /**
      * 根据用户id获取用户帮助过的启示列表
      */
+    @ApiOperation("根据用户id获取用户帮助过的启示列表")
     @RequestMapping(value = "/get-all-completed", method = RequestMethod.GET)
     public ResponseResult getUserHelpedNoticeList(@RequestParam("id") Long id) {
         List<NoticeSearchResp> userHelpedNotice = personService.getUserHelpedNotice(id);
@@ -92,6 +96,7 @@ public class Person {
     /**
      * 根据用户id 给用户留言
      */
+    @ApiOperation("根据用户id 给用户留言")
     @RequestMapping(value = "/leave-message", method = RequestMethod.POST)
     public ResponseResult leaveMessageToOther(HttpServletRequest request, @RequestParam("toUserId") Long toUserId, @RequestParam("message") String message) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
@@ -107,6 +112,7 @@ public class Person {
     /**
      * 填写用户id 将用户启示更新为已完成状态
      */
+    @ApiOperation("填写用户id 将用户启示更新为已完成状态")
     @RequestMapping(value = "/helped-people", method = RequestMethod.POST)
     public ResponseResult helpedPeople(HttpServletRequest request, @RequestParam("id") Long id, @RequestParam("userId") Long userId) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
@@ -126,6 +132,7 @@ public class Person {
     /**
      * 当用户输入失去焦点时自动提交并检索
      */
+    @ApiOperation("当用户输入失去焦点时自动提交并检索")
     @RequestMapping(value = "/select-username-avatar", method = RequestMethod.POST)
     public ResponseResult selectUserNameAndAvatar(@RequestParam("id") Long id) {
         userResp userResp = personService.getUserResp(id);
@@ -135,6 +142,7 @@ public class Person {
     /**
      * 根据用户token中的用户id 获取徽标值
      */
+    @ApiOperation("根据用户token中的用户id 获取徽标值")
     @RequestMapping(value = "/get-userNotice-badge", method = RequestMethod.GET)
     public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
@@ -146,6 +154,7 @@ public class Person {
      * 测试文件上传接口
      */
     //上传文件(开放权限)
+    @ApiOperation("OSS文件上传（已弃用）")
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) {
 
@@ -167,6 +176,7 @@ public class Person {
     /**
      * fastDfs upload文件测试
      */
+    @ApiOperation(" fastDfs upload文件测试(可以使用)")
     @RequestMapping(value = "/fastdfs-upload", method = RequestMethod.POST)
     public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) throws IOException {
         String resultUrl = fastDfsService.uploadImg(multipartFile);
@@ -187,6 +197,7 @@ public class Person {
     /**
      * 获取用户待处理列表
      */
+    @ApiOperation("获取用户待处理列表")
     @RequestMapping(value = "/user-waiting", method = RequestMethod.GET)
     public ResponseResult getUserWaitingNoticeLists(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
@@ -195,4 +206,18 @@ public class Person {
     }
 
 
+    /**
+     * 根据启示id删除自己发布的启示
+     */
+    @ApiOperation("根据启示id删除自己发布的启示")
+    @RequestMapping(value = "/delete-personal-notice", method = RequestMethod.POST)
+    public ResponseResult deleteUserPersonalNotice(HttpServletRequest request, @RequestParam("id") Long id) throws Exception {
+        Long userId = tokenService.getUserIdFromToken(request);
+        Boolean succeed = personService.deleteUserPersonalNotice(userId, id);
+        if (succeed) {
+            return new ResponseResult(200, "该notice删除成功");
+        } else {
+            return new ResponseResult(400, "notice删除失败");
+        }
+    }
 }

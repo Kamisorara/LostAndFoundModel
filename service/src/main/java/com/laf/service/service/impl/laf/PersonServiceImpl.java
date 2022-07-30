@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,16 +82,17 @@ public class PersonServiceImpl implements PersonService {
         List<Integer> result = new ArrayList<>();
         Integer userPostNoticeNum = noticeMapper.countUserPostNotice(userId);
         Integer userHelpedNoticeNum = noticeMapper.countUserHelpedNotice(userId);
-        Integer waiting = 0;
         List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
-        for (Long noticeId : noticeIdLists) {
-            Integer num = noticeMapper.countNoticeImg(noticeId);
-            if (num == 0) {
-                waiting++;
-            }
-        }
+
+        List<NoticeSearchResp> waitingNum = noticeIdLists
+                .stream()
+                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
+                .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
+                .filter(notice -> notice.getStatus().equals("0"))
+                .collect(Collectors.toList());
+
         result.add(userPostNoticeNum);
-        result.add(waiting);
+        result.add(waitingNum.size());
         result.add(userHelpedNoticeNum);
         return result;
     }
@@ -107,8 +109,8 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
                 .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
+                .filter(notice -> notice.getStatus().equals("0"))
                 .collect(Collectors.toList());
-
 
 //        List<NoticeSearchResp> result = new ArrayList<>();
 //        for (Long noticeId : noticeIdLists) {
@@ -119,5 +121,22 @@ public class PersonServiceImpl implements PersonService {
 //            }
 //        }
         return result;
+    }
+
+    /**
+     * 根据用户id 删除用户本人发布启示(逻辑删除)
+     *
+     * @param userId   用户id
+     * @param noticeId 启示id
+     * @return true or false
+     */
+    @Override
+    public Boolean deleteUserPersonalNotice(Long userId, Long noticeId) {
+        Long noticeCreatedUserId = noticeMapper.getNoticeCreatedUserId(noticeId);
+        if (noticeCreatedUserId.equals(userId)) {
+            Integer num = noticeMapper.updateUserPersonalNoticeStatus(noticeId);
+            return num > 0;
+        }
+        return false;
     }
 }

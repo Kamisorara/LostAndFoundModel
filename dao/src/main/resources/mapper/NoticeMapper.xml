@@ -8,7 +8,12 @@
             ln.helper_userId = #{userId}
         WHERE ln.id = #{noticeId};
     </update>
-
+    <!--    逻辑删除用户notice-->
+    <update id="updateUserPersonalNoticeStatus">
+        UPDATE laf_notice lf
+        SET lf.`status` = 1
+        WHERE lf.id = #{noticeId};
+    </update>
     <!--获取4条普通寻物启事信息(包括发布者id,发布者昵称,寻物启事id,相关图片)-->
     <select id="getSimpleLostInfo" resultType="com.laf.entity.entity.laf.lafResp.NoticeIndexResp">
         SELECT ln.id,
@@ -88,6 +93,7 @@
             AND sa.`status` = 0
 
         WHERE ln.type = 0
+          AND ln.`status` = 0
           AND lp.index_display = 0
     </select>
     <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息)-->
@@ -99,7 +105,8 @@
                su.user_name,
                ln.message,
                ln.view,
-               ln.done
+               ln.done,
+               ln.status
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -146,6 +153,7 @@
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
                  LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
             AND sa.`status` = 0
+        WHERE ln.`status` = 0
     </select>
     <!--    获取该启示最多四张图片-->
     <select id="getAllNoticePhotoLimit4" resultType="java.lang.String">
@@ -171,6 +179,7 @@
             AND sa.`status` = 0
 
         WHERE ln.type = 1
+          AND ln.`status` = 0
           AND lp.index_display = 0
 
     </select>
@@ -183,8 +192,9 @@
     <!--    根据用户id查询用户发布的启示个数（包括寻物和拾物）-->
     <select id="countUserPostNotice" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM `laf_notice`
-        WHERE create_id = #{userId};
+        FROM `laf_notice` ln
+        WHERE ln.create_id = #{userId}
+          AND ln.`status` = 0;
     </select>
     <!--    根据用户id查询用户帮助的启示的个数-->
     <select id="countUserHelpedNotice" resultType="java.lang.Integer">
@@ -197,8 +207,9 @@
         SELECT COUNT(*)
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
-        WHERE ln.create_id = #{userId}
-          AND lp.index_display = 0;
+        WHERE ln.create_id = 1540533503228669954
+          AND lp.index_display = 0
+          AND ln.`status` = 0;
     </select>
     <!--    查询用户总启示个数-->
     <select id="countUserTotalNoticeNum" resultType="java.lang.Integer">
@@ -212,7 +223,9 @@
         FROM `laf_notice` ln
                  LEFT JOIN laf_photos lp ON ln.id = lp.laf_id
         WHERE ln.id = #{noticeId}
-          AND ln.id = lp.laf_id;
+          AND ln.id = lp.laf_id
+          AND ln.done = 1
+          AND ln.`status` = 0;
     </select>
     <!--    获取用户发布启示列表-->
     <select id="countUserPostNoticeList" resultType="java.lang.Long">

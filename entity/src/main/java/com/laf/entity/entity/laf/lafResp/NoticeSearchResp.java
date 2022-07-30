@@ -39,4 +39,7 @@ public class NoticeSearchResp {
 
     //启示是否已完成(0完成，1未完成)
     private String done;
+
+    //是否删除状态
+    private String status;
 }

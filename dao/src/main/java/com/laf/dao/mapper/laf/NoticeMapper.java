@@ -71,4 +71,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     //获取用户发布启示列表
     List<Long> countUserPostNoticeList(Long userId);
 
+    //逻辑删除用户notice
+    Integer updateUserPersonalNoticeStatus(Long noticeId);
 }
