@@ -7,6 +7,7 @@ import com.laf.entity.entity.sys.User;
 import com.laf.entity.enums.LoginCodeEnum;
 import com.laf.entity.utils.RedisCache;
 import com.laf.service.service.LoginService;
+import com.laf.service.service.UserInfoService;
 import com.laf.service.service.VerifyService;
 import com.wf.captcha.base.Captcha;
 import io.swagger.annotations.Api;
@@ -47,6 +48,9 @@ public class userCommon {
 
     @Resource
     private RedisCache redisCache;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 登录接口
@@ -132,6 +136,36 @@ public class userCommon {
             put("uuid", uuid);
         }};
         return imgResult;
+    }
+
+    /**
+     * 根据用户id 查询用户注册的email是否相撞
+     */
+    @ApiOperation(value = "根据用户id 查询用户注册的email是否相撞")
+    @RequestMapping(value = "/judge-email-only", method = RequestMethod.POST)
+    public ResponseResult judgeEmailOnlyOne(@RequestParam("email") String emailAddr) {
+        Boolean only = userInfoService.judgeOnlyEmail(emailAddr);
+        if (only) {
+            return new ResponseResult(200, "是唯一邮箱");
+
+        } else {
+            return new ResponseResult(400, "不是唯一邮箱");
+        }
+    }
+
+
+    /**
+     * 根据用户名userName 判断用户名是否唯一
+     */
+    @ApiOperation(value = "根据用户id 判断用户名是否唯一")
+    @RequestMapping(value = "/judge-userName-only", method = RequestMethod.POST)
+    public ResponseResult judgeUserNameOnlyOne(@RequestParam("userName") String userName) {
+        Boolean only = userInfoService.judgeOnlyUserName(userName);
+        if (only) {
+            return new ResponseResult(200, "是唯一用户名");
+        } else {
+            return new ResponseResult(400, "不是唯一用户名");
+        }
     }
 
     /**

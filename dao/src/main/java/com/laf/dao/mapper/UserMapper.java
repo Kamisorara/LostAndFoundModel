@@ -39,4 +39,10 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户名userName 查询哦用户
     userResp searchUserByUserName(String userName);
+
+    //查询邮箱下有多少用户
+    Integer searchUserByUserEmail(String emailAddr);
+
+    //查询一个userName下有多少个用户
+    Integer countUserByUserName(String userName);
 }

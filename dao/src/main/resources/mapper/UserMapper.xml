@@ -76,4 +76,15 @@
             AND sa.`status` = 0
         WHERE su.user_name = #{userName};
     </select>
+    <!--    查询邮箱下有多少用户-->
+    <select id="searchUserByUserEmail" resultType="java.lang.Integer">
+        SELECT COUNT(su.email)
+        FROM `sys_user` su
+        WHERE su.email = #{emailAddr};
+    </select>
+    <select id="countUserByUserName" resultType="java.lang.Integer">
+        SELECT COUNT(su.user_name)
+        FROM `sys_user` su
+        WHERE su.user_name = #{userName};
+    </select>
 </mapper>

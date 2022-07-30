@@ -66,4 +66,28 @@ public class UserInfoServiceImpl implements UserInfoService {
             return new ResponseResult(400, "未查到到该用户");
         }
     }
+
+    /**
+     * 根据根据根据用户id 查询用户注册的email是否相撞
+     *
+     * @param emailAddr 用户email地址
+     * @return true or false
+     */
+    @Override
+    public Boolean judgeOnlyEmail(String emailAddr) {
+        Integer num = userMapper.searchUserByUserEmail(emailAddr);
+        return num == 0;
+    }
+
+    /**
+     * 根据用户userName 查询用户注册的userName是否相撞
+     *
+     * @param userName 用户名
+     * @return true or false
+     */
+    @Override
+    public Boolean judgeOnlyUserName(String userName) {
+        Integer num = userMapper.countUserByUserName(userName);
+        return num == 0;
+    }
 }

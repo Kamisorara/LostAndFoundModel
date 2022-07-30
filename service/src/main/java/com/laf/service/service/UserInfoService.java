@@ -1,8 +1,6 @@
 package com.laf.service.service;
 
 import com.laf.entity.entity.resp.ResponseResult;
-import com.laf.entity.entity.resp.userResp;
-import com.laf.entity.entity.sys.Avatar;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 
@@ -21,4 +19,10 @@ public interface UserInfoService {
 
     //根据用户名userName 查找用户
     ResponseResult getUserByUserName(String userName);
+
+    //根据用户id 查询用户注册的email是否相撞
+    Boolean judgeOnlyEmail(String emailAddr);
+
+    //根据用户userName 查询用户注册的userName是否相撞
+    Boolean judgeOnlyUserName(String userName);
 }

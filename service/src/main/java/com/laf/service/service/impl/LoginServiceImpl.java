@@ -12,6 +12,7 @@ import com.laf.entity.entity.sys.UserRole;
 import com.laf.entity.utils.JwtUtil;
 import com.laf.entity.utils.RedisCache;
 import com.laf.service.service.LoginService;
+import com.laf.service.service.UserInfoService;
 import com.laf.service.service.VerifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,6 +46,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private RankMapper rankMapper;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 登录
@@ -96,6 +100,8 @@ public class LoginServiceImpl implements LoginService {
             if (verifyService.doVerify(email, verify) && password.equals(passwordRepeat)) {
                 User user = new User();
                 user.setUserName(username);
+                Boolean onlyEmail = userInfoService.judgeOnlyEmail(email);
+                user.setEmail(email);
                 //这里需要加密存储 ,后面封装到service里面
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String encode = encoder.encode(password);
