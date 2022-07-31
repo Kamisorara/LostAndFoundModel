@@ -4,7 +4,6 @@
     <!--    获取帮助次数前三的用户-->
 
     <select id="getTop3User" resultType="com.laf.entity.entity.tokenResp.UserResp">
-
         SELECT *
         FROM `sys_rank` sr
                  LEFT JOIN sys_user su ON sr.user_id = su.id
