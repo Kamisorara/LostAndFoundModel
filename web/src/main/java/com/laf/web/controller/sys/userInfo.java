@@ -40,7 +40,6 @@ public class userInfo {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         UserResp userInfo = userInfoService.getUserInfo(userIdFromToken);
         return new ResponseResult(200, "用户已经登录", userInfo);
-
     }
 
     /**
