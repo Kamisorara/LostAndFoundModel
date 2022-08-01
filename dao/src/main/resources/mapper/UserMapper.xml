@@ -82,6 +82,7 @@
         FROM `sys_user` su
         WHERE su.email = #{emailAddr};
     </select>
+    <!--    查询一个userName下有多少个用户-->
     <select id="countUserByUserName" resultType="java.lang.Integer">
         SELECT COUNT(su.user_name)
         FROM `sys_user` su

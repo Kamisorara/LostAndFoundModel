@@ -3,6 +3,7 @@ package com.laf.web.controller.sys;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.entity.entity.logincode.LoginProperties;
 import com.laf.entity.entity.resp.ResponseResult;
+import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.sys.User;
 import com.laf.entity.enums.LoginCodeEnum;
 import com.laf.entity.utils.RedisCache;
@@ -75,6 +76,22 @@ public class userCommon {
     }
 
     /**
+     * 登录输入账号昵称时获取该用户的头像
+     */
+    @ApiOperation("登录输入账号昵称时获取该用户的头像")
+    @RequestMapping(value = "/get-loginUser-avatar", method = RequestMethod.GET)
+    public ResponseResult getLoginUserAvatarByUserName(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        try {
+            userResp userResp = userMapper.searchUserByUserName(username);
+            return new ResponseResult(200, "获取该登录账号的头像成功！", userResp.getAvatarUrl());
+        } catch (NullPointerException nullPointerException) {
+            return new ResponseResult(400, "没有找到该用户的头像");
+        }
+
+    }
+
+    /**
      * 注册接口
      */
     @ApiOperation("注册接口")
@@ -116,7 +133,6 @@ public class userCommon {
     /**
      * 验证码
      */
-    // fhadmin.cn
     @ApiOperation(value = "获取验证码", notes = "获取验证码")
     @RequestMapping(value = "/loginVerifyCode", method = RequestMethod.GET)
     public Object getCode() {
