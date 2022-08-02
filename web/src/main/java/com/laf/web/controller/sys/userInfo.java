@@ -39,7 +39,7 @@ public class userInfo {
     public ResponseResult getUserInfo(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         UserResp userInfo = userInfoService.getUserInfo(userIdFromToken);
-        return new ResponseResult(200, "用户已经登录", userInfo);
+        return new ResponseResult<>(200, "用户已经登录", userInfo);
     }
 
     /**
@@ -49,7 +49,7 @@ public class userInfo {
     @RequestMapping(value = "/get-user-info", method = RequestMethod.GET)
     public ResponseResult getOtherUserBasicInfo(@RequestParam("id") Long id) {
         UserResp userInfo = userInfoService.getUserInfo(id);
-        return new ResponseResult(200, "获取" + userInfo.getUserName() + "用户信息成功", userInfo);
+        return new ResponseResult<>(200, "获取" + userInfo.getUserName() + "用户信息成功", userInfo);
     }
 
     /**
@@ -59,7 +59,7 @@ public class userInfo {
     @RequestMapping(value = "/get-user-detail-info", method = RequestMethod.GET)
     public ResponseResult getUserDetailInfo(@RequestParam("id") Long id) {
         UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(id);
-        return new ResponseResult(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
+        return new ResponseResult<>(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
 
     /**

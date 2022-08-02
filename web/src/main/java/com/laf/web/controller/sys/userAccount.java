@@ -57,8 +57,7 @@ public class userAccount {
     public ResponseResult updatePassword(@RequestParam("id") Long id,
                                          @RequestParam("oldPassword") String oldPassword,
                                          @RequestParam("newPassword") String newPassword) {
-        ResponseResult responseResult = loginService.updatePassword(id, oldPassword, newPassword);
-        return responseResult;
+        return loginService.updatePassword(id, oldPassword, newPassword);
     }
 
     /**
@@ -69,8 +68,7 @@ public class userAccount {
     public ResponseResult updateUserInfo(@RequestParam("id") Long userId,
                                          @RequestParam("userName") String userName,
                                          @RequestParam("phoneNumber") String phoneNumber) {
-        ResponseResult result = userInfoService.updateUserInfo(userId, userName, phoneNumber);
-        return result;
+        return userInfoService.updateUserInfo(userId, userName, phoneNumber);
     }
 
 
@@ -90,6 +88,6 @@ public class userAccount {
         avatar.setAvatarUrl(avatarUrl);
         avatarMapper.updateUserHeadStatus(userId);
         int succeed = avatarMapper.insert(avatar);
-        return new ResponseResult(200, "头像修改成功", avatarUrl);
+        return new ResponseResult<>(200, "头像修改成功", avatarUrl);
     }
 }

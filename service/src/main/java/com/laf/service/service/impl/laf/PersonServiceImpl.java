@@ -1,5 +1,7 @@
 package com.laf.service.service.impl.laf;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
@@ -84,12 +86,7 @@ public class PersonServiceImpl implements PersonService {
         Integer userHelpedNoticeNum = noticeMapper.countUserHelpedNotice(userId);
         List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
 
-        List<NoticeSearchResp> waitingNum = noticeIdLists
-                .stream()
-                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
-                .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
-                .filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1"))
-                .collect(Collectors.toList());
+        List<NoticeSearchResp> waitingNum = noticeIdLists.stream().filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0).map(noticeId -> noticeMapper.getNoticeDetail(noticeId)).filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1")).collect(Collectors.toList());
 
         result.add(userPostNoticeNum);
         result.add(waitingNum.size());
@@ -105,12 +102,7 @@ public class PersonServiceImpl implements PersonService {
         List<Long> noticeIdLists = noticeMapper.countUserPostNoticeList(userId);
 
 
-        List<NoticeSearchResp> result = noticeIdLists
-                .stream()
-                .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
-                .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
-                .filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1"))
-                .collect(Collectors.toList());
+        List<NoticeSearchResp> result = noticeIdLists.stream().filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0).map(noticeId -> noticeMapper.getNoticeDetail(noticeId)).filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1")).collect(Collectors.toList());
 
 //        List<NoticeSearchResp> result = new ArrayList<>();
 //        for (Long noticeId : noticeIdLists) {
@@ -138,5 +130,41 @@ public class PersonServiceImpl implements PersonService {
             return num > 0;
         }
         return false;
+    }
+
+    /**
+     * 根据用户id 分页获取该用户的所有notice
+     *
+     * @param userId   用户id
+     * @param pageNum  页数
+     * @param pageSize 页大小
+     * @return notice
+     */
+    @Override
+    public IPage<NoticeSearchResp> getUserNoticePageById(Long userId, int pageNum, int pageSize) {
+        Page<NoticeSearchResp> page = new Page<>();
+        //设置每页大小
+        page.setSize(pageSize);
+        //设置当前页码
+        page.setCurrent(pageNum);
+        return noticeMapper.getUserReleaseNoticePageById(userId, page);
+    }
+
+    /**
+     * 根据用户id 分页获取该用户所有已帮助的notice
+     *
+     * @param userId   用户id
+     * @param pageNum  页数
+     * @param pageSize 页大小
+     * @return notice
+     */
+    @Override
+    public IPage<NoticeSearchResp> getUserHelpedNoticePageById(Long userId, int pageNum, int pageSize) {
+        Page<NoticeSearchResp> page = new Page<>();
+        //设置每页大小
+        page.setSize(pageSize);
+        //设置当前页码
+        page.setCurrent(pageNum);
+        return noticeMapper.getUserHelpedNoticePageById(userId, page);
     }
 }

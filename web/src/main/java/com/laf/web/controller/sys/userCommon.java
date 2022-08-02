@@ -65,7 +65,7 @@ public class userCommon {
         String verifyCode = request.getParameter("verifyCode");
         String trueCode = redisCache.getCacheObject(uuid);
         if (!trueCode.equals(verifyCode)) {
-            return new ResponseResult(400, "登录失败验证码错误！");
+            return new ResponseResult<>(400, "登录失败验证码错误！");
         } else {
             User user = new User();
             user.setUserName(username);
@@ -84,9 +84,9 @@ public class userCommon {
         String username = request.getParameter("username");
         try {
             userResp userResp = userMapper.searchUserByUserName(username);
-            return new ResponseResult(200, "获取该登录账号的头像成功！", userResp.getAvatarUrl());
+            return new ResponseResult<>(200, "获取该登录账号的头像成功！", userResp.getAvatarUrl());
         } catch (NullPointerException nullPointerException) {
-            return new ResponseResult(400, "没有找到该用户的头像");
+            return new ResponseResult<>(400, "没有找到该用户的头像");
         }
 
     }
@@ -106,7 +106,7 @@ public class userCommon {
         String verifyCode = request.getParameter("verifyCode");
         String trueCode = redisCache.getCacheObject(uuid);
         if (!trueCode.equals(verifyCode)) {
-            return new ResponseResult(400, "登录失败验证码错误！");
+            return new ResponseResult<>(400, "登录失败验证码错误！");
         } else {
             return loginService.register(username, password, passwordRepeat, email, verify);
         }
@@ -124,9 +124,9 @@ public class userCommon {
     public ResponseResult verifyCode(@RequestParam("email") String email) {
         try {
             verifyService.sendVerifyCode(email);
-            return new ResponseResult(200, "邮件发送成功");
+            return new ResponseResult<>(200, "邮件发送成功");
         } catch (Exception e) {
-            return new ResponseResult(400, "邮件发送失败！");
+            return new ResponseResult<>(400, "邮件发送失败！");
         }
     }
 
@@ -162,10 +162,10 @@ public class userCommon {
     public ResponseResult judgeEmailOnlyOne(@RequestParam("email") String emailAddr) {
         Boolean only = userInfoService.judgeOnlyEmail(emailAddr);
         if (only) {
-            return new ResponseResult(200, "是唯一邮箱");
+            return new ResponseResult<>(200, "是唯一邮箱");
 
         } else {
-            return new ResponseResult(400, "不是唯一邮箱");
+            return new ResponseResult<>(400, "不是唯一邮箱");
         }
     }
 

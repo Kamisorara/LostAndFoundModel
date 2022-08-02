@@ -48,7 +48,7 @@ public class Lost {
         IPage<NoticeSearchResp> allLostNotice =
                 lafLostService.getAllLostNotice(pageNum, pageSize);
 
-        return new ResponseResult(200, "获取分页寻物启事列表成功", allLostNotice);
+        return new ResponseResult<>(200, "获取分页寻物启事列表成功", allLostNotice);
     }
 
 
@@ -63,7 +63,7 @@ public class Lost {
         List<Object> result = new ArrayList<>();
         result.add(noticeDetailInfo);
         result.add(noticeAllPhotos);
-        return new ResponseResult(200, "获取启示详情成功", result);
+        return new ResponseResult<>(200, "获取启示详情成功", result);
 
     }
 

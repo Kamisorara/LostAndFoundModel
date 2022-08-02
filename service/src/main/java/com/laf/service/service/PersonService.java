@@ -1,5 +1,6 @@
 package com.laf.service.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.userResp;
 
@@ -29,5 +30,11 @@ public interface PersonService {
 
     //根据用户id 删除用户本人发布启示(逻辑删除)
     Boolean deleteUserPersonalNotice(Long userId, Long noticeId);
+
+    //根据用户id 分页获取该用户的所有notice
+    IPage<NoticeSearchResp> getUserNoticePageById(Long userId, int pageNum, int pageSize);
+
+    //根据用户id 分页获取该用户所有已帮助的notice
+    IPage<NoticeSearchResp> getUserHelpedNoticePageById(Long userId, int pageNum, int pageSize);
 
 }

@@ -1,5 +1,6 @@
 package com.laf.web.controller.laf;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.dao.mapper.laf.lafPhotosMapper;
 import com.laf.entity.entity.laf.lafPhotos;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
@@ -69,7 +70,7 @@ public class Person {
     public ResponseResult getUserDetailInfo(HttpServletRequest request) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
         UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(userId);
-        return new ResponseResult(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
+        return new ResponseResult<>(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
 
     /**
@@ -79,7 +80,7 @@ public class Person {
     @RequestMapping(value = "/get-person-board", method = RequestMethod.GET)
     public ResponseResult getPersonBoard(@RequestParam("id") Long id) {
         List<MessageResp> userLeaveMessage = messageService.getUserLeaveMessage(id);
-        return new ResponseResult(200, "获取用户留言信息成功", userLeaveMessage);
+        return new ResponseResult<>(200, "获取用户留言信息成功", userLeaveMessage);
     }
 
     /**
@@ -89,7 +90,7 @@ public class Person {
     @RequestMapping(value = "/get-all-completed", method = RequestMethod.GET)
     public ResponseResult getUserHelpedNoticeList(@RequestParam("id") Long id) {
         List<NoticeSearchResp> userHelpedNotice = personService.getUserHelpedNotice(id);
-        return new ResponseResult(200, "获取用户帮助列表成功", userHelpedNotice);
+        return new ResponseResult<>(200, "获取用户帮助列表成功", userHelpedNotice);
     }
 
 
@@ -102,9 +103,9 @@ public class Person {
         Long userId = tokenService.getUserIdFromToken(request);
         Integer success = messageService.insertMessage(userId, toUserId, message);
         if (success > 0) {
-            return new ResponseResult(200, "留言成功");
+            return new ResponseResult<>(200, "留言成功");
         } else {
-            return new ResponseResult(400, "留言失败，请检查输入");
+            return new ResponseResult<>(400, "留言失败，请检查输入");
         }
     }
 
@@ -120,12 +121,12 @@ public class Person {
         if (isPerson) {
             Boolean updateSucceed = personService.updateNoticeDoneStatus(id, userId);
             if (updateSucceed) {
-                return new ResponseResult(200, "更改启示Done状态成功");
+                return new ResponseResult<>(200, "更改启示Done状态成功");
             } else {
-                return new ResponseResult(400, "更新启示状态失败");
+                return new ResponseResult<>(400, "更新启示状态失败");
             }
         } else {
-            return new ResponseResult(400, "不是本人启示");
+            return new ResponseResult<>(400, "不是本人启示");
         }
     }
 
@@ -136,7 +137,7 @@ public class Person {
     @RequestMapping(value = "/select-username-avatar", method = RequestMethod.POST)
     public ResponseResult selectUserNameAndAvatar(@RequestParam("id") Long id) {
         userResp userResp = personService.getUserResp(id);
-        return new ResponseResult(200, "获取用户名和头像成功", userResp);
+        return new ResponseResult<>(200, "获取用户名和头像成功", userResp);
     }
 
     /**
@@ -147,7 +148,7 @@ public class Person {
     public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         List<Integer> result = personService.countUserNotice(userIdFromToken);
-        return new ResponseResult(200, "获取用户徽标值成功", result);
+        return new ResponseResult<>(200, "获取用户徽标值成功", result);
     }
 
     /**
@@ -170,7 +171,7 @@ public class Person {
             lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
-        return new ResponseResult(200, "文件上传成功", url);
+        return new ResponseResult<>(200, "文件上传成功", url);
     }
 
     /**
@@ -191,7 +192,7 @@ public class Person {
             lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
-        return new ResponseResult(200, "文件上传成功", resultUrl);
+        return new ResponseResult<>(200, "文件上传成功", resultUrl);
     }
 
     /**
@@ -202,7 +203,7 @@ public class Person {
     public ResponseResult getUserWaitingNoticeLists(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         List<NoticeSearchResp> userWaitingNoticeList = personService.getUserWaitingNoticeList(userIdFromToken);
-        return new ResponseResult(200, "获取用户待处理列表成功", userWaitingNoticeList);
+        return new ResponseResult<>(200, "获取用户待处理列表成功", userWaitingNoticeList);
     }
 
 
@@ -215,9 +216,24 @@ public class Person {
         Long userId = tokenService.getUserIdFromToken(request);
         Boolean succeed = personService.deleteUserPersonalNotice(userId, id);
         if (succeed) {
-            return new ResponseResult(200, "该notice删除成功");
+            return new ResponseResult<>(200, "该notice删除成功");
         } else {
-            return new ResponseResult(400, "notice删除失败");
+            return new ResponseResult<>(400, "notice删除失败");
         }
+    }
+
+    /**
+     * 根据用户id 分页获取该用户帮助的所有启示
+     */
+    @ApiOperation("根据用户id 分页获取该用户帮助的所有启示")
+    @RequestMapping(value = "/get-userReleased-page", method = RequestMethod.GET)
+    public ResponseResult getUerReleasedNoticePage(@RequestParam("pageNum") int pageNum,
+                                                   @RequestParam("pageSize") int pageSize,
+                                                   @RequestParam("id") Long userId) {
+        IPage<NoticeSearchResp> userNoticePageById =
+                personService.getUserNoticePageById(userId, pageNum, pageSize);
+
+        return new ResponseResult<>(200, "分页获取用户notice成功", userNoticePageById);
+
     }
 }

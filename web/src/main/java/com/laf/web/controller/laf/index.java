@@ -36,7 +36,7 @@ public class index {
     @RequestMapping(value = "/get-board-info", method = RequestMethod.GET)
     public ResponseResult getBoardList() {
         List<Board> indexBoardList = lafIndexService.getIndexBoardList();
-        return new ResponseResult(200, "获取首页公告成功!", indexBoardList);
+        return new ResponseResult<>(200, "获取首页公告成功!", indexBoardList);
     }
 
     /**
@@ -46,7 +46,7 @@ public class index {
     @RequestMapping(value = "/get-top3-list", method = RequestMethod.GET)
     public ResponseResult getTop3UserList() {
         List<UserResp> top3UserList = lafIndexService.getTop3UserList();
-        return new ResponseResult(200, "获取帮助rank成功", top3UserList);
+        return new ResponseResult<>(200, "获取帮助rank成功", top3UserList);
     }
 
     /**
@@ -56,7 +56,7 @@ public class index {
     @RequestMapping(value = "/get-lost-simple-info", method = RequestMethod.GET)
     public ResponseResult getSimpleLostInfo() {
         List<NoticeIndexResp> indexSimpleLostList = lafIndexService.getIndexSimpleLostList();
-        return new ResponseResult(200, "获取首页普通寻物启事成功", indexSimpleLostList);
+        return new ResponseResult<>(200, "获取首页普通寻物启事成功", indexSimpleLostList);
     }
 
     /**
@@ -66,7 +66,7 @@ public class index {
     @RequestMapping(value = "/get-found-simple-info", method = RequestMethod.GET)
     public ResponseResult getSimpleFoundList() {
         List<NoticeIndexResp> indexSimpleFoundList = lafIndexService.getIndexSimpleFoundList();
-        return new ResponseResult(200, "获取首页拾物启示成功", indexSimpleFoundList);
+        return new ResponseResult<>(200, "获取首页拾物启示成功", indexSimpleFoundList);
     }
 
     /**
@@ -76,7 +76,7 @@ public class index {
     @RequestMapping(value = "/get-urgency-lost-info", method = RequestMethod.GET)
     public ResponseResult getSimpleUrgencyLostList() {
         List<NoticeIndexResp> indexSimpleUrgencyLostList = lafIndexService.getIndexSimpleUrgencyLostList();
-        return new ResponseResult(200, "首页获取紧急寻物启事成功", indexSimpleUrgencyLostList);
+        return new ResponseResult<>(200, "首页获取紧急寻物启事成功", indexSimpleUrgencyLostList);
     }
 
 
@@ -88,7 +88,7 @@ public class index {
     public ResponseResult getRecentNotice(@RequestParam("pageNum") int pageNum,
                                           @RequestParam("pageSize") int pageSize) {
         IPage<NoticeSearchResp> recentNotice = lafIndexService.getRecentNotice(pageNum, pageSize);
-        return new ResponseResult(200, "分页获取最近发布启示成功", recentNotice);
+        return new ResponseResult<>(200, "分页获取最近发布启示成功", recentNotice);
     }
 
 
@@ -104,7 +104,7 @@ public class index {
         IPage<NoticeSearchResp> noticeSearchRespIPage =
                 lafIndexService.searchNoticeByKeyWords(keyWords, pageNum, pageSize);
 
-        return new ResponseResult(200, "搜索分页获取成功", noticeSearchRespIPage);
+        return new ResponseResult<>(200, "搜索分页获取成功", noticeSearchRespIPage);
 
     }
 
