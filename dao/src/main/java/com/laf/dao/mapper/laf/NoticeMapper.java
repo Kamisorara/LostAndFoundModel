@@ -73,4 +73,11 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     //逻辑删除用户notice
     Integer updateUserPersonalNoticeStatus(Long noticeId);
+
+
+    //根据用户 id 分页获取该用户所发布的所有notice
+    IPage<NoticeSearchResp> getUserReleaseNoticePageById(@Param("userId") Long userId, Page<NoticeSearchResp> page);
+
+    //根据用户 id 分页获取该用户帮助的所有notice
+    IPage<NoticeSearchResp> getUserHelpedNoticePageById(@Param("userId") Long userId, Page<NoticeSearchResp> page);
 }

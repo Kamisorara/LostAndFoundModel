@@ -76,6 +76,7 @@
             AND sa.`status` = 0
         WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
           AND lp.index_display = 0
+          AND ln.done = 1
     </select>
     <!--    分页获取所有寻物启事列表-->
     <select id="getAllLostNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
@@ -95,6 +96,7 @@
         WHERE ln.type = 0
           AND ln.`status` = 0
           AND lp.index_display = 0
+          AND ln.done = 1
     </select>
     <!--    根据启示id 获取启示详情(包括用户基本信息，启示基本信息)-->
     <select id="getNoticeDetail" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
@@ -181,6 +183,7 @@
         WHERE ln.type = 1
           AND ln.`status` = 0
           AND lp.index_display = 0
+          AND ln.done = 1
 
     </select>
     <!--    根据启示id获取创建者id-->
@@ -217,7 +220,7 @@
         FROM `laf_notice` ln
         WHERE ln.create_id = 1540533503228669954;
     </select>
-    <!--    查询对应启示是否有图片并且该启示是未完成状态-->
+    <!--    查询对应启示是否有图片并且该启示是未完成状态的个数-->
     <select id="countNoticeImg" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM `laf_notice` ln
@@ -232,6 +235,43 @@
         SELECT ln.id
         FROM `laf_notice` ln
         WHERE ln.create_id = #{userId};
+    </select>
+    <!--    根据用户 id 分页获取该用户所发布的所有notice-->
+    <select id="getUserReleaseNoticePageById" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
+        SELECT ln.id,
+               su.id AS 'user_id', lp.laf_photoUrl,
+               ln.type,
+               sa.avatar_url,
+               su.user_name,
+               ln.message,
+               ln.VIEW,
+               ln.done
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
+            AND sa.`status` = 0
+        WHERE su.id = #{userId}
+          AND lp.index_display = 0
+    </select>
+    <!--    根据用户 id 分页获取该用户帮助的所有notice-->
+    <select id="getUserHelpedNoticePageById" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
+        SELECT ln.id,
+               su.id AS 'user_id', lp.laf_photoUrl,
+               ln.type,
+               sa.avatar_url,
+               su.user_name,
+               ln.message,
+               ln.VIEW,
+               ln.done
+        FROM laf_notice ln
+                 LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
+                 LEFT JOIN sys_user su ON su.id = ln.`create_id`
+                 LEFT JOIN sys_avatar sa ON sa.user_id = ln.`create_id`
+            AND sa.`status` = 0
+        WHERE ln.helper_userId = #{userId}
+          AND lp.index_display = 0
+          AND ln.done = 0
     </select>
 
 

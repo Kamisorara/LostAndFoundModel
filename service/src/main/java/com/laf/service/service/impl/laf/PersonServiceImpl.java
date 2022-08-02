@@ -88,7 +88,7 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
                 .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
-                .filter(notice -> notice.getStatus().equals("0"))
+                .filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1"))
                 .collect(Collectors.toList());
 
         result.add(userPostNoticeNum);
@@ -109,7 +109,7 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .filter(noticeId -> noticeMapper.countNoticeImg(noticeId) == 0)
                 .map(noticeId -> noticeMapper.getNoticeDetail(noticeId))
-                .filter(notice -> notice.getStatus().equals("0"))
+                .filter(notice -> notice.getStatus().equals("0") && notice.getDone().equals("1"))
                 .collect(Collectors.toList());
 
 //        List<NoticeSearchResp> result = new ArrayList<>();

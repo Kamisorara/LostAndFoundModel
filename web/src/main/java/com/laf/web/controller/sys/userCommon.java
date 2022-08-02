@@ -116,8 +116,8 @@ public class userCommon {
     /**
      * 发送验证码
      *
-     * @param email
-     * @return
+     * @param email 邮箱地址
+     * @return verifyCode
      */
     @ApiOperation("发送验证码")
     @RequestMapping(value = "/verify-code", method = RequestMethod.POST)
