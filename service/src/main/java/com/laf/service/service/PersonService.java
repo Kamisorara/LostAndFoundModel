@@ -3,6 +3,7 @@ package com.laf.service.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.userResp;
+import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 
 import java.util.List;
 
@@ -37,4 +38,9 @@ public interface PersonService {
     //根据用户id 分页获取该用户所有已帮助的notice
     IPage<NoticeSearchResp> getUserHelpedNoticePageById(Long userId, int pageNum, int pageSize);
 
+    //根据用户id 查询用户发布的启示的个数,帮助他人的启示的个数和浏览次数
+    List<Integer> getUserBasicInfoNum(Long userId);
+
+    //根据token id 获取该用户所有基本信息
+    UserEditInfoResp getUserEditInfo(Long userTokenId);
 }

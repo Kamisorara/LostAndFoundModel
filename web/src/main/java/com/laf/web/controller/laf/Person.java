@@ -8,6 +8,7 @@ import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
+import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.service.service.MessageService;
 import com.laf.service.service.Oss.OssUploadService;
 import com.laf.service.service.PersonService;
@@ -183,12 +184,9 @@ public class Person {
         String resultUrl = fastDfsService.uploadImg(multipartFile);
         lafPhotos lafPhotos = new lafPhotos();
         Boolean judge = lafPhotosService.judgeIndexDisplay(id);
-        if (judge) {
-            lafPhotos.setLafPhotoUrl(resultUrl);
-            lafPhotos.setLafId(id);
-        } else {
-            lafPhotos.setLafPhotoUrl(resultUrl);
-            lafPhotos.setLafId(id);
+        lafPhotos.setLafPhotoUrl(resultUrl);
+        lafPhotos.setLafId(id);
+        if (!judge) {
             lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
@@ -236,4 +234,41 @@ public class Person {
         return new ResponseResult<>(200, "分页获取用户notice成功", userNoticePageById);
 
     }
+
+
+    /**
+     * 根据用户 id 分页获取该用户帮助过的所有notice
+     */
+    @ApiOperation("根据用户 id 分页获取该用户帮助过的所有notice")
+    @RequestMapping(value = "/get-userHelped-page", method = RequestMethod.GET)
+    public ResponseResult getUserHelpedNoticePage(@RequestParam("pageNum") int pageNum,
+                                                  @RequestParam("pageSize") int pageSize,
+                                                  @RequestParam("id") Long userId) {
+        IPage<NoticeSearchResp> userHelpedNoticePageById =
+                personService.getUserHelpedNoticePageById(userId, pageNum, pageSize);
+        return new ResponseResult<>(200, "分页获取该用户帮助的notice成功", userHelpedNoticePageById);
+
+    }
+
+    /**
+     * 根据用户id 查询用户发布的启示的个数,帮助他人的启示的个数和浏览次数
+     */
+    @ApiOperation("根据用户id 查询用户发布的启示的个数,帮助他人的启示的个数和浏览次数")
+    @RequestMapping(value = "/get-user-basic-num", method = RequestMethod.GET)
+    public ResponseResult getUserBasicNum(@RequestParam("id") Long userId) {
+        List<Integer> userBasicInfoNum = personService.getUserBasicInfoNum(userId);
+        return new ResponseResult<>(200, "获取用户启示发布，帮助，浏览个数成功", userBasicInfoNum);
+    }
+
+
+    /**
+     * 用户编辑资料界面根据Token获取所有该用户基本信息
+     */
+    @RequestMapping(value = "/user-editInfo", method = RequestMethod.GET)
+    public ResponseResult getUserEditInfo(HttpServletRequest servletRequest) throws Exception {
+        Long userId = tokenService.getUserIdFromToken(servletRequest);
+        UserEditInfoResp userEditInfo = personService.getUserEditInfo(userId);
+        return new ResponseResult<>(200, "根据token获取用户信息成功", userEditInfo);
+    }
+
 }

@@ -88,4 +88,20 @@
         FROM `sys_user` su
         WHERE su.user_name = #{userName};
     </select>
+    <!--    根据用户token id 获取该用户所有基本信息-->
+    <select id="getUserEditInfo" resultType="com.laf.entity.entity.tokenResp.UserEditInfoResp">
+        SELECT su.id,
+               su.user_name,
+               su.phone_number,
+               su.email,
+               su.create_time,
+               sa.avatar_url,
+               sp.photo_url
+        FROM `sys_user` su
+                 LEFT JOIN sys_avatar sa ON sa.user_id = su.id
+            AND sa.`status` = 0
+                 LEFT JOIN sys_photos sp ON sp.user_id = su.id
+            AND sp.`status` = 0
+        WHERE su.id = #{userTokenId};
+    </select>
 </mapper>

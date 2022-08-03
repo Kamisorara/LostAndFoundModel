@@ -245,7 +245,8 @@
                su.user_name,
                ln.message,
                ln.VIEW,
-               ln.done
+               ln.done,
+               ln.`status`
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -253,6 +254,7 @@
             AND sa.`status` = 0
         WHERE su.id = #{userId}
           AND lp.index_display = 0
+          AND ln.`status` = 0
     </select>
     <!--    根据用户 id 分页获取该用户帮助的所有notice-->
     <select id="getUserHelpedNoticePageById" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
@@ -263,7 +265,8 @@
                su.user_name,
                ln.message,
                ln.VIEW,
-               ln.done
+               ln.done,
+               ln.`status`
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`

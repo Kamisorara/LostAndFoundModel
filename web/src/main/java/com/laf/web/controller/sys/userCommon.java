@@ -147,11 +147,10 @@ public class userCommon {
         // 保存
         redisCache.setCacheObject(uuid, captchaValue, Math.toIntExact(loginProperties.getLoginCode().getExpiration()), TimeUnit.MINUTES);
         // 验证码信息
-        Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
+        return new HashMap<String, Object>(2) {{
             put("img", captcha.toBase64());
             put("uuid", uuid);
         }};
-        return imgResult;
     }
 
     /**
@@ -178,9 +177,9 @@ public class userCommon {
     public ResponseResult judgeUserNameOnlyOne(@RequestParam("userName") String userName) {
         Boolean only = userInfoService.judgeOnlyUserName(userName);
         if (only) {
-            return new ResponseResult(200, "是唯一用户名");
+            return new ResponseResult<>(200, "是唯一用户名");
         } else {
-            return new ResponseResult(400, "不是唯一用户名");
+            return new ResponseResult<>(400, "不是唯一用户名");
         }
     }
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.sys.User;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
+import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,4 +46,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     //查询一个userName下有多少个用户
     Integer countUserByUserName(String userName);
+
+    //根据用户token id 获取该用户的所有基本信息
+    UserEditInfoResp getUserEditInfo(Long userTokenId);
 }
