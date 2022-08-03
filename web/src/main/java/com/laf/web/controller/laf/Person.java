@@ -1,12 +1,14 @@
 package com.laf.web.controller.laf;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.laf.lafPhotosMapper;
 import com.laf.entity.entity.laf.lafPhotos;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.resp.userResp;
+import com.laf.entity.entity.sys.Avatar;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.service.service.MessageService;
@@ -62,6 +64,9 @@ public class Person {
 
     @Autowired
     private fastDfsService fastDfsService;
+
+    @Autowired
+    private AvatarMapper avatarMapper;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
@@ -271,4 +276,24 @@ public class Person {
         return new ResponseResult<>(200, "根据token获取用户信息成功", userEditInfo);
     }
 
+    /**
+     * 更新用户头像
+     */
+    @RequestMapping(value = "/update-user-avatar", method = RequestMethod.POST)
+    public ResponseResult updateUserAvatar(@RequestParam("file") MultipartFile multipartFile,
+                                           HttpServletRequest servletRequest) throws Exception {
+        Long userTokenId = tokenService.getUserIdFromToken(servletRequest);
+        String imgUrl = fastDfsService.uploadImg(multipartFile);
+        Avatar avatar = new Avatar();
+        avatar.setAvatarUrl(imgUrl);
+        avatar.setUserId(userTokenId);
+        avatar.setStatus(0);
+        int succeed = avatarMapper.updateUserHeadStatus(userTokenId);
+        if (succeed > 0) {
+            avatarMapper.insert(avatar);
+        } else {
+            return new ResponseResult<>(400, "发生未知错误");
+        }
+        return new ResponseResult<>(200, "更新头像成功", imgUrl);
+    }
 }

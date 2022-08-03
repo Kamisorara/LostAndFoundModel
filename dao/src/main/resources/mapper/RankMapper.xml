@@ -8,6 +8,7 @@
         FROM `sys_rank` sr
                  LEFT JOIN sys_user su ON sr.user_id = su.id
                  LEFT JOIN sys_avatar sa ON sa.user_id = sr.user_id
+            AND sa.`status` = 0
         ORDER BY sr.help_times DESC
         LIMIT 3;
     </select>
