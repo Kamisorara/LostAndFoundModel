@@ -15,6 +15,18 @@
             su.phone_number = #{phoneNumber}
         WHERE su.id = #{userId};
     </update>
+    <!--    根据用户id 修改用户userName-->
+    <update id="updateUserNameById">
+        UPDATE sys_user su
+        SET su.user_name = #{userName}
+        WHERE su.id = #{userId};
+    </update>
+    <!--    根据用户id 修改该用户联系方式-->
+    <update id="updateUserPhoneNumById">
+        UPDATE sys_user su
+        SET su.phone_number = #{phoneNum}
+        WHERE su.id = #{userId};
+    </update>
 
     <!--    根据用户名查找用户id （用户注册时查找新增用户id用）-->
     <select id="selectUserIdByUserName" resultType="java.lang.Long">
@@ -104,4 +116,6 @@
             AND sp.`status` = 0
         WHERE su.id = #{userTokenId};
     </select>
+
+
 </mapper>

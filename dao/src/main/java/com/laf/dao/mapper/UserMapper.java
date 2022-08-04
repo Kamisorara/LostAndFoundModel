@@ -9,6 +9,7 @@ import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.entity.entity.tokenResp.UserResp;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 
 @Mapper
@@ -38,7 +39,7 @@ public interface UserMapper extends BaseMapper<User> {
     //根据用户id 获取用户昵称，头像
     userResp getUserNameAndAvatarByUserId(Long userId);
 
-    //根据用户名userName 查询哦用户
+    //根据用户名userName 查询用户
     userResp searchUserByUserName(String userName);
 
     //查询邮箱下有多少用户
@@ -49,4 +50,10 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户token id 获取该用户的所有基本信息
     UserEditInfoResp getUserEditInfo(Long userTokenId);
+
+    //根据用户id 修改用户userName
+    Integer updateUserNameById(@Param("userId") Long userId, @Param("userName") String userName);
+
+    //根据用户id 修改该用户联系方式
+    Integer updateUserPhoneNumById(@Param("userId") Long userId, @Param("phoneNum") String phoneNum);
 }

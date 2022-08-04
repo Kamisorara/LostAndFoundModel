@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
+import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.service.service.PersonService;
+import com.laf.service.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 根据用户id 获取用户帮助的启示列表
@@ -206,5 +211,43 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public UserEditInfoResp getUserEditInfo(Long userTokenId) {
         return userMapper.getUserEditInfo(userTokenId);
+    }
+
+
+    /**
+     * /修改用户名
+     *
+     * @param userId   用户id
+     * @param userName 用户名
+     */
+    @Override
+    public ResponseResult updateUserNameById(Long userId, String userName) {
+        Boolean only = userInfoService.judgeOnlyUserName(userName);
+        if (only) {
+            Integer succeed = userMapper.updateUserNameById(userId, userName);
+            if (succeed > 0) {
+                return new ResponseResult<>(200, "更新用户名成功");
+            } else {
+                return new ResponseResult<>(400, "发生未知错误");
+            }
+        } else {
+            return new ResponseResult<>(400, "发生未知错误");
+        }
+    }
+
+    /**
+     * 修改用户联系方式
+     *
+     * @param userId   用户id
+     * @param phoneNum 用户名
+     */
+    @Override
+    public ResponseResult updateUserPhoneNumById(Long userId, String phoneNum) {
+        Integer succeed = userMapper.updateUserPhoneNumById(userId, phoneNum);
+        if (succeed > 0) {
+            return new ResponseResult<>(200, "更新联系方式成功");
+        } else {
+            return new ResponseResult<>(400, "发生未知错误");
+        }
     }
 }

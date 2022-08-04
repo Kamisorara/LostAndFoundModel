@@ -288,12 +288,19 @@ public class Person {
         avatar.setAvatarUrl(imgUrl);
         avatar.setUserId(userTokenId);
         avatar.setStatus(0);
-        int succeed = avatarMapper.updateUserHeadStatus(userTokenId);
-        if (succeed > 0) {
-            avatarMapper.insert(avatar);
-        } else {
-            return new ResponseResult<>(400, "发生未知错误");
-        }
+        avatarMapper.updateUserHeadStatus(userTokenId);
+        avatarMapper.insert(avatar);
         return new ResponseResult<>(200, "更新头像成功", imgUrl);
+    }
+
+
+    /**
+     * 更新更新用户名
+     */
+    @RequestMapping(value = "/update-userName", method = RequestMethod.POST)
+    public ResponseResult updateUserName(HttpServletRequest servletRequest,
+                                         @RequestParam("userName") String userName) throws Exception {
+        Long userId = tokenService.getUserIdFromToken(servletRequest);
+        return personService.updateUserNameById(userId, userName);
     }
 }

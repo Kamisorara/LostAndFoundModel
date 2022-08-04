@@ -2,6 +2,7 @@ package com.laf.service.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
+import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 
@@ -43,4 +44,10 @@ public interface PersonService {
 
     //根据token id 获取该用户所有基本信息
     UserEditInfoResp getUserEditInfo(Long userTokenId);
+
+    //修改用户userName
+    ResponseResult updateUserNameById(Long userId, String userName);
+
+    //修改用户联系方式
+    ResponseResult updateUserPhoneNumById(Long userId, String phoneNum);
 }
