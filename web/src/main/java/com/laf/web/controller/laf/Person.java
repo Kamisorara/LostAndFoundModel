@@ -303,4 +303,14 @@ public class Person {
         Long userId = tokenService.getUserIdFromToken(servletRequest);
         return personService.updateUserNameById(userId, userName);
     }
+
+    /**
+     * 更新联系方式
+     */
+    @RequestMapping(value = "/update-phoneNum", method = RequestMethod.POST)
+    public ResponseResult updatePhoneNum(HttpServletRequest servletRequest,
+                                         @RequestParam("phoneNum") String phoneNum) throws Exception {
+        Long userId = tokenService.getUserIdFromToken(servletRequest);
+        return personService.updateUserPhoneNumById(userId, phoneNum);
+    }
 }
