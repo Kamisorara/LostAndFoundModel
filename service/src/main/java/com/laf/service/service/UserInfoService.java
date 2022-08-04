@@ -25,4 +25,5 @@ public interface UserInfoService {
 
     //根据用户userName 查询用户注册的userName是否相撞
     Boolean judgeOnlyUserName(String userName);
+
 }

@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -10,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   #配置redis
   redis:
-    host: 43.142.157.243
+    host:
   #  #配置mail信息
   mail:
     host: smtp.163.com

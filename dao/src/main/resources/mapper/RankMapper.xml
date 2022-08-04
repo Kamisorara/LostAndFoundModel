@@ -4,7 +4,9 @@
     <!--    获取帮助次数前三的用户-->
 
     <select id="getTop3User" resultType="com.laf.entity.entity.tokenResp.UserResp">
-        SELECT *
+        SELECT sr.user_id as 'id',
+               su.user_name,
+               sa.avatar_url
         FROM `sys_rank` sr
                  LEFT JOIN sys_user su ON sr.user_id = su.id
                  LEFT JOIN sys_avatar sa ON sa.user_id = sr.user_id

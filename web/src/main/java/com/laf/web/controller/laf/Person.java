@@ -3,12 +3,14 @@ package com.laf.web.controller.laf;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.laf.lafPhotosMapper;
+import com.laf.dao.mapper.sysPhotosMapper;
 import com.laf.entity.entity.laf.lafPhotos;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.messageResp.MessageResp;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.sys.Avatar;
+import com.laf.entity.entity.sys.Photos;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
 import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.service.service.MessageService;
@@ -67,6 +69,9 @@ public class Person {
 
     @Autowired
     private AvatarMapper avatarMapper;
+
+    @Autowired
+    private sysPhotosMapper sysPhotosMapper;
 
     /**
      * 根据用户id 获取用户主页详情（包括用户，头像，昵称，帮助他人次数,用户个人主页背景图片等（根据Token的id）
@@ -313,4 +318,22 @@ public class Person {
         Long userId = tokenService.getUserIdFromToken(servletRequest);
         return personService.updateUserPhoneNumById(userId, phoneNum);
     }
+
+    /**
+     * 更新用户个性背景
+     */
+    @RequestMapping(value = "/update-background", method = RequestMethod.POST)
+    public ResponseResult updateBackground(HttpServletRequest servletRequest,
+                                           @RequestParam("file") MultipartFile multipartFile) throws Exception {
+        Long userId = tokenService.getUserIdFromToken(servletRequest);
+        sysPhotosMapper.updateUserPhotosStatus(userId);
+        String imgUrl = fastDfsService.uploadImg(multipartFile);
+        Photos photos = new Photos();
+        photos.setStatus("0");
+        photos.setUserId(userId);
+        photos.setPhotoUrl(imgUrl);
+        sysPhotosMapper.insert(photos);
+        return new ResponseResult<>(200, "更新个性背景成功");
+    }
+
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laf.dao.mapper.sysPhotosMapper">
+    <!--    把用户status 全都变成 1（不启用）状态-->
+    <update id="updateUserPhotosStatus">
+        UPDATE sys_photos sp
+        SET sp.`status` = 1
+        WHERE sp.user_id = #{userId};
+    </update>
+</mapper>
