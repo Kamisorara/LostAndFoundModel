@@ -126,7 +126,9 @@ public class Person {
      */
     @ApiOperation("填写用户id 将用户启示更新为已完成状态")
     @RequestMapping(value = "/helped-people", method = RequestMethod.POST)
-    public ResponseResult helpedPeople(HttpServletRequest request, @RequestParam("id") Long id, @RequestParam("userId") Long userId) throws Exception {
+    public ResponseResult helpedPeople(HttpServletRequest request,
+                                       @RequestParam("id") Long id,
+                                       @RequestParam("userId") Long userId) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         Boolean isPerson = personService.JudgeCreatedUser(id, userIdFromToken);
         if (isPerson) {
