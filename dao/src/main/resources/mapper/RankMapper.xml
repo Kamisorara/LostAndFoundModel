@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.laf.dao.mapper.RankMapper">
+    <!--    更新用户帮助次数-->
+    <update id="updateUserHelpTimes">
+        UPDATE sys_rank sr
+        SET sr.help_times = #{helpTimes}
+        WHERE sr.user_id = #{userId};
+    </update>
     <!--    获取帮助次数前三的用户-->
-
     <select id="getTop3User" resultType="com.laf.entity.entity.tokenResp.UserResp">
         SELECT sr.user_id as 'id',
                su.user_name,
@@ -14,4 +19,12 @@
         ORDER BY sr.help_times DESC
         LIMIT 3;
     </select>
+    <!--    获取用户帮助次数-->
+    <select id="getUserHelpedTimes" resultType="java.lang.Integer">
+        SELECT sr.help_times
+        FROM `sys_rank` sr
+        WHERE sr.user_id = #{userId};
+    </select>
+
+
 </mapper>

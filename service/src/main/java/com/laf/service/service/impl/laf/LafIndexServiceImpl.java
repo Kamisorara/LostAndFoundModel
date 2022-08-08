@@ -107,7 +107,6 @@ public class LafIndexServiceImpl implements LafIndexService {
 //                .map(notice -> noticeMapper.getAllNoticePhotoLimit4(notice.getId()))
 //                .collect(Collectors.toList());
 
-
         return recentNotice;
 
     }

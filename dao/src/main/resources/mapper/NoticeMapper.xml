@@ -4,7 +4,7 @@
     <!--    更新启示状态为（已帮助）-->
     <update id="updateNoticeDone">
         UPDATE laf_notice ln
-        SET ln.done          = 1,
+        SET ln.done          = 0,
             ln.helper_userId = #{userId}
         WHERE ln.id = #{noticeId};
     </update>
@@ -68,6 +68,7 @@
                su.user_name,
                ln.message,
                ln.view,
+               ln.urgency,
                ln.done
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -86,6 +87,7 @@
                sa.avatar_url,
                su.user_name,
                ln.message,
+               ln.urgency,
                ln.done
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -108,6 +110,7 @@
                ln.message,
                ln.view,
                ln.done,
+               ln.urgency,
                ln.status
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -133,6 +136,7 @@
                su.user_name,
                ln.message,
                ln.view,
+               ln.urgency,
                ln.done
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -150,6 +154,7 @@
                su.user_name,
                ln.message,
                ln.VIEW,
+               ln.`urgency`,
                ln.done
         FROM laf_notice ln
                  LEFT JOIN sys_user su ON su.id = ln.`create_id`
@@ -246,6 +251,7 @@
                ln.message,
                ln.VIEW,
                ln.done,
+               ln.urgency,
                ln.`status`
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -265,6 +271,7 @@
                su.user_name,
                ln.message,
                ln.VIEW,
+               ln.urgency,
                ln.done,
                ln.`status`
         FROM laf_notice ln

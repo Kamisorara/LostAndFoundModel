@@ -41,4 +41,8 @@ public class NoticeSearchResp {
 
     //是否删除状态
     private String status;
+
+    //是否为紧急寻物状态
+    private String urgency;
+
 }

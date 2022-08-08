@@ -2,6 +2,7 @@ package com.laf.service.service.impl.laf;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
@@ -28,6 +29,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private RankMapper rankMapper;
 
     /**
      * 根据用户id 获取用户帮助的启示列表
@@ -63,8 +67,16 @@ public class PersonServiceImpl implements PersonService {
      */
     @Override
     public Boolean updateNoticeDoneStatus(Long noticeId, Long userId) {
-        Integer success = noticeMapper.updateNoticeDone(noticeId, userId);
-        return success > 0;
+        Boolean createdUser = JudgeCreatedUser(noticeId, userId);
+        //如果创建者是自己则抛出false
+        if (createdUser) {
+            return false;
+        } else {
+            Integer updateNoticeDoneSuccess = noticeMapper.updateNoticeDone(noticeId, userId);
+            Integer userHelpedTimes = rankMapper.getUserHelpedTimes(userId);
+            Integer updateUserHelpTimesSucceed = rankMapper.updateUserHelpTimes(userHelpedTimes + 1, userId);
+            return updateNoticeDoneSuccess + updateUserHelpTimesSucceed > 0;
+        }
     }
 
     /**
