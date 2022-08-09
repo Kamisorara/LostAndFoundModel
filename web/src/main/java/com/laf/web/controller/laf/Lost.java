@@ -1,6 +1,7 @@
 package com.laf.web.controller.laf;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
@@ -48,7 +49,7 @@ public class Lost {
         IPage<NoticeSearchResp> allLostNotice =
                 lafLostService.getAllLostNotice(pageNum, pageSize);
 
-        return new ResponseResult<>(200, "获取分页寻物启事列表成功", allLostNotice);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取分页寻物启事列表成功", allLostNotice);
     }
 
 
@@ -63,7 +64,7 @@ public class Lost {
         List<Object> result = new ArrayList<>();
         result.add(noticeDetailInfo);
         result.add(noticeAllPhotos);
-        return new ResponseResult<>(200, "获取启示详情成功", result);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取启示详情成功", result);
 
     }
 

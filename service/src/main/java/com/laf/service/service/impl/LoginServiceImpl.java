@@ -4,6 +4,7 @@ package com.laf.service.service.impl;
 import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.UserRoleMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.LoginUser;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.Rank;
@@ -66,7 +67,7 @@ public class LoginServiceImpl implements LoginService {
         Long userId = userMapper.selectUserIdByUserName(user.getUserName());
         String userStatus = userMapper.getUserStatus(userId);
         if (userStatus.equals("1")) {
-            return new ResponseResult(400, "该账户已被管理员封禁，请联系管理员已获取详细信息！");
+            return new ResponseResult(HttpStatus.BAD_REQUEST, "该账户已被管理员封禁，请联系管理员已获取详细信息！");
         } else {
             //如果认证通过使用userid生成jwt  存入ResponseBody进行返回
             LoginUser loginUser = (LoginUser) authenticate.getPrincipal(); //强转成LoginUser对象
@@ -77,7 +78,7 @@ public class LoginServiceImpl implements LoginService {
             map.put("token", jwt);
             //把完整的用户信息存入redis
             redisCache.setCacheObject("login:" + userid, loginUser);
-            return new ResponseResult(200, "登录成功", map);
+            return new ResponseResult(HttpStatus.SUCCESS, "登录成功", map);
         }
     }
 
@@ -117,12 +118,12 @@ public class LoginServiceImpl implements LoginService {
                 rank.setUserId(userIdInDataBase);
                 rank.setHelpTimes(0);
                 rankMapper.insert(rank);
-                return new ResponseResult(200, "用户:" + email + "注册成功!");
+                return new ResponseResult(HttpStatus.SUCCESS, "用户:" + email + "注册成功!");
             } else {
-                return new ResponseResult(400, "注册失败，请检查邮箱验证码或是密码是是否输入正确");
+                return new ResponseResult(HttpStatus.BAD_REQUEST, "注册失败，请检查邮箱验证码或是密码是是否输入正确");
             }
         } catch (Exception e) {
-            return new ResponseResult(401, "发生未知错误!");
+            return new ResponseResult(HttpStatus.UNAUTHORIZED, "发生未知错误!");
         }
     }
 
@@ -136,7 +137,7 @@ public class LoginServiceImpl implements LoginService {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         Long userid = loginUser.getUser().getId();
         redisCache.deleteObject("login:" + userid);
-        return new ResponseResult(200, "退出成功");
+        return new ResponseResult(HttpStatus.SUCCESS, "退出成功");
     }
 
     /**
@@ -152,12 +153,12 @@ public class LoginServiceImpl implements LoginService {
             String newPassEncode = newPassEncoder.encode(newPass);
             Integer update = userMapper.updateUserPassword(id, newPassEncode);
             if (update > 0) {
-                return new ResponseResult(200, "更新密码成功！");
+                return new ResponseResult(HttpStatus.SUCCESS, "更新密码成功！");
             } else {
-                return new ResponseResult(400, "更新密码失败！");
+                return new ResponseResult(HttpStatus.BAD_REQUEST, "更新密码失败！");
             }
         } else {
-            return new ResponseResult(400, "修改密码失败！请检查密码是否输入正确！");
+            return new ResponseResult(HttpStatus.BAD_REQUEST, "修改密码失败！请检查密码是否输入正确！");
         }
     }
 }

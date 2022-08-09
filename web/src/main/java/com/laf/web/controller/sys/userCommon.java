@@ -1,6 +1,7 @@
 package com.laf.web.controller.sys;
 
 import com.laf.dao.mapper.UserMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.logincode.LoginProperties;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
@@ -65,7 +66,7 @@ public class userCommon {
         String verifyCode = request.getParameter("verifyCode");
         String trueCode = redisCache.getCacheObject(uuid);
         if (!trueCode.equals(verifyCode)) {
-            return new ResponseResult<>(400, "登录失败验证码错误！");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "登录失败验证码错误！");
         } else {
             User user = new User();
             user.setUserName(username);
@@ -84,9 +85,9 @@ public class userCommon {
         String username = request.getParameter("username");
         try {
             userResp userResp = userMapper.searchUserByUserName(username);
-            return new ResponseResult<>(200, "获取该登录账号的头像成功！", userResp.getAvatarUrl());
+            return new ResponseResult<>(HttpStatus.SUCCESS, "获取该登录账号的头像成功！", userResp.getAvatarUrl());
         } catch (NullPointerException nullPointerException) {
-            return new ResponseResult<>(400, "没有找到该用户的头像");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "没有找到该用户的头像");
         }
 
     }
@@ -106,7 +107,7 @@ public class userCommon {
         String verifyCode = request.getParameter("verifyCode");
         String trueCode = redisCache.getCacheObject(uuid);
         if (!trueCode.equals(verifyCode)) {
-            return new ResponseResult<>(400, "登录失败验证码错误！");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "登录失败验证码错误！");
         } else {
             return loginService.register(username, password, passwordRepeat, email, verify);
         }
@@ -124,9 +125,9 @@ public class userCommon {
     public ResponseResult verifyCode(@RequestParam("email") String email) {
         try {
             verifyService.sendVerifyCode(email);
-            return new ResponseResult<>(200, "邮件发送成功");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "邮件发送成功");
         } catch (Exception e) {
-            return new ResponseResult<>(400, "邮件发送失败！");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "邮件发送失败！");
         }
     }
 
@@ -161,10 +162,10 @@ public class userCommon {
     public ResponseResult judgeEmailOnlyOne(@RequestParam("email") String emailAddr) {
         Boolean only = userInfoService.judgeOnlyEmail(emailAddr);
         if (only) {
-            return new ResponseResult<>(200, "是唯一邮箱");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "是唯一邮箱");
 
         } else {
-            return new ResponseResult<>(400, "不是唯一邮箱");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "不是唯一邮箱");
         }
     }
 
@@ -177,9 +178,9 @@ public class userCommon {
     public ResponseResult judgeUserNameOnlyOne(@RequestParam("userName") String userName) {
         Boolean only = userInfoService.judgeOnlyUserName(userName);
         if (only) {
-            return new ResponseResult<>(200, "是唯一用户名");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "是唯一用户名");
         } else {
-            return new ResponseResult<>(400, "不是唯一用户名");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "不是唯一用户名");
         }
     }
 
@@ -190,7 +191,7 @@ public class userCommon {
     @RequestMapping(value = "/select-user", method = RequestMethod.GET)
     public ResponseResult select(@RequestParam("id") Long id) {
         User user = userMapper.selectById(id);
-        return new ResponseResult(200, "获取", user);
+        return new ResponseResult(HttpStatus.SUCCESS, "获取", user);
 
     }
 }

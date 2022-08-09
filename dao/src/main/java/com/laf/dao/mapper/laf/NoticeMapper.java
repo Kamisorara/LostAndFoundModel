@@ -24,7 +24,7 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     List<NoticeIndexResp> getSimpleUrgencyLostList();
 
     //根据启示关键字搜索对应启示并分类获取
-    IPage<NoticeSearchResp> getNoticeByKeyWords(String keyWords, Page<NoticeSearchResp> page);
+    IPage<NoticeSearchResp> getNoticeByKeyWords(@Param("keyWords") String keyWords, Page<NoticeSearchResp> page);
 
     //分页获取所有寻物启事列表
     IPage<NoticeSearchResp> getAllLostNotice(Page<NoticeSearchResp> page);

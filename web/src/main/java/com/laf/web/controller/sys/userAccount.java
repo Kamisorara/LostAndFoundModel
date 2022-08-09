@@ -2,6 +2,7 @@ package com.laf.web.controller.sys;
 
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.MenuMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.Avatar;
 import com.laf.service.service.LoginService;
@@ -88,6 +89,6 @@ public class userAccount {
         avatar.setAvatarUrl(avatarUrl);
         avatarMapper.updateUserHeadStatus(userId);
         int succeed = avatarMapper.insert(avatar);
-        return new ResponseResult<>(200, "头像修改成功", avatarUrl);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "头像修改成功", avatarUrl);
     }
 }

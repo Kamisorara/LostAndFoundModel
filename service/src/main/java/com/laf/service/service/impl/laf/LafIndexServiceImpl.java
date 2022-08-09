@@ -126,7 +126,13 @@ public class LafIndexServiceImpl implements LafIndexService {
         page.setSize(pageSize);
         //设置当前页码
         page.setCurrent(pageNum);
-        return noticeMapper.getNoticeByKeyWords(KeyWords, page);
+        IPage<NoticeSearchResp> noticeByKeyWords = noticeMapper.getNoticeByKeyWords(KeyWords, page);
+        List<NoticeSearchResp> records = noticeByKeyWords.getRecords();
+        for (NoticeSearchResp notice : records) {
+            List<String> allNoticePhotoLimit4 = noticeMapper.getAllNoticePhotoLimit4(notice.getId());
+            notice.setLafPhotoUrls(allNoticePhotoLimit4);
+        }
+        return noticeByKeyWords;
     }
 
 

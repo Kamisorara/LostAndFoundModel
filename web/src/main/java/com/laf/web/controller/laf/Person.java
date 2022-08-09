@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.laf.lafPhotosMapper;
 import com.laf.dao.mapper.sysPhotosMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.laf.lafPhotos;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
@@ -81,7 +82,7 @@ public class Person {
     public ResponseResult getUserDetailInfo(HttpServletRequest request) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
         UserDetailInfoResp userDetailInfo = userInfoService.getUserDetailInfo(userId);
-        return new ResponseResult<>(200, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户:" + userDetailInfo.getUserName() + "成功", userDetailInfo);
     }
 
     /**
@@ -91,7 +92,7 @@ public class Person {
     @RequestMapping(value = "/get-person-board", method = RequestMethod.GET)
     public ResponseResult getPersonBoard(@RequestParam("id") Long id) {
         List<MessageResp> userLeaveMessage = messageService.getUserLeaveMessage(id);
-        return new ResponseResult<>(200, "获取用户留言信息成功", userLeaveMessage);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户留言信息成功", userLeaveMessage);
     }
 
     /**
@@ -101,7 +102,7 @@ public class Person {
     @RequestMapping(value = "/get-all-completed", method = RequestMethod.GET)
     public ResponseResult getUserHelpedNoticeList(@RequestParam("id") Long id) {
         List<NoticeSearchResp> userHelpedNotice = personService.getUserHelpedNotice(id);
-        return new ResponseResult<>(200, "获取用户帮助列表成功", userHelpedNotice);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户帮助列表成功", userHelpedNotice);
     }
 
 
@@ -110,13 +111,15 @@ public class Person {
      */
     @ApiOperation("根据用户id 给用户留言")
     @RequestMapping(value = "/leave-message", method = RequestMethod.POST)
-    public ResponseResult leaveMessageToOther(HttpServletRequest request, @RequestParam("toUserId") Long toUserId, @RequestParam("message") String message) throws Exception {
+    public ResponseResult leaveMessageToOther(HttpServletRequest request,
+                                              @RequestParam("toUserId") Long toUserId,
+                                              @RequestParam("message") String message) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
         Integer success = messageService.insertMessage(userId, toUserId, message);
         if (success > 0) {
-            return new ResponseResult<>(200, "留言成功");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "留言成功");
         } else {
-            return new ResponseResult<>(400, "留言失败，请检查输入");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "留言失败，请检查输入");
         }
     }
 
@@ -134,12 +137,12 @@ public class Person {
         if (isPerson) {
             Boolean updateSucceed = personService.updateNoticeDoneStatus(id, userId);
             if (updateSucceed) {
-                return new ResponseResult<>(200, "更改启示Done状态成功");
+                return new ResponseResult<>(HttpStatus.SUCCESS, "更改启示Done状态成功");
             } else {
-                return new ResponseResult<>(400, "更新启示状态失败");
+                return new ResponseResult<>(HttpStatus.BAD_REQUEST, "更新启示状态失败");
             }
         } else {
-            return new ResponseResult<>(400, "不是本人启示");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "不是本人启示");
         }
     }
 
@@ -150,7 +153,7 @@ public class Person {
     @RequestMapping(value = "/select-username-avatar", method = RequestMethod.POST)
     public ResponseResult selectUserNameAndAvatar(@RequestParam("id") Long id) {
         userResp userResp = personService.getUserResp(id);
-        return new ResponseResult<>(200, "获取用户名和头像成功", userResp);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户名和头像成功", userResp);
     }
 
     /**
@@ -161,7 +164,7 @@ public class Person {
     public ResponseResult getUserNoticeBadgeValue(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         List<Integer> result = personService.countUserNotice(userIdFromToken);
-        return new ResponseResult<>(200, "获取用户徽标值成功", result);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户徽标值成功", result);
     }
 
     /**
@@ -170,7 +173,9 @@ public class Person {
     //上传文件(开放权限)
     @ApiOperation("OSS文件上传（已弃用）")
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) {
+    public ResponseResult upLoadFile(@RequestParam("file") MultipartFile multipartFile,
+                                     HttpServletRequest servletRequest,
+                                     @RequestParam("id") Long id) {
 
         String url = ossUploadService.uploadFile(multipartFile);
         lafPhotos lafPhotos = new lafPhotos();
@@ -184,7 +189,7 @@ public class Person {
             lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
-        return new ResponseResult<>(200, "文件上传成功", url);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "文件上传成功", url);
     }
 
     /**
@@ -192,7 +197,9 @@ public class Person {
      */
     @ApiOperation(" fastDfs upload文件测试(可以使用)")
     @RequestMapping(value = "/fastdfs-upload", method = RequestMethod.POST)
-    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest servletRequest, @RequestParam("id") Long id) throws IOException {
+    public ResponseResult fastdfsUploadFile(@RequestParam("file") MultipartFile multipartFile,
+                                            HttpServletRequest servletRequest,
+                                            @RequestParam("id") Long id) throws IOException {
         String resultUrl = fastDfsService.uploadImg(multipartFile);
         lafPhotos lafPhotos = new lafPhotos();
         Boolean judge = lafPhotosService.judgeIndexDisplay(id);
@@ -202,7 +209,7 @@ public class Person {
             lafPhotos.setIndexDisplay("0");
         }
         lafPhotosMapper.insert(lafPhotos);
-        return new ResponseResult<>(200, "文件上传成功", resultUrl);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "文件上传成功", resultUrl);
     }
 
     /**
@@ -213,7 +220,7 @@ public class Person {
     public ResponseResult getUserWaitingNoticeLists(HttpServletRequest request) throws Exception {
         Long userIdFromToken = tokenService.getUserIdFromToken(request);
         List<NoticeSearchResp> userWaitingNoticeList = personService.getUserWaitingNoticeList(userIdFromToken);
-        return new ResponseResult<>(200, "获取用户待处理列表成功", userWaitingNoticeList);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户待处理列表成功", userWaitingNoticeList);
     }
 
 
@@ -222,13 +229,14 @@ public class Person {
      */
     @ApiOperation("根据启示id删除自己发布的启示")
     @RequestMapping(value = "/delete-personal-notice", method = RequestMethod.POST)
-    public ResponseResult deleteUserPersonalNotice(HttpServletRequest request, @RequestParam("id") Long id) throws Exception {
+    public ResponseResult deleteUserPersonalNotice(HttpServletRequest request,
+                                                   @RequestParam("id") Long id) throws Exception {
         Long userId = tokenService.getUserIdFromToken(request);
         Boolean succeed = personService.deleteUserPersonalNotice(userId, id);
         if (succeed) {
-            return new ResponseResult<>(200, "该notice删除成功");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "该notice删除成功");
         } else {
-            return new ResponseResult<>(400, "notice删除失败");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "notice删除失败");
         }
     }
 
@@ -243,7 +251,7 @@ public class Person {
         IPage<NoticeSearchResp> userNoticePageById =
                 personService.getUserNoticePageById(userId, pageNum, pageSize);
 
-        return new ResponseResult<>(200, "分页获取用户notice成功", userNoticePageById);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "分页获取用户notice成功", userNoticePageById);
 
     }
 
@@ -258,7 +266,7 @@ public class Person {
                                                   @RequestParam("id") Long userId) {
         IPage<NoticeSearchResp> userHelpedNoticePageById =
                 personService.getUserHelpedNoticePageById(userId, pageNum, pageSize);
-        return new ResponseResult<>(200, "分页获取该用户帮助的notice成功", userHelpedNoticePageById);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "分页获取该用户帮助的notice成功", userHelpedNoticePageById);
 
     }
 
@@ -269,7 +277,7 @@ public class Person {
     @RequestMapping(value = "/get-user-basic-num", method = RequestMethod.GET)
     public ResponseResult getUserBasicNum(@RequestParam("id") Long userId) {
         List<Integer> userBasicInfoNum = personService.getUserBasicInfoNum(userId);
-        return new ResponseResult<>(200, "获取用户启示发布，帮助，浏览个数成功", userBasicInfoNum);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取用户启示发布，帮助，浏览个数成功", userBasicInfoNum);
     }
 
 
@@ -280,7 +288,7 @@ public class Person {
     public ResponseResult getUserEditInfo(HttpServletRequest servletRequest) throws Exception {
         Long userId = tokenService.getUserIdFromToken(servletRequest);
         UserEditInfoResp userEditInfo = personService.getUserEditInfo(userId);
-        return new ResponseResult<>(200, "根据token获取用户信息成功", userEditInfo);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "根据token获取用户信息成功", userEditInfo);
     }
 
     /**
@@ -297,7 +305,7 @@ public class Person {
         avatar.setStatus(0);
         avatarMapper.updateUserHeadStatus(userTokenId);
         avatarMapper.insert(avatar);
-        return new ResponseResult<>(200, "更新头像成功", imgUrl);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "更新头像成功", imgUrl);
     }
 
 
@@ -335,7 +343,8 @@ public class Person {
         photos.setUserId(userId);
         photos.setPhotoUrl(imgUrl);
         sysPhotosMapper.insert(photos);
-        return new ResponseResult<>(200, "更新个性背景成功");
+        return new ResponseResult<>(HttpStatus.SUCCESS, "更新个性背景成功");
     }
+
 
 }

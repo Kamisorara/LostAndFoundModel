@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
@@ -238,12 +239,12 @@ public class PersonServiceImpl implements PersonService {
         if (only) {
             Integer succeed = userMapper.updateUserNameById(userId, userName);
             if (succeed > 0) {
-                return new ResponseResult<>(200, "更新用户名成功");
+                return new ResponseResult<>(HttpStatus.SUCCESS, "更新用户名成功");
             } else {
-                return new ResponseResult<>(400, "发生未知错误");
+                return new ResponseResult<>(HttpStatus.BAD_REQUEST, "发生未知错误");
             }
         } else {
-            return new ResponseResult<>(400, "发生未知错误");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "发生未知错误");
         }
     }
 
@@ -257,9 +258,9 @@ public class PersonServiceImpl implements PersonService {
     public ResponseResult updateUserPhoneNumById(Long userId, String phoneNum) {
         Integer succeed = userMapper.updateUserPhoneNumById(userId, phoneNum);
         if (succeed > 0) {
-            return new ResponseResult<>(200, "更新联系方式成功");
+            return new ResponseResult<>(HttpStatus.SUCCESS, "更新联系方式成功");
         } else {
-            return new ResponseResult<>(400, "发生未知错误");
+            return new ResponseResult<>(HttpStatus.BAD_REQUEST, "发生未知错误");
         }
     }
 }

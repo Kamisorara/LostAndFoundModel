@@ -2,6 +2,7 @@ package com.laf.service.service.impl;
 
 import com.laf.dao.mapper.AvatarMapper;
 import com.laf.dao.mapper.UserMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserDetailInfoResp;
@@ -23,9 +24,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public ResponseResult updateUserInfo(Long userId, String userName, String phoneNumber) {
         Integer ifSucceed = userMapper.updateUserInfoById(userId, userName, phoneNumber);
         if (ifSucceed > 0) {
-            return new ResponseResult(200, "更新成功！");
+            return new ResponseResult(HttpStatus.SUCCESS, "更新成功！");
         } else {
-            return new ResponseResult(400, "更新失败，请重试!");
+            return new ResponseResult(HttpStatus.BAD_REQUEST, "更新失败，请重试!");
         }
     }
 
@@ -60,9 +61,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public ResponseResult getUserByUserName(String userName) {
         try {
             userResp userInfo = userMapper.searchUserByUserName(userName);
-            return new ResponseResult(200, "搜索用户" + userInfo.getUserName() + "成功", userInfo);
+            return new ResponseResult(HttpStatus.SUCCESS, "搜索用户" + userInfo.getUserName() + "成功", userInfo);
         } catch (NullPointerException exception) {
-            return new ResponseResult(400, "未查到到该用户");
+            return new ResponseResult(HttpStatus.BAD_REQUEST, "未查到到该用户");
         }
     }
 

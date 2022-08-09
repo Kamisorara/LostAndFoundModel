@@ -3,6 +3,7 @@ package com.laf.service.service.impl.laf;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.laf.NoticeMapper;
+import com.laf.entity.constant.HttpStatus;
 import com.laf.entity.entity.laf.Notice;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
@@ -69,9 +70,9 @@ public class LafFoundServiceImpl implements LafFoundService {
         notice.setCreateId(userId);
         int insert = noticeMapper.insert(notice);
         if (insert > 0) {
-            return new ResponseResult(200, "创建拾物启事成功");
+            return new ResponseResult(HttpStatus.SUCCESS, "创建拾物启事成功");
         } else {
-            return new ResponseResult(400, "创建拾物启事失败，请重试");
+            return new ResponseResult(HttpStatus.BAD_REQUEST, "创建拾物启事失败，请重试");
         }
     }
 }

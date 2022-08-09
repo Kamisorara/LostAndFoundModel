@@ -69,6 +69,7 @@
                ln.message,
                ln.view,
                ln.urgency,
+               ln.status,
                ln.done
         FROM laf_notice ln
                  LEFT JOIN laf_photos lp ON lp.laf_id = ln.id
@@ -78,6 +79,7 @@
         WHERE ln.message LIKE CONCAT('%', #{keyWords}, '%')
           AND lp.index_display = 0
           AND ln.done = 1
+          AND ln.`status` = 0
     </select>
     <!--    分页获取所有寻物启事列表-->
     <select id="getAllLostNotice" resultType="com.laf.entity.entity.laf.lafResp.NoticeSearchResp">
