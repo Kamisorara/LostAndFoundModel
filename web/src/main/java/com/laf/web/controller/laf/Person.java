@@ -284,6 +284,7 @@ public class Person {
     /**
      * 用户编辑资料界面根据Token获取所有该用户基本信息
      */
+    @ApiOperation("用户编辑资料界面根据Token获取所有该用户基本信息")
     @RequestMapping(value = "/user-editInfo", method = RequestMethod.GET)
     public ResponseResult getUserEditInfo(HttpServletRequest servletRequest) throws Exception {
         Long userId = tokenService.getUserIdFromToken(servletRequest);
@@ -294,6 +295,7 @@ public class Person {
     /**
      * 更新用户头像
      */
+    @ApiOperation("更新用户头像")
     @RequestMapping(value = "/update-user-avatar", method = RequestMethod.POST)
     public ResponseResult updateUserAvatar(@RequestParam("file") MultipartFile multipartFile,
                                            HttpServletRequest servletRequest) throws Exception {
@@ -312,6 +314,7 @@ public class Person {
     /**
      * 更新更新用户名
      */
+    @ApiOperation("更新更新用户名")
     @RequestMapping(value = "/update-userName", method = RequestMethod.POST)
     public ResponseResult updateUserName(HttpServletRequest servletRequest,
                                          @RequestParam("userName") String userName) throws Exception {
@@ -322,6 +325,7 @@ public class Person {
     /**
      * 更新联系方式
      */
+    @ApiOperation("更新联系方式")
     @RequestMapping(value = "/update-phoneNum", method = RequestMethod.POST)
     public ResponseResult updatePhoneNum(HttpServletRequest servletRequest,
                                          @RequestParam("phoneNum") String phoneNum) throws Exception {
@@ -332,6 +336,7 @@ public class Person {
     /**
      * 更新用户个性背景
      */
+    @ApiOperation("更新用户个性背景")
     @RequestMapping(value = "/update-background", method = RequestMethod.POST)
     public ResponseResult updateBackground(HttpServletRequest servletRequest,
                                            @RequestParam("file") MultipartFile multipartFile) throws Exception {
