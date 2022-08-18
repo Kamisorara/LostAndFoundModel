@@ -11,7 +11,7 @@ import java.util.List;
 @Component("ex")
 public class ExpressionRoot {
 
-    public boolean hasAuthority(String authority){
+    public boolean hasAuthority(String authority) {
         //获取当前用户的权限
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
@@ -19,4 +19,5 @@ public class ExpressionRoot {
         //判断用户权限集合中是否存在authority
         return permissions.contains(authority);
     }
+
 }

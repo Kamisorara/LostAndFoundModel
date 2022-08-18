@@ -65,7 +65,6 @@ public class Lost {
         result.add(noticeDetailInfo);
         result.add(noticeAllPhotos);
         return new ResponseResult<>(HttpStatus.SUCCESS, "获取启示详情成功", result);
-
     }
 
     /**
