@@ -1,5 +1,6 @@
 package com.laf.service.service.impl;
 
+import com.laf.entity.constant.RabbitMqConstant;
 import com.laf.service.service.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-@RabbitListener(queues = {"email.direct.queue"})
+@RabbitListener(queues = {RabbitMqConstant.EMAIL})
 @Service
 public class EmailServiceImpl implements EmailService {
 

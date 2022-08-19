@@ -5,6 +5,7 @@ import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.UserRoleMapper;
 import com.laf.entity.constant.HttpStatus;
+import com.laf.entity.constant.RabbitMqConstant;
 import com.laf.entity.entity.LoginUser;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.sys.Rank;
@@ -125,9 +126,7 @@ public class LoginServiceImpl implements LoginService {
 
                 //1：通过MQ来完成消息的分表
                 //参数1：交换机。 参数2：路由key/queue队列名称。 参数3：消息内容
-                String exchangeName = "direct_order_exchange";
-                String routingKey = "email";
-                rabbitTemplate.convertAndSend(exchangeName, routingKey, email);
+                rabbitTemplate.convertAndSend(RabbitMqConstant.EXCHANGE, RabbitMqConstant.EMAIL_ROUTING_KEY, email);
 
                 return new ResponseResult(HttpStatus.SUCCESS, "用户:" + email + "注册成功!");
             } else {
