@@ -3,6 +3,13 @@ spring:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
+  #rabbitMQ
+  rabbitmq:
+    host: 192.168.31.250
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /LostAndFoundEmail
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

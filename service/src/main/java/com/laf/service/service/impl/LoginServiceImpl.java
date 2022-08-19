@@ -15,6 +15,7 @@ import com.laf.entity.utils.RedisCache;
 import com.laf.service.service.LoginService;
 import com.laf.service.service.UserInfoService;
 import com.laf.service.service.VerifyService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,6 +51,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 登录
@@ -118,6 +122,13 @@ public class LoginServiceImpl implements LoginService {
                 rank.setUserId(userIdInDataBase);
                 rank.setHelpTimes(0);
                 rankMapper.insert(rank);
+
+                //1：通过MQ来完成消息的分表
+                //参数1：交换机。 参数2：路由key/queue队列名称。 参数3：消息内容
+                String exchangeName = "direct_order_exchange";
+                String routingKey = "email";
+                rabbitTemplate.convertAndSend(exchangeName, routingKey, email);
+
                 return new ResponseResult(HttpStatus.SUCCESS, "用户:" + email + "注册成功!");
             } else {
                 return new ResponseResult(HttpStatus.BAD_REQUEST, "注册失败，请检查邮箱验证码或是密码是是否输入正确");

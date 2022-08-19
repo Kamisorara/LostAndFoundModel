@@ -64,6 +64,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--        RabbitMQ消息队列-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
         <dependency>
 

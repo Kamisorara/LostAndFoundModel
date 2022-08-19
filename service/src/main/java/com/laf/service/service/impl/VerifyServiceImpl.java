@@ -1,7 +1,6 @@
 package com.laf.service.service.impl;
 
 
-
 import com.laf.service.service.VerifyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,13 @@ public class VerifyServiceImpl implements VerifyService {
     StringRedisTemplate template;
 
     @Value("${spring.mail.username}")
-    String from;
+    private String from;
 
+    /**
+     * 发送邮件
+     *
+     * @param mail 邮件地址
+     */
     @Override
     public void sendVerifyCode(String mail) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -40,6 +44,13 @@ public class VerifyServiceImpl implements VerifyService {
     }
 
 
+    /**
+     * 验证验证码
+     *
+     * @param mail 邮件地址
+     * @param code 验证码
+     * @return true or false
+     */
     @Override
     public boolean doVerify(String mail, String code) {
         String s = template.opsForValue().get("verify:code:" + mail);
