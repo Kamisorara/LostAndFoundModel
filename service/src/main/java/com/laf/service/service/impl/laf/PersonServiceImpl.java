@@ -6,12 +6,14 @@ import com.laf.dao.mapper.RankMapper;
 import com.laf.dao.mapper.UserMapper;
 import com.laf.dao.mapper.laf.NoticeMapper;
 import com.laf.entity.constant.HttpStatus;
+import com.laf.entity.constant.RabbitMqConstant;
 import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.resp.ResponseResult;
 import com.laf.entity.entity.resp.userResp;
 import com.laf.entity.entity.tokenResp.UserEditInfoResp;
 import com.laf.service.service.PersonService;
 import com.laf.service.service.UserInfoService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private RankMapper rankMapper;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 根据用户id 获取用户帮助的启示列表
@@ -261,6 +266,25 @@ public class PersonServiceImpl implements PersonService {
             return new ResponseResult<>(HttpStatus.SUCCESS, "更新联系方式成功");
         } else {
             return new ResponseResult<>(HttpStatus.BAD_REQUEST, "发生未知错误");
+        }
+    }
+
+    /**
+     * 根据用户id 获取用户联系方式
+     */
+    @Override
+    public String getUserPhoneNum(Long userId, Long visitedUserId) {
+        try {
+            String userPhoneNum = userMapper.getUserPhoneNum(userId);
+            String message = userId + "-" + visitedUserId;
+            rabbitTemplate.convertAndSend(RabbitMqConstant.EXCHANGE, RabbitMqConstant.SMS_ROUTING_KEY, message);
+            if (userPhoneNum.equals("")) {
+                return "此用户联系方式为空";
+            } else {
+                return userPhoneNum;
+            }
+        } catch (Exception e) {
+            return "此用户未添加联系方式";
         }
     }
 }

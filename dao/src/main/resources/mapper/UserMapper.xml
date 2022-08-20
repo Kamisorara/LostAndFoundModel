@@ -116,6 +116,12 @@
             AND sp.`status` = 0
         WHERE su.id = #{userTokenId};
     </select>
+    <!--    根据用户id 获取用户联系方式-->
+    <select id="getUserPhoneNum" resultType="java.lang.String">
+        SELECT su.phone_number
+        FROM `sys_user` su
+        WHERE su.id = #{userId};
+    </select>
 
 
 </mapper>

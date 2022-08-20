@@ -56,4 +56,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     //根据用户id 修改该用户联系方式
     Integer updateUserPhoneNumById(@Param("userId") Long userId, @Param("phoneNum") String phoneNum);
+
+
+    //根据用户id 获取用户联系方式
+    String getUserPhoneNum(Long userId);
 }

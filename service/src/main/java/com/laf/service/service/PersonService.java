@@ -50,4 +50,7 @@ public interface PersonService {
 
     //修改用户联系方式
     ResponseResult updateUserPhoneNumById(Long userId, String phoneNum);
+
+    //根据用户id 获取用户联系方式
+    String getUserPhoneNum(Long userId,Long visitedUserId);
 }

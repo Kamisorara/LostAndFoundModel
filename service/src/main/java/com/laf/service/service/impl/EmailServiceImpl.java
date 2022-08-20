@@ -10,10 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-@RabbitListener(queues = {RabbitMqConstant.EMAIL})
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -28,6 +25,7 @@ public class EmailServiceImpl implements EmailService {
      *
      * @param mailAddr 邮件地址
      */
+    @RabbitListener(queues = {RabbitMqConstant.EMAIL})
     @RabbitHandler
     @Override
     public void sendRegisterSuccessMail(String mailAddr) {
