@@ -1,9 +1,13 @@
 package com.laf.entity.entity.sys;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 
 /**
  * (sys_info)表实体类
@@ -27,5 +31,8 @@ public class Info {
     private String status;
     //是否阅读状态
     private String read;
+    //info创建时间
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
 }
 
