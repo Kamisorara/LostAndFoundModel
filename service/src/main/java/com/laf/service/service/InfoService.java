@@ -1,5 +1,8 @@
 package com.laf.service.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.laf.entity.entity.sys.Info;
+
 public interface InfoService {
 
     //用户获取用户的联系方式发送info 给该用户提醒
@@ -13,4 +16,7 @@ public interface InfoService {
 
     //把info更为已读
     Boolean changeRead(Long infoId);
+
+    //根据用户token id 分页获取该用户所有info
+    IPage<Info> getUserInfoPage(Long userId, int pageNum, int pageSize);
 }

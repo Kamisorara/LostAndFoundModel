@@ -21,8 +21,8 @@ public class LafFoundServiceImpl implements LafFoundService {
     /**
      * 分页分页获取所有拾物启事列表
      *
-     * @param pageNum
-     * @param pageSize
+     * @param pageNum  页数
+     * @param pageSize 页大小
      * @return
      */
     @Override

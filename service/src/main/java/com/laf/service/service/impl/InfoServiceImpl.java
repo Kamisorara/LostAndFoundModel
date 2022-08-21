@@ -1,7 +1,10 @@
 package com.laf.service.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.InfoMapper;
 import com.laf.entity.constant.RabbitMqConstant;
+import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.Info;
 import com.laf.service.service.InfoService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -64,5 +67,20 @@ public class InfoServiceImpl implements InfoService {
     @Override
     public Boolean changeRead(Long infoId) {
         return infoMapper.updateInfoRead(infoId) > 0;
+    }
+
+    /**
+     * 根据用户token id 分页获取该用户所有info
+     *
+     * @param userId 用户tokenId
+     */
+    @Override
+    public IPage<Info> getUserInfoPage(Long userId, int pageNum, int pageSize) {
+        Page<Info> page = new Page<>();
+        //设置每页大小
+        page.setSize(pageSize);
+        //设置当前页码
+        page.setCurrent(pageNum);
+        return infoMapper.getUserInfoPageByUserId(userId, page);
     }
 }

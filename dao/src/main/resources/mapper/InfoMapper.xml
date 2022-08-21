@@ -29,6 +29,13 @@
         FROM sys_info si
         WHERE si.id = #{infoId}
     </select>
+    <!--    根据用户id 分页获取该用户通知信息-->
+    <select id="getUserInfoPageByUserId" resultType="com.laf.entity.entity.sys.Info">
+        SELECT *
+        FROM sys_info si
+        WHERE si.user_id = #{userId}
+          AND si.`status` = 0
+    </select>
 
 
 </mapper>
