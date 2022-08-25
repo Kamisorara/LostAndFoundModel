@@ -35,6 +35,7 @@
         FROM sys_info si
         WHERE si.user_id = #{userId}
           AND si.`status` = 0
+        ORDER BY si.create_time DESC
     </select>
 
 
