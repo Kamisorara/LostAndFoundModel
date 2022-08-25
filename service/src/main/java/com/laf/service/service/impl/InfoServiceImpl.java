@@ -26,14 +26,19 @@ public class InfoServiceImpl implements InfoService {
     @RabbitHandler
     @Override
     public void addUserGetPhoneNumInfo(String message) {
-        Info infoDetail = new Info();
-        String[] id = message.split("-");
-        Long userId = Long.parseLong(id[0]);
-        long visitedUserId = Long.parseLong(id[1]);
-        infoDetail.setUserId(userId);
-        String addMessageDetail = "id为" + visitedUserId + "的用户获取了你的联系方式";
-        infoDetail.setMessageInfo(addMessageDetail);
-        infoMapper.insert(infoDetail);
+        try {
+            Info infoDetail = new Info();
+            String[] id = message.split("-");
+            Long userId = Long.parseLong(id[0]);
+            long visitedUserId = Long.parseLong(id[1]);
+            infoDetail.setUserId(userId);
+            String addMessageDetail = "id为" + visitedUserId + "的用户获取了你的联系方式";
+            infoDetail.setMessageInfo(addMessageDetail);
+            infoMapper.insert(infoDetail);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     /**

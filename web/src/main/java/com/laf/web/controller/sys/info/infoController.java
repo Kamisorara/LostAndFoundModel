@@ -32,6 +32,7 @@ public class infoController {
     @Autowired
     private PersonService personService;
 
+
     /**
      * 获取用户联系方式，并通过rabbitmq发送通知给对应用户
      */
@@ -44,6 +45,7 @@ public class infoController {
         return new ResponseResult<>(HttpStatus.SUCCESS, userPhoneNum);
     }
 
+
     /**
      * 根据用户token id 分页获取该用户所有通知
      */
@@ -55,4 +57,6 @@ public class infoController {
                 infoService.getUserInfoPage(userIdFromToken, pageNum, pageSize);
         return new ResponseResult<>(HttpStatus.SUCCESS, "分页获取该用户info成功", userInfoPage);
     }
+
+
 }

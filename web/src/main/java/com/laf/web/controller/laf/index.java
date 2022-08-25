@@ -107,6 +107,7 @@ public class index {
 
         return new ResponseResult<>(HttpStatus.SUCCESS, "搜索分页获取成功", noticeSearchRespIPage);
 
+
     }
 
 

@@ -10,11 +10,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
+
     //1.申明注册交换机
     @Bean
     public DirectExchange directExchange() {
         return new DirectExchange(RabbitMqConstant.EXCHANGE, true, false);
     }
+
 
     //2.声明队列 sms.direct.queue
     @Bean
@@ -28,15 +30,18 @@ public class RabbitMqConfig {
         return new Queue(RabbitMqConstant.EMAIL, true);
     }
 
+
     //3.完成绑定关系（队列和交换机完成绑定关系）
     @Bean
     public Binding smsBingding() {
         return BindingBuilder.bind((smsQueue())).to(directExchange()).with(RabbitMqConstant.SMS_ROUTING_KEY);
     }
 
+
     @Bean
     public Binding emailBingding() {
         return BindingBuilder.bind((emailQueue())).to(directExchange()).with(RabbitMqConstant.EMAIL_ROUTING_KEY);
     }
+
 
 }

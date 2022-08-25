@@ -40,6 +40,8 @@ public class userAccount {
     @Autowired
     AvatarMapper avatarMapper;
 
+
+
     /**
      * 退出
      */
@@ -48,6 +50,7 @@ public class userAccount {
     public ResponseResult logout() {
         return loginService.logout();
     }
+
 
 
     /**
@@ -61,6 +64,8 @@ public class userAccount {
         return loginService.updatePassword(id, oldPassword, newPassword);
     }
 
+
+
     /**
      * 修改个人信息
      */
@@ -71,6 +76,7 @@ public class userAccount {
                                          @RequestParam("phoneNumber") String phoneNumber) {
         return userInfoService.updateUserInfo(userId, userName, phoneNumber);
     }
+
 
 
     /**
@@ -91,4 +97,6 @@ public class userAccount {
         int succeed = avatarMapper.insert(avatar);
         return new ResponseResult<>(HttpStatus.SUCCESS, "头像修改成功", avatarUrl);
     }
+
+
 }

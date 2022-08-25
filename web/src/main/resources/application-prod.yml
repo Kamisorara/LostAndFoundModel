@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai #GMT+8
   servlet:
     multipart:
       max-file-size: 30MB
