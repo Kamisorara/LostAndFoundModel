@@ -59,4 +59,15 @@ public class infoController {
     }
 
 
+    /**
+     * 点击查看消息详情
+     */
+    @ApiOperation("查看消息详情")
+    @RequestMapping(value = "/get-info-detail", method = RequestMethod.GET)
+    public ResponseResult getInfoDetail(HttpServletRequest servletRequest,
+                                        @RequestParam("id") Long infoId) {
+        Info infoDetailByInfoId = infoService.getInfoDetailByInfoId(infoId);
+        return new ResponseResult<>(HttpStatus.SUCCESS, "获取消息详情成功", infoDetailByInfoId);
+
+    }
 }

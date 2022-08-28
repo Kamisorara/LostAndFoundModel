@@ -19,4 +19,7 @@ public interface InfoService {
 
     //根据用户token id 分页获取该用户所有info
     IPage<Info> getUserInfoPage(Long userId, int pageNum, int pageSize);
+
+    //根据info id 获取消息详情
+    Info getInfoDetailByInfoId(Long infoId);
 }

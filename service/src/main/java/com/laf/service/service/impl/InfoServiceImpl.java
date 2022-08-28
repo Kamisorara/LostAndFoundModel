@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.laf.dao.mapper.InfoMapper;
 import com.laf.entity.constant.RabbitMqConstant;
-import com.laf.entity.entity.laf.lafResp.NoticeSearchResp;
 import com.laf.entity.entity.sys.Info;
 import com.laf.service.service.InfoService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -67,7 +66,7 @@ public class InfoServiceImpl implements InfoService {
     }
 
     /**
-     * 更新已读
+     * 消息更新已读
      */
     @Override
     public Boolean changeRead(Long infoId) {
@@ -88,4 +87,19 @@ public class InfoServiceImpl implements InfoService {
         page.setCurrent(pageNum);
         return infoMapper.getUserInfoPageByUserId(userId, page);
     }
+
+    /**
+     * 根据info id 获取消息详情
+     *
+     * @param infoId infoId
+     * @return Info
+     */
+    @Override
+    public Info getInfoDetailByInfoId(Long infoId) {
+        Info infoDetailById = infoMapper.getInfoDetailById(infoId);
+        infoMapper.updateInfoRead(infoId); //获取详情同时更新已读状态
+        return infoDetailById;
+    }
+
+
 }
