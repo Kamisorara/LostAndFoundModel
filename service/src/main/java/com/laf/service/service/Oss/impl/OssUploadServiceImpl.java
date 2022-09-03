@@ -22,7 +22,7 @@ public class OssUploadServiceImpl implements OssUploadService {
         String accessKeyId = "";
         String accessKeySecret = "";
         // 填写Bucket名称，例如examplebucket。
-        String bucketName = "kamisora-bucker-1";
+        String bucketName = "";
         // 1.创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
